@@ -1,0 +1,4 @@
+name = models cache
+description = MHB module for general caching..
+package = MHB
+core = 7.x

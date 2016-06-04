@@ -1,0 +1,4 @@
+name = eq strawdog
+description = eventQ module for building the strawdog (agenda)..
+package = eventQ
+core = 7.x

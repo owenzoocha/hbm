@@ -1,0 +1,66 @@
+#user-profile-form {
+  .panel-heading {
+    display: none;
+  }
+  #addressfield-wrapper {
+    fieldset {
+      border: none;
+    }
+    .form-item-field-my-address-und-0-country {
+      display: none;
+    }
+    .panel-body {
+      padding: 0;
+    }
+  }
+}
+
+.page-user-personal-information-settings {
+  label {
+    display: block;
+    padding-top: 4px;
+  }
+  .user-picture {
+    margin: 15px 0;
+  }
+  .filter-wrapper {
+    display: none;
+  }
+  h2 {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ccc;
+  }
+  .form-item {
+    label {
+      display: none;
+    }
+  }
+  .form-item-field-my-web-und-0-url {
+    margin-bottom: 0;
+  }
+}
+
+.page-user-account-settings,
+.page-user-interests-settings,
+.page-user-email-settings {
+  .form-item-field-my-tcs-und {
+    display: none;
+  }
+}
+
+.page-user-account-settings,
+.page-user-interests-settings,
+.page-user-personal-information-settings {
+  #edit-privatemsg {
+    display: none;
+  }
+}
+
+.page-user-account-settings,
+.page-user-email-settings,
+.page-user-personal-information-settings {
+  #edit-field-hb-bt,
+  #edit-field-hb-ht {
+    display: none;
+  }
+}

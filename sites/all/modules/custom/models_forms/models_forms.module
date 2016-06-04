@@ -1,0 +1,133 @@
+<?php
+ /**
+  * @file models_forms.module.
+  */
+require_once 'models_forms.search.inc';
+require_once 'models_forms.request.inc';
+require_once 'models_forms.publish.inc';
+require_once 'models_forms.contactus.inc';
+require_once 'models_forms.canceljob.inc';
+require_once 'models_forms.pausejob.inc';
+
+
+/**
+ * Implements hook_wysiwyg_editor_settings_alter().
+ */
+// function models_forms_wysiwyg_editor_settings_alter(&$settings, $context) {
+//   if ($context['profile']->editor == 'tinymce') {
+//     $settings['skin'] = 'o2k7';
+//     $settings['skin_variant'] = 'silver';
+//   }
+// }
+
+/**
+* Implements hook_menu().
+*/
+function models_forms_menu() {
+  $items['job/create'] = array(
+    'title' => 'Post a Job',
+    'page callback' => 'drupal_get_form',
+    'page arguments' =>  array('models_forms_create_form'),
+    'access callback' => 'user_is_logged_in',
+    'file' => 'models_forms.create.inc',
+  );
+  $items['job/%/edit'] = array(
+    'title' => 'Edit your Job',
+    'page callback' => 'drupal_get_form',
+    'page arguments' =>  array('models_forms_create_form', 2),
+    'access callback' => 'user_is_logged_in',
+    'file' => 'models_forms.create.inc',
+  );
+  $items['job/%/feedback'] = array(
+    'title' => 'Feedback',
+    'page callback' => 'drupal_get_form',
+    'page arguments' =>  array('models_forms_feedback_form', 2),
+    'access callback' => 'user_is_logged_in',
+    'file' => 'models_forms.feedback.inc',
+  );
+
+  $items['user/personal-information/settings'] = array(
+    'title' => 'Personal Information',
+    'page callback' => 'models_forms_personal_info',
+    // 'page arguments' =>  array('models_forms_personal_information_form', 2),
+    'access callback' => 'user_is_logged_in',
+    'file' => 'models_forms.personal_information.inc',
+  );
+  $items['user/account/settings'] = array(
+    'title' => 'Profile Settings',
+    'page callback' => 'models_forms_account_settings',
+    'access callback' => 'user_is_logged_in',
+    'file' => 'models_forms.personal_information.inc',
+  );
+  $items['user/email/settings'] = array(
+    'title' => 'Email Settings',
+    'page callback' => 'models_forms_email_settings',
+    // 'page arguments' =>  array('models_forms_personal_information_form', 2),
+    'access callback' => 'user_is_logged_in',
+    'file' => 'models_forms.personal_information.inc',
+  );
+  $items['user/interests/settings'] = array(
+    'title' => 'Your Interests',
+    'page callback' => 'models_forms_interests',
+    'access callback' => 'user_is_logged_in',
+    'file' => 'models_forms.personal_information.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function models_forms_theme($existing, $type, $theme, $path) {
+  return array (
+    // 'task_buttons' => array(
+    //   'template' => 'templates/task-buttons',
+    // ),
+    // 'task_users' => array(
+    //   'template' => 'templates/task-users',
+    // ),
+    'search_menu' => array(
+      'template' => 'templates/search-form',
+    ),
+    'overwrite_user_login' => array(
+      'render element' => 'form',
+      'template' => 'templates/login-form'
+    ),
+    'overwrite_create_job' => array(
+      'render element' => 'form',
+      'template' => 'templates/create-job'
+    ),
+  );
+}
+
+function models_forms_hook_theme($existing, $type, $theme, $path){
+  return array(
+    'overwrite_user_login' => array(
+      'render element' => 'form',
+      'template' => 'form--user_login',
+      'path' => $path . '/templates',
+    ),
+    'overwrite_create_job' => array(
+      'render element' => 'form',
+      'template' => 'form--create_job',
+      'path' => $path . '/templates',
+    ),
+  );
+}
+
+function template_preprocess_search_menu(&$vars) {
+  $srch = drupal_get_form('models_forms_search_form');
+  $vars['search_box'] = drupal_render($srch);
+  // $active_menu = '<div class="my-menu-dd col-md-12 show-filters">';
+  // $skills_block = block_load('search_api_sorts', 'search-sorts');
+  // $block = _block_get_renderable_array(_block_render_blocks(array($skills_block)));
+  // $filters = drupal_render($block);
+  // $skills_block = block_load('views', '-exp-current_tasks_solr_-page');
+  // $block = _block_get_renderable_array(_block_render_blocks(array($skills_block)));
+  // $filters .= drupal_render($block);
+  // $active_menu .= $filters;
+  // $active_menu .= '</div>';
+  // $vars['active_menu'] = $active_menu;
+  // $vars['show_filters'] = !empty(arg(0)) && arg(0) == 'task-search' ? true : false;
+  $vars['show_filters'] = FALSE;
+}

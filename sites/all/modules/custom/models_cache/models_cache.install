@@ -1,0 +1,15 @@
+<?php
+/**
+ * @file
+ * Install functions for the models_cache module.
+ */
+
+/**
+ * Implementation of hook_schema().
+ */
+function models_cache_schema() {
+  $schema = array();
+  $schema['cache_models'] = drupal_get_schema_unprocessed('system', 'cache');
+  $schema['cache_models']['description'] = t('HBM models caching');
+  return $schema;
+}

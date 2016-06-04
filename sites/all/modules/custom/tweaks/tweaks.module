@@ -1,0 +1,446 @@
+<?php
+
+/**
+ * @file tweaks.module
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function tweaks_menu() {
+  $items = array();
+  $items['watchlist-updater'] = array(
+    'page callback' => 'tweaks_watchlist_updater',
+    'access callback' => 'user_is_logged_in',
+    'page arguments' => array(2),
+    'type' => MENU_CALLBACK,
+    'file' => 'tweaks.watchlist.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function tweaks_block_info() {
+  $blocks['contact_us_button'] = array(
+    'info' => t('HBM - Contact Us Button'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+  $blocks['user_deets'] = array(
+    'info' => t('HBM - User Details'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function tweaks_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'contact_us_button':
+      $block['subject'] = t('Contact Us Button');
+      $block['content'] = theme('contact_us_button');
+    break;
+    case 'user_deets':
+      $block['subject'] = t('User Details');
+      $block['content'] = theme('user_details');
+    break;
+  }
+  return $block;
+}
+
+/**
+ * Implements of hook_theme().
+ */
+function tweaks_theme() {
+  return array (
+    'contact_us_button' => array(
+      'template' => 'templates/contact-us-button',
+    ),
+    'user_details' => array(
+      'template' => 'templates/user-details',
+    ),
+  );
+}
+
+/**
+ * Template preprocess for Contact Us Button.
+ */
+function template_preprocess_contact_us_button(&$vars) {
+  $contactus_form = drupal_get_form('models_forms_contactus_form');
+  $modal_options = array(
+    'attributes' => array('id' => 'contactus-popup', 'class' => array('jcontactus-popup-modal')),
+    'heading' => t('Contact Us:'),
+    'body' => drupal_render($contactus_form),
+  );
+  $vars['contactus_form'] = theme('bootstrap_modal', $modal_options);
+  $vars['contactus_btn'] = l(t('Contact Us') . ' <i class="fa fa-chevron-up"></i>', '#', array('html' => TRUE, 'attributes' => array('data-toggle' => array('modal'), 'data-target' => array('#contactus-popup'), 'class' => array('contact-btn'))));
+}
+
+/**
+ * Template preprocess for Contact Us Button.
+ */
+function template_preprocess_user_details(&$vars) {
+  // drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/jQuery.dotdotdot/1.7.4/jquery.dotdotdot.min.js', array('type' => 'external'));
+  drupal_add_js(libraries_get_path('slick') . '/' . 'slick/slick.min.js');
+  drupal_add_css(libraries_get_path('slick') . '/' . 'slick/slick.css');
+  drupal_add_css(libraries_get_path('slick') . '/' . 'slick/slick-theme.css');
+  drupal_add_js(drupal_get_path('module', 'models_nav') . '/js/models_nav.js');
+
+  $uw = entity_metadata_wrapper('user', arg(1));
+  $vars['name'] = $uw->field_my_name->value() ? '<h2>' . $uw->field_my_name->value() . '</h2>' : FALSE;
+  $vars['name'] = '<h2>' . t('About') . '</h2>';
+  // $vars['username'] = '<p><strong>' . $uw->label() . '</strong></p>';
+  // $vars['company'] = $uw->field_my_company->value() ? '<p><strong>' . t('Company: ') . '</strong><span>' . $uw->field_my_company->value() . '</span></p>' : FALSE;
+  // $vars['college'] = $uw->field_my_college->value() ? '<p><strong>' . t('Studying at: ') . '</strong><span>' . $uw->field_my_college->value() . '</span></p>' : FALSE;
+
+  // if ($uw->field_my_address->value()) {
+  //   $add = '<p><strong><i class="fa fa-map-marker"></i></strong> <span>';
+  //   $add .= $uw->field_my_address->value()['premise'] ? $uw->field_my_address->value()['premise'] . ', ' : FALSE;
+  //   $add .= $uw->field_my_address->value()['locality'] ? $uw->field_my_address->value()['locality'] . ', ' : FALSE;
+  //   $add .= $uw->field_my_address->value()['administrative_area'] ? $uw->field_my_address->value()['administrative_area'] : FALSE;
+  //   $add .= '</strong></p>';
+  // }
+  // else {
+  //   $add = FALSE;
+  // }
+
+  // $vars['add'] = $add;
+
+  if ($uw->field_my_bio->value()) {
+    if (strlen($uw->field_my_bio->value()['value']) > 400) {
+      $vars['info'] = '<div class="about-cut">' . truncate_utf8($uw->field_my_bio->value()['value'], 400, $wordsafe = FALSE, $add_ellipsis = TRUE, $min_wordsafe_length = 1) . '<p><a class="readmore" href="#">Read more &raquo;</a></p></div>';
+      $vars['info_long'] = '<div class="about-normal hidden">' . $uw->field_my_bio->value()['value'] . '</div>';
+    }
+    else {
+      $vars['info'] = FALSE;
+      $vars['info_long'] = '<div>' . $uw->field_my_bio->value()['value'] . '</div>';
+    }
+  }
+  else {
+     $vars['info'] = FALSE;
+     $vars['info_long'] = FALSE;
+  }
+
+
+
+  // $vars['web'] = $uw->field_my_web->value() ? '<p>' . l($uw->field_my_web->value()['url'], $uw->field_my_web->value()['url'], array( 'external' => TRUE, 'attributes' => array('rel' => array('nofollow')))) . '</p>' : FALSE;
+
+  $vars['jobs_title'] = '<h2>' . t('Current Jobs') . '</h2>';
+
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function tweaks_ctools_plugin_directory($module, $type) {
+  if ($module == 'hybridauth' && $type == 'icon_pack') {
+    return 'plugins/tweaks_auth_icons';
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function tweaks_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'webform_client_form_132') {
+    $form['submitted']['e_mail']['#attributes']['placeholder'] = t('Subscribe to HBM Newsletter');
+  }
+  if ($form_id == 'user_profile_form') {
+    if (strrpos(current_path(), 'personal-information/settings') !== FALSE) {
+      $form['#submit'][] = 'models_forms_update_address';
+    }
+  }
+  if ($form_id == 'privatemsg_list') {
+    // dpm($form, $form_id);
+  }
+  if ($form_id == 'privatemsg_new') {
+    $p = drupal_get_query_parameters();
+    if (isset($p['to'])) {
+      $form['recipient']['#value'] = $p['to'];
+    }
+  }
+  if ($form_id == 'views_exposed_form') {
+    if (!empty($form['field_hb_geofield_latlon_op'])) {
+      global $user;
+      unset($form['#info']['filter-field_hb_geofield_latlon']['label']);
+      // $form['field_hb_geofield_latlon_op']['#chosen'] = TRUE;
+      $uw = entity_metadata_wrapper('user', $user->uid);
+
+      // -37.859354,144.971573
+      // $address = '11/349, Beaconsfield Parade, St Kilda West, 3182';
+      // $point = geocoder('google', $address);
+      // $point = geocoder_google($address, array('https' => TRUE));
+      // dpm($point, 'pointtt');
+
+      $form['field_hb_geofield_latlon']['#attributes'][] = array('placeholder' => 'enter your location');
+      $form['sort'] = array(
+        '#type' => 'hidden',
+        '#title' => 'field_hb_geofield?',
+        '#default_value' => 'field_hb_geofield:latlon',
+      );
+      $form['order'] = array(
+        '#type' => 'hidden',
+        '#title' => 'order?',
+        '#default_value' => 'asc',
+      );
+      // &sort=field_hb_geofield%3Alatlon&order=asc
+      // $form['#submit'][] = 'tweaks_add_closest_param_form_submit';
+    }
+  }
+  if ($form_id == 'search_api_sorts_widget_form') {
+    if (!empty($form['sort_by'])) {
+      // $form['sort_by']['#chosen'] = TRUE;
+    }
+  }
+  if ($form_id == 'user_login') {
+    unset($form['name']['#description']);
+    unset($form['pass']['#description']);
+    $signup_msg = '<ul class="user-info">';
+    $signup_msg .= '<li>' . t('Not yet signed up?') . ' ' . l('Sign up now', 'user/register') . '</li>';
+    $signup_msg .= '<li>' . t('I\'ve forgotten my password!') . ' ' . l('Reset it here', 'user/password') . '</li>';
+    $signup_msg .= '</ul>';
+    $form['actions']['submit']['#attributes'] = array('class' => array('btn-success'));
+    $form['actions']['submit']['#suffix'] = $signup_msg;
+  }
+  if ($form_id == 'user_pass') {
+    // $form['actions']['submit']['#attributes'] = array('class' => array('btn-success'));
+    $form['actions']['submit']['#value'] = t('e-mail me a password');
+    $signup_msg = '<ul class="user-info">';
+    $signup_msg .= '<li>' . t('Already a member?') . ' ' . l('Sign in now', 'user/login') . '</li>';
+    $signup_msg .= '<li>' . t('Not yet signed up?') . ' ' . l('Sign up now', 'user/register') . '</li>';
+    $signup_msg .= '</ul>';
+    $form['actions']['submit']['#suffix'] = $signup_msg;
+  }
+  if ($form_id == 'user_register_form') {
+    $form['account']['name']['#description'] = t('Pick a username.');
+    $form['account']['mail']['#description'] = t('A valid e-mail address, so we can keep you up to date.');
+    $form['actions']['submit']['#attributes'] = array('class' => array('btn-success'));
+    $form['field_my_tcs']['und']['#description'] = t('You must agree to the') . ' ' . l('terms & conditions', 'terms-conditions', array('attributes' => array('target' => '_blank'))) .'.';
+    unset($form['account']['pass']['#description']);
+    $signup_msg = '<ul class="user-info">';
+    $signup_msg .= '<li>' . t('Already a member?') . ' ' . l('Sign in now', 'user/login') . '</li>';
+    // $signup_msg .= '<li>' . t('I\'ve forgotten my password!') . ' ' . l('Reset it here', 'user/password') . '</li>';
+    $signup_msg .= '</ul>';
+    $form['actions']['submit']['#suffix'] = $signup_msg;
+  }
+}
+
+
+// function tweaks_add_closest_param_form_submit(&$form, &$form_state) {
+//   $form_state['values']['honk'] = 'yes';
+//   dpm($form_state, 'honk');
+// }
+
+/**
+ * Return formatted costs with classes etc.
+ */
+function tweaks_get_hb_cost($nw) {
+    $cost_class = FALSE;
+    if ($nw->field_hb_type->value() != 'personal') {
+      if ($nw->field_hb_price->value()) {
+        $cost = '<i class="fa fa-dollar"></i> ' . $nw->field_hb_price->value();
+      } else {
+        $cost = '<i class="fa fa-dollar"></i> 19.55';
+      }
+    }
+    else {
+      $cost = 'Last Minute Model';
+    }
+    if ($nw->field_hb_price_type->value()) {
+      switch ($nw->field_hb_price_type->value()) {
+        case 'free':
+          $pt = '<i class="fa fa-dollar"></i> Free';
+          $cost_class = 'cost-free';
+          $cost = FALSE;
+          break;
+         case 'approx':
+          $pt = ' <small>Approx.</small>';
+          break;
+        case 'fixed':
+          $pt = FALSE;
+          break;
+        default:
+          $pt = FALSE;
+          break;
+      }
+    } else {
+      $pt = FALSE;
+    }
+    return '<span class="hb-cost ' . $cost_class . '">' . $cost . $pt . '</span>';
+}
+
+/**
+ * Implementation of hook_action_info().
+ */
+function tweaks_action_info() {
+  return array(
+    'tweaks_assign_job' => array(
+      'label' => t('Pass list of user ids as arguments to an action'),
+      'type' => 'entity',
+      'aggregate' => TRUE,
+      'configurable' => FALSE,
+      'hooks' => array(),
+      'triggers' => array('any'),
+    ),
+  );
+}
+
+/**
+ * Retrieve id's and assign to job.
+ */
+function tweaks_assign_job($entities, $context = array()) {
+  // $arguments = implode(',', array_keys($entities));
+  global $user;
+  $uw = entity_metadata_wrapper('user', $user->uid);
+  $nw = entity_metadata_wrapper('node', arg(1));
+
+  foreach ($entities as $eid => $value) {
+    $ew = entity_metadata_wrapper('feedback', $eid);
+    $ew->field_client_selected->set(1);
+    $ew->save();
+  }
+
+  $nw->field_hb_assigned->set(1);
+  $nw->save();
+
+  drupal_set_message(t('Hey !name, good news! Your job has been confirmed and your selected client(s) have been notified!</br><strong>What happens now?</strong> When your job is complete, log back in to leave feedback', array('!name' => $uw->field_first_name->value())), 'info', FALSE);
+}
+
+/**
+ * Generate profile picture from uri;
+ * @param  Object $mypic Picture from user object.
+ * @param  String $uri   Picture uri.
+ */
+function tweaks_get_profile_picture($mypic, $uri) {
+  // $mypic = $uw->value()->picture;
+  if($mypic){
+    $pic = '<div class="my-image img-circle">' . theme('image_style', array('style_name' => 'profile', 'path' => $uri, 'attributes' => array('class' => array('img-circle')))).'</div>';
+  } else {
+    $pic = '<div class="my-image img-circle">' . theme('image_style', array('style_name' => 'profile', 'path' => 'public://pictures/picture-default.png', 'attributes' => array('class' => array('img-circle')))).'</div>';
+  }
+  return $pic;
+}
+
+/**
+ * Generate user profile url.
+ */
+function tweaks_get_profile_url($pic, $uid) {
+  return l($pic, 'user/' . $uid, array('html' => true, 'attributes' => array('class' => array('author-pic'))));
+}
+
+/**
+ * Generate user profile introduction.
+ */
+function tweaks_get_profile_intro($user_entity) {
+  $job_details  = '<div class="hb-time">';
+  $job_details .= '<span>(' . l($user_entity->label(), 'user/' . $user_entity->getIdentifier()) . ')</span>';
+  $job_details .= '</div>';
+  $job_details .= '<div>';
+  // $job_details .= '<span>' . t('member since ') . format_date($user_entity->created->value(), 'timeago', 'Y-m-d H:i:s', 'UTC') . '</span>';
+  $job_details .= '<span>' . t('joined ') . format_date($user_entity->created->value(), 'custom', 'M, Y', 'UTC') . '</span>';
+  $job_details .= '</div>';
+  return $job_details;
+}
+
+/**
+ * Get feedback amount and link.
+ */
+function tweaks_get_feedback_amount($user_entity) {
+  $total = $user_entity->field_my_total_feedback->value() ? $user_entity->field_my_total_feedback->value() : 0;
+  return '<div class="hb-feedback-score">'. l($total . ' feedback', 'user/' . $user_entity->getIdentifier() . '/feedback') . '</div>';
+}
+
+/**
+ * Get feedback amount and link.
+ */
+function tweaks_get_watchlist($uw, $clear = FALSE) {
+  $wl = models_cache_get_wl_cache($uw->getIdentifier());
+  // $wl = false;
+  if($wl){
+    return drupal_json_decode($wl);
+  }
+  else {
+    $watchlist = array();
+    if ($uw->field_my_watchlist->value()) {
+      foreach ($uw->field_my_watchlist->getIterator() as $key => $job) {
+        $watchlist[$job->getIdentifier()] = $job->getIdentifier();
+      }
+    }
+    models_cache_build_wl_cache(drupal_json_encode($watchlist), $uw->getIdentifier());
+    return $watchlist;
+  }
+}
+
+/**
+ * Implements hook_field_formatter_info();
+ */
+function tweaks_field_formatter_info() {
+  return array(
+    'inline_address_field' => array(
+      'label' => t('Inline Address Field'),
+      'field types' => array('addressfield'),
+    )
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view();
+ */
+function tweaks_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $build = array();
+  $count = 1;
+  foreach ($items as $item) {
+    $inline_address = '';
+    $address_parts = array();
+    if (!empty($item['thoroughfare'])) {
+      $address_parts[] = $item['thoroughfare'];
+    }
+    if (!empty($item['premise'])) {
+      $address_parts[] = $item['premise'];
+    }
+    if (!empty($item['locality'])) {
+      $address_parts[] = $item['locality'];
+    }
+    if (!empty($item['administrative_area'])) {
+      $address_parts[] = $item['administrative_area'];
+    }
+    $inline_address .= '<p><i class="fa fa-map-marker"></i> ' . implode(', ', $address_parts) . '</p>';
+    $inline_address .= '<p class="open-link">' . l(t('View Directions'), 'http://maps.google.com/', array('attributes' => array('target' => '_blank', 'rel' => 'nofollow'), 'query' => array('q' => implode(', ', $address_parts)))) . '</p>';
+    $build[] = array('#markup' => $inline_address);
+    $count++;
+  }
+
+  return $build;
+}
+
+function tweaks_views_pre_view(&$view, &$display_id, &$args){
+  if ($view->name == 'related_jobs_by_terms') {
+    $nw = entity_metadata_wrapper('node', arg(1));
+    $args[0] = FALSE;
+    if ($nw->field_hb_location->value() && $nw->field_location_taxonomize_terms->value()) {
+      if (isset($nw->field_hb_location->value()['locality'])) {
+        $t = taxonomy_get_term_by_name($nw->field_hb_location->value()['locality']);
+        $tid = array_shift($t)->tid;
+        $args[0] = $tid;
+      }
+    }
+  }
+}
+
+function tweaks_views_query_alter(&$view, &$query) {
+  if ($view->name == 'related_jobs_by_terms') {
+    $nw = entity_metadata_wrapper('node', arg(1));
+    if ($nw->field_hb_location->value() && $nw->field_location_taxonomize_terms->value()) {
+      if (isset($nw->field_hb_location->value()['locality'])) {
+        $t = taxonomy_get_term_by_name($nw->field_hb_location->value()['locality']);
+        $locality = array_shift($t)->name;
+        $view->build_info['title'] = t('Other !type Jobs around', array('!type' => $nw->field_hb_type->label())) . ' ' . $locality;
+        $view->query->where[1]['conditions'][1]['value'] = $nw->field_hb_type->value();
+      }
+    }
+  }
+}

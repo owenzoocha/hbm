@@ -1,0 +1,76 @@
+.hybridauth-icon {
+  display: inline-block;
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 18px;
+  text-align: center;
+  letter-spacing: 1px;
+  color: #fff;
+  font-weight: 300;
+  transition: all ease 0.3s;
+}
+
+.hybridauth-icon:hover {
+  opacity: 0.9;
+}
+
+.hybridauth-google-tweaks-auth-icons {
+  position: relative;
+  background: #EA4335;
+}
+.hybridauth-google-tweaks-auth-icons:before {
+  content: "\f1a0";
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  /*--adjust as necessary--*/
+  color: #fff;
+  font-size: 25px;
+  position: absolute;
+  top: 0px;
+  left: 15px;
+}
+
+.hybridauth-twitter-tweaks-auth-icons {
+  position: relative;
+  background: blue;
+}
+.hybridauth-twitter-tweaks-auth-icons:before {
+  content: "\f099";
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  /*--adjust as necessary--*/
+  color: #fff;
+  font-size: 25px;
+  position: absolute;
+  top: 0px;
+  left: 15px;
+}
+
+.hybridauth-facebook-tweaks-auth-icons {
+  position: relative;
+  background: #44609D;
+}
+.hybridauth-facebook-tweaks-auth-icons:before {
+  content: "\f09a";
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  /*--adjust as necessary--*/
+  color: #fff;
+  font-size: 25px;
+  position: absolute;
+  top: 0px;
+  left: 15px;
+}
+
+/* Last used provider */
+.hybridauth-last-provider .hybridauth-icon-hybridauth-16 {
+  opacity: 1;
+  filter: alpha(opacity=100);
+}

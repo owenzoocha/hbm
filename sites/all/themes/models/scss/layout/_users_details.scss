@@ -1,0 +1,44 @@
+.hbm-user-details {
+  .hbm-user-details-wrapper {
+    @include blocks();
+    // h2 {
+    //   // margin-bottom: ;
+    // }
+    // h3 {
+    //   margin-top: 5px;
+    //   font-size: 13px;
+    //   // color: $
+    // }
+    a {
+      color: $hb-pink;
+    }
+  }
+}
+
+// .hbm-user-details-feedback {
+//   position: relative;
+//   .hbm-user-details-wrapper {
+//     max-height: 300px;
+//     overflow-y: scroll;
+//   }
+//   &:after {
+//     content: '';
+//     width: 90%;
+//     position: absolute;
+//     height: 20px;
+//     // background-color: red;
+//     bottom: 0;
+//     left: 50%;
+//     right: 50%;
+//     transform: translateX(-50%);
+//     background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.9) 50%, #fff 100%);
+//   }
+// }
+
+.page-user {
+  #block-system-main {
+    .profile {
+      display: none;
+    }
+  }
+}

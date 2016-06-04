@@ -1,0 +1,4 @@
+name = tweaks
+description = MHB module for general tweaks..
+package = MHB
+core = 7.x

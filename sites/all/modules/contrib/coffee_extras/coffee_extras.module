@@ -1,0 +1,180 @@
+<?php
+/**
+ * @file
+ * Core functionality for Coffee Extras module.
+ */
+
+/**
+ * Implements hook_coffee_commands().
+ */
+function coffee_extras_coffee_commands() {
+  // Initialize the commands array.
+  $commands = array();
+
+  // These modules are part of core, so we don't have to check
+  // to see if they are enabled.
+  coffee_extras_add_content_type_commands($commands);
+  coffee_extras_add_taxonomy_commands($commands);
+  coffee_extras_add_menu_commands($commands);
+  coffee_extras_add_user_commands($commands);
+
+  // Define what other modules will have coffee commands.
+  $coffee_extras_modules = array('views', 'bean', 'features');
+
+  // If the module is enabled, add the coffee commands for it.
+  foreach ($coffee_extras_modules as $module) {
+    if (module_exists($module)) {
+      module_load_include('inc', 'coffee_extras', 'includes/coffee_extras.' . $module);
+      $module_add_commands_function = "coffee_extras_add_{$module}_commands";
+      $module_add_commands_function($commands);
+    }
+  }
+
+  return $commands;
+}
+
+/**
+ * Add coffee commands for content types.
+ *
+ * @param array $commands
+ *   The commands array from hook_coffee_commands(), which is
+ *   passed by reference.
+ */
+function coffee_extras_add_content_type_commands(array &$commands) {
+  $content_types = node_type_get_types();
+
+  $command = ':types';
+  foreach ($content_types as $content_type) {
+    // Add the edit content type page.
+    $commands[] = array(
+      'value' => 'admin/structure/types/manage/' . $content_type->type,
+      'label' => t('Manage @type', array('@type' => $content_type->name)),
+      'command' => $command . ' ' . drupal_strtolower($content_type->type),
+    );
+    // Add the 'Manage fields' page for each content type.
+    $commands[] = array(
+      'value' => 'admin/structure/types/manage/' . $content_type->type . '/fields',
+      'label' => t('Manage fields for @type', array('@type' => $content_type->name)),
+      'command' => $command . ' ' . drupal_strtolower($content_type->type),
+    );
+    // Add the 'Manage display' page for each content type.
+    $commands[] = array(
+      'value' => 'admin/structure/types/manage/' . $content_type->type . '/display',
+      'label' => t('Manage display for @type', array('@type' => $content_type->name)),
+      'command' => $command . ' ' . drupal_strtolower($content_type->type),
+    );
+  }
+}
+
+/**
+ * Add coffee commands for taxonomy vocabularies.
+ *
+ * @param array $commands
+ *   The commands array from hook_coffee_commands(), which is
+ *   passed by reference.
+ */
+function coffee_extras_add_taxonomy_commands(array &$commands) {
+  $vocabularies = taxonomy_get_vocabularies();
+
+  $command = ':vocabs';
+  foreach ($vocabularies as $vocabulary) {
+    // Add the manage terms page for each vocabulary.
+    $commands[] = array(
+      'value' => 'admin/structure/taxonomy/' . $vocabulary->machine_name,
+      'label' => t('Manage terms for @vocabulary taxonomy', array('@vocabulary' => $vocabulary->name)),
+      'command' => $command . ' ' . drupal_strtolower($vocabulary->machine_name),
+    );
+    // Add the edit vocabulary page for each vocabulary.
+    $commands[] = array(
+      'value' => 'admin/structure/taxonomy/' . $vocabulary->machine_name . '/edit',
+      'label' => t('Manage @vocabulary taxonomy', array('@vocabulary' => $vocabulary->name)),
+      'command' => $command . ' ' . drupal_strtolower($vocabulary->machine_name),
+    );
+  }
+}
+
+/**
+ * Add coffee commands for menus.
+ *
+ * @param array $commands
+ *   The commands array from hook_coffee_commands(), which is
+ *   passed by reference.
+ */
+function coffee_extras_add_menu_commands(array &$commands) {
+  $menus = menu_get_menus();
+
+  $command = ':menus';
+  foreach ($menus as $menu_key => $menu_name) {
+    // Add the edit links page for each menu.
+    $commands[] = array(
+      'value' => 'admin/structure/menu/manage/' . $menu_key,
+      'label' => t('Edit links for @menu menu', array('@menu' => $menu_name)),
+      'command' => $command . ' ' . drupal_strtolower($menu_key),
+    );
+  }
+}
+
+/**
+ * Add coffee commands for user roles.
+ *
+ * @param array $commands
+ *   The commands array from hook_coffee_commands(), which is
+ *   passed by reference.
+ */
+function coffee_extras_add_user_commands(array &$commands) {
+  $roles = user_roles();
+
+  $command = ':roles';
+  foreach ($roles as $rid => $role) {
+    // Cannot edit 'anonymous user' or 'authenticated user' roles.
+    if (!in_array($rid, array(DRUPAL_ANONYMOUS_RID, DRUPAL_AUTHENTICATED_RID))) {
+      // Add a link to edit the role.
+      $commands[] = array(
+        'value' => 'admin/people/permissions/roles/edit/' . $rid,
+        'label' => t('Edit @role role', array('@role' => $role)),
+        'command' => $command . ' ' . drupal_strtolower($role),
+      );
+    }
+    // Add a link to edit the role's permissions.
+    $commands[] = array(
+      'value' => 'admin/people/permissions/' . $rid,
+      'label' => t('Edit permissions for @role role', array('@role' => $role)),
+      'command' => $command . ' ' . drupal_strtolower($role),
+    );
+  }
+}
+
+/**
+ * Implements hook_taxonomy_vocabulary_update().
+ */
+function coffee_extras_taxonomy_vocabulary_update(stdClass $vocabulary) {
+  coffee_flush_caches();
+}
+
+/**
+ * Implements hook_taxonomy_vocabulary_delete().
+ */
+function coffee_extras_taxonomy_vocabulary_delete(stdClass $vocabulary) {
+  coffee_flush_caches();
+}
+
+/**
+ * Implements hook_user_role_insert().
+ */
+function coffee_extras_user_role_insert(stdClass $role) {
+  coffee_flush_caches();
+}
+
+/**
+ * Implements hook_user_role_update().
+ */
+function coffee_extras_user_role_update(stdClass $role) {
+  coffee_flush_caches();
+}
+
+/**
+ * Implements hook_user_role_delete().
+ */
+function coffee_extras_user_role_delete(stdClass $role) {
+  coffee_flush_caches();
+}

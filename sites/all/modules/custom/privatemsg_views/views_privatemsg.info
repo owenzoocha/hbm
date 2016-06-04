@@ -1,0 +1,8 @@
+name = Views integration for Privatemsg
+core = 7.x
+dependencies[] = privatemsg
+package = Mail
+
+files[] = views/views_handler_field_pm_body.inc
+files[] = views/views_handler_field_pm_subject.inc
+files[] = views/views_handler_field_pm_thread_link.inc

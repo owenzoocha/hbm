@@ -1,0 +1,11 @@
+.nav-tabs {
+  > li {
+    margin-right: 5px;
+    > a {
+      font-size: 13px;
+      font-weight: 300;
+      border-radius: 0;
+      color: $hb-dark;
+    }
+  }
+}

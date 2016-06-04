@@ -1,0 +1,169 @@
+.page-search {
+
+  .region-search-top {
+    background-color: $hb-dark;
+    .block {
+      // float: left;
+      // color: $white;
+    }
+  }
+
+  #block-views-exp-job-search-page {
+    input {
+      font-weight: 300;
+      font-size: 13px;
+    }
+  }
+
+  .chosen-search {
+    display: none;
+  }
+
+  .views-exposed-widget {
+    padding: 0;
+    .views-widget {
+      margin: 5px 0;
+    }
+    .form-submit {
+      margin-top: 5px;
+    }
+    &#edit-field-hb-geofield-latlon-wrapper {
+      width: 100%;
+      .views-widget {
+        // display: none;
+      }
+    }
+  }
+
+  .col-sm-3 {
+    padding: 0;
+    .region {
+      overflow-y: auto;
+    }
+
+    #search-api-sorts-widget-form {
+      padding: 0 10px;
+      margin-bottom: 10px;
+      .form-item {
+        margin-bottom: 0;
+      }
+      .chosen-container.form-control {
+        border: 1px solid #d6d6d6;
+      }
+    }
+    .block {
+      // padding-bottom: 5px;
+      h2 {
+        font-size: 14px;
+        font-weight: 300;
+        color: $hb_dark;
+        border-top: 1px solid $light-grey-border;
+        border-bottom: 1px solid $light-grey-border;
+        background-color: $light-grey;
+        padding: 5px 15px;
+        margin: 8px 0;
+
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+      &#block-current-search-standard {
+        &.block {
+          padding: 0;
+        }
+        h2 {
+          font-size: 20px;
+          font-weight: 300;
+          // background-color: $eq-dark;
+          color: $white;
+          margin: 0;
+          padding: 8px 15px;
+        }
+      }
+      ul, form {
+        margin: 0;
+        margin-bottom: 10px;
+        padding: 0 10px;
+        li {
+          list-style: none;
+          font-weight: 300;
+          margin: 4px 0;
+          font-size: 13px;
+          a {
+            font-weight: 300;
+            font-size: 13px;
+            position: relative;
+            padding-left: 22px;
+            color: #777;
+            display: inline-block;
+            width: 100%;
+            &:before {
+              content: "";
+              position: absolute;
+              top: 4px;
+              left: 7px;
+              width: 11px;
+              height: 11px;
+              opacity: 0.3;
+              border: 1px solid #777;
+              transition: 0.3s all ease;
+            }
+            &:hover {
+              text-decoration: none;
+              &:before {
+                opacity: 1;
+              }
+            }
+
+            &.facetapi-active {
+              color: $hb-dark;
+              &:after {
+                font-family: fontawesome;
+                content: "\f00c";
+                position: absolute;
+                top: 4px;
+                left: 8px;
+                font-size: 9px;
+                opacity: 1;
+                color: $hb-dark;
+              }
+            }
+          }
+        }
+      }
+    }
+    .block-dd {
+      height: 30px;
+      overflow: hidden;
+      transition: 0.3s ease all;
+
+      &:last-child {
+        margin-bottom: 60px;
+      }
+
+      h2 {
+        cursor: pointer;
+        position: relative;
+        &:after {
+          @include fa-background('\f107');
+          right: 10px;
+          top: 4px;
+          color: #777;
+          font-size: 16px;
+        }
+      }
+
+      &.active {
+        transition: 0.3s ease all;
+        // min-height: 100px;
+        height: auto;
+
+        h2 {
+          &:after {
+            content: '\f106';
+          }
+        }
+      }
+    }
+  }
+}

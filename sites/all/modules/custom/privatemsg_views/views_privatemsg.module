@@ -1,0 +1,93 @@
+<?php
+
+/**
+ * Implements hook_views_api().
+ */
+function views_privatemsg_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'views_privatemsg') . '/views',
+  );
+}
+
+/**
+ * Implements a Privatemsg actions.
+ */
+function views_privatemsg_action_info() {
+  return array(
+    //Action for Privatemsg Delete item
+    'vbo_privatemsg_delete_item' => array(
+      'type' => 'entity',
+      'label' => t('Privatemsg Delete item'),
+      'configurable' => FALSE,
+      'behavior' => array('deletes_property'),
+    ),
+    //Action for Privatemsg Mark as Deleted item
+    'vbo_privatemsg_mark_as_deleted_item' => array(
+      'type' => 'entity',
+      'label' => t('Privatemsg Mark as Deleted item'),
+      'configurable' => FALSE,
+      'behavior' => array('deletes_property'),
+    ),
+    //Action for Privatemsg UnMark as Deleted item
+    'vbo_privatemsg_unmark_as_deleted_item' => array(
+      'type' => 'entity',
+      'label' => t('Privatemsg UnMark as Deleted item'),
+      'configurable' => FALSE,
+      'behavior' => array('deletes_property'),
+    ),
+  );
+}
+
+/**
+ * Action function for vbo_privatemsg_delete_item
+ * Privatemsg Delete item
+ */
+function vbo_privatemsg_delete_item($entity, $context) {
+  if (isset($entity->mid)) {
+    $mid = $entity->mid;
+
+    $message = $entity;
+
+    //Is called when a message is flushed.
+    //The message will be deleted from the database, remove any related data here.
+    module_invoke_all('privatemsg_message_flush', $message);
+
+    //Delete recipients of the message.
+    db_delete('pm_index')
+        ->condition('mid', $mid)
+        ->execute();
+    //Delete message itself.
+    db_delete('pm_message')
+        ->condition('mid', $mid)
+        ->execute();
+  }
+}
+
+/**
+ * Action function for vbo_privatemsg_mark_as_deleted_item
+ * Privatemsg Mark as Deleted item
+ */
+function vbo_privatemsg_mark_as_deleted_item($entity, $context) {
+  if (isset($entity->mid)) {
+    $mid = $entity->mid;
+    //Delete or restore a message.
+    //Either deletes or restores the thread (1 => delete, 0 => restore)
+    privatemsg_message_change_delete($mid, 1);
+    drupal_set_message(t('Message has been marked as deleted for all users.'));
+  }
+}
+
+/**
+ * Action function for vbo_privatemsg_unmark_as_deleted_item
+ * Privatemsg UnMark as Deleted item
+ */
+function vbo_privatemsg_unmark_as_deleted_item($entity, $context) {
+  if (isset($entity->mid)) {
+    $mid = $entity->mid;
+    //Delete or restore a message.
+    //Either deletes or restores the thread (1 => delete, 0 => restore)
+    privatemsg_message_change_delete($mid, 0);
+    drupal_set_message(t('Message has been unmarked as deleted for all users.'));
+  }
+}

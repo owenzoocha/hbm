@@ -1,0 +1,44 @@
+.alert {
+  border-radius: 0;
+  font-size: 12px;
+  position: relative;
+  .close {
+    text-shadow: none;
+    // opacity: 0.6;
+  }
+  &:before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 2px;
+    // height: 100%;
+    height: -webkit-calc(100% + 2px);
+    height: -moz-calc(100% + 2px);
+    height: calc(100% + 2px);
+  }
+  &.alert-info {
+    .close {
+      color: darken($hb-blue, 20%);
+    }
+    &:before {
+      background-color: darken($hb-blue, 20%);
+    }
+  }
+  &.alert-success {
+    .close {
+      color: darken($hb-green, 20%);
+    }
+    &:before {
+      background-color: darken($hb-green, 20%);
+    }
+  }
+  &.alert-danger {
+    .close {
+      color: #AF514F;
+    }
+    &:before {
+      background-color: #AF514F;
+    }
+  }
+}

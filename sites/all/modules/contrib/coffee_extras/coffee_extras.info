@@ -1,0 +1,5 @@
+name = Coffee Extras
+description = Adds a bunch of useful commands for the Coffee module
+core = 7.x
+package = Administration
+dependencies[] = coffee

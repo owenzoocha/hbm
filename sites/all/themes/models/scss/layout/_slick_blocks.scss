@@ -1,0 +1,40 @@
+#block-models-imgs-job-slider {
+  .slider-img {
+    background-color: $light-grey;
+    img {
+      width: 300px;
+      height: auto;
+      margin: 0 auto;
+      border: 3px solid $white;
+    }
+  }
+}
+
+.slick-next {
+  right: 10px;
+}
+
+.slick-prev {
+  left: 10px;
+  z-index: 999;
+}
+
+.slick-prev,
+.slick-next {
+  &:before {
+    color: $hb-dark!important;
+  }
+}
+
+.slick-slide {
+  outline: none;
+}
+
+
+.slick-dots {
+  bottom: -50px;
+  li {
+    width: 30px;
+    height: 30px;
+  }
+}

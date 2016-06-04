@@ -1,0 +1,49 @@
+.page-user-personal-information,
+.page-user-account-settings,
+.page-user-email-settings,
+.page-user-interests-settings {
+
+  .col-sm-3 {
+    .block {
+      padding: 5px!important;
+      ul {
+        margin: 0;
+        padding: 0;
+        li {
+          list-style: none;
+          &:last-of-type {
+            a {
+              border-bottom: none;
+            }
+          }
+          a {
+            color: #8F8F8F;
+            display: inline-block;
+            width: 100%;
+            padding: 10px 0 10px 20px;
+            position: relative;
+            border-bottom: 1px solid $light-grey-border;
+            // transition: padding 0.2s ease;
+            &:hover,
+            &.active {
+              text-decoration: none;
+              // color: $hb-dark;
+              background-color: $light-grey;
+              // padding-left: 25px;
+              &:before {
+                content: '';
+                width: 3px;
+                position: absolute;
+                height: 100%;
+                top: 0;
+                left: 0;
+                background-color: $hb-dark;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+}

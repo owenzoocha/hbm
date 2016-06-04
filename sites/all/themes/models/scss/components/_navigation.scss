@@ -1,0 +1,232 @@
+// Theme Customizations to Navigations //
+#admin-menu {
+  z-index: 99999;
+}
+
+html body.admin-menu {
+  // margin-top: 11px !important;
+}
+
+#navbar-top-top {
+  padding: 10px 0;
+  background-color: $hb-light-grey;
+
+  a {
+    color: $hb-dark;
+    font-weight: 300;
+    display: inline-block;
+    text-align: center;
+    padding: 4px 0;
+    font-size: 13px;
+  }
+  ul {
+    padding: 0;
+    margin: 0;
+    &.social-icons-nav {
+      li {
+        &:last-child {
+          a {
+            padding: 4px 7px 4px 15px;
+          }
+        }
+      }
+    }
+    &.info-nav {
+      li {
+        // border-right: 1px solid $eq-dark;
+        a {
+          padding: 4px 7px;
+        }
+      }
+    }
+
+    li {
+      float: left;
+      // padding: 14px 2px;
+      display: inline-block;
+
+      a {
+        &.social-icon {
+          width: 27px;
+          padding: 3px 6px;
+          display: inline-block;
+          border: 1px solid $hb-dark;
+          border-radius: 50%;
+          transition: 0.2s ease all;
+          margin: 0 1px;
+          &:hover {
+            background-color: $hb-dark;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
+
+#navbar {
+  padding: 0;
+  // font-family: $roboto-slab;
+  // @include gradient-horizontal(#328BFF, #4A2FBD, 0%, 100%);
+  font-size: 300;
+  // top: 45px;
+  background-color: rgba(110, 202, 220, 0.85);
+  z-index: 1030;
+  border-radius: 0;
+  border: none;
+
+  .navbar-collapse {
+    padding: 0;
+  }
+
+  .logo {
+    margin: 0;
+    img {
+      width: 84px;
+    }
+  }
+  .container-fluid {
+    padding: 0;
+  }
+
+  a.navbar-brand {
+    font-weight: 300;
+    padding-left: 20px;
+    display: none;
+  }
+
+  .navbar-nav {
+    > li > a {
+      font-weight: 300;
+      letter-spacing: 1px;
+      padding: 0 15px;
+      display: flex;
+      height: 53px;
+      align-items: center;
+    }
+
+    a {
+      &:hover {
+        background-color: darken($hb-blue, 5%);
+        color: $white;
+
+        // &:after {
+        //   @include nav-underline(darken($eq-blue, 50%));
+        // }
+      }
+    }
+  }
+}
+
+// USer drop downs
+li.a-dd {
+  position: relative;
+  > a {
+    font-weight: 300;
+    letter-spacing: 1px;
+    // padding: 0;
+
+    // VCENTER evvvvveryfin!
+    display: flex;
+    height: 53px;
+    align-items: center;
+
+    span {
+      margin-right: 7px;
+    }
+
+    // padding: 10px 15px;
+    // position: relative;
+    .my-image {
+      width: 30px;
+      display: inline-block;
+      // background-color: #232C33;
+      img {
+        border: 1px solid #ccc;
+        width: 100%;
+        height: auto;
+      }
+    }
+    .down {
+      font-size: 9px;
+      padding-left: 5px;
+    }
+  }
+  .my-menu-dd {
+    display: none;
+    box-shadow: 3px 3px 9px 0px rgba(0, 0, 0, 0.1);
+    // This will change for mobile..
+    background-color: $white;
+    position: absolute;
+    width: 150px;
+    top: 100%;
+    right: 0;
+    border-left: 1px solid $light-grey-border;
+    border-right: 1px solid $light-grey-border;
+
+    ul {
+      padding: 0;
+      li {
+        border: none;
+        padding: 0;
+        list-style: none;
+        &:last-child {
+          border: none;
+        }
+        a {
+          padding: 10px;
+          display: block;
+          font-size: 12px;
+          // letter-spacing: 1px;
+          color: #172A3A;
+          border-bottom: 1px solid $light-grey-border;
+          position: relative;
+          transition: all 0.2s ease;
+          &:before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            // background-color: rgba(220, 220, 220, 0.14);
+          }
+          &:hover {
+            // padding-left: 15px;
+            color: #172A3A!important;
+            text-decoration: none;
+            background: $light-grey!important;
+            padding-left: 15px;
+            &:after {
+              display: none!important;
+            }
+            &:before {
+              content: '';
+              width: 2px;
+              position: absolute;
+              height: 100%;
+              top: 0;
+              left: 0;
+              background-color: $hb-dark;
+            }
+          }
+        }
+      }
+    }
+  }
+  &.show-dd {
+    .my-menu-dd {
+      display: block;
+    }
+  }
+  &.a-dd-wide {
+    .my-menu-dd {
+      width: 200px;
+      left: 0;
+      li {
+        float: left;
+        width: 100%;
+      }
+    }
+  }
+}

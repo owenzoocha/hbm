@@ -1,0 +1,26 @@
+<?php
+ /**
+  * @file eq_strawdog.module.
+  */
+
+  /**
+  * Implements hook_menu().
+  */
+ function eq_strawdog_menu() {
+  $items['agenda/%/create'] = array(
+    'title' => 'Create Agenda',
+    'page callback' => 'eq_strawdog_create',
+    'page arguments' =>  array(1),
+    'access callback' => 'user_is_logged_in',
+    'file' => 'eq_strawdog.create.inc',
+  );
+  // $items['agenda/%/edit'] = array(
+  //   'title' => 'Edit Agenda',
+  //   'page callback' => 'drupal_get_form',
+  //   'page arguments' =>  array('eq_forms_create_form', 2),
+  //   'access callback' => 'user_is_logged_in',
+  //   'file' => 'eq_forms.create.inc',
+  // );
+
+  return $items;
+}

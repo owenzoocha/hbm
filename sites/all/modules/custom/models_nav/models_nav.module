@@ -1,0 +1,349 @@
+<?php
+ /**
+  * @file models_nav.module.
+  */
+
+/**
+ * Implements hook_block_info().
+ */
+function models_nav_block_info() {
+  $blocks['event_nav'] = array(
+    'info' => t('NAV: left hand side in event menu'),
+    'cache' => DRUPAL_NO_CACHE
+  );
+  $blocks['settings_nav'] = array(
+    'info' => t('NAV: left hand side on user settings page'),
+    'cache' => DRUPAL_NO_CACHE
+  );
+  $blocks['social_nav_footer'] = array(
+    'info' => t('Social icons for footer'),
+    'cache' => DRUPAL_NO_CACHE
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function models_nav_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'event_nav':
+      $block['subject'] = t('Event Nav');
+      $block['content'] = theme('block_event_nav');
+    break;
+    case 'settings_nav':
+      $block['subject'] = t('Settings Nav');
+      $block['content'] = theme('block_settings_nav');
+    break;
+    case 'social_nav_footer':
+      $block['subject'] = t('Social Nav Footer');
+      $block['content'] = social_nav_footer_block();
+    break;
+  }
+  return $block;
+}
+
+/**
+ * Social icons for footer.
+ */
+function social_nav_footer_block() {
+  global $user;
+  $login = array();
+  $login[] = l('<span class="fa fa-2x fa-envelope"></span> <span class="sr-only">' . t('Contact') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
+  $login[] = l('<span class="fa fa-2x fa-facebook"></span> <span class="sr-only">' . t('Facebook') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
+  $login[] = l('<span class="fa fa-2x fa-twitter"></span> <span class="sr-only">' . t('Twitter') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
+  $login[] = l('<span class="fa fa-2x fa-instagram"></span> <span class="sr-only">' . t('Instagram') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
+  $login[] = l('<span class="fa fa-2x fa-pinterest"></span> <span class="sr-only">' . t('Pinterest') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
+  $login[] = l('<span class="fa fa-2x fa-google"></span> <span class="sr-only">' . t('Google') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
+  $login[] = $user->uid == 0 ? l(t('Sign Up / Sign In'), 'user/login') : FALSE;
+  $content = '<ul class="footer-social">';
+  foreach ($login as $key => $link) {
+    $content .= '<li>' . $link . '</li>';
+  }
+  $content .= '</ul>';
+  return $content;
+}
+
+/**
+ * Implements of hook_theme().
+ */
+function models_nav_theme() {
+  return array (
+    'block_event_nav' => array(
+      'template' => 'templates/block-event-nav',
+    ),
+    'block_settings_nav' => array(
+      'template' => 'templates/block-settings-nav',
+    ),
+    'my_nav' => array(
+      'template' => 'templates/my-nav',
+    ),
+    'social_nav' => array(
+      'template' => 'templates/social-nav',
+    ),
+    'custom_nav' => array(
+      'template' => 'templates/custom-nav',
+    ),
+  );
+}
+
+/**
+ * Template preprocess for Event Nav.
+ */
+function template_preprocess_block_event_nav(&$vars) {
+  drupal_add_js(drupal_get_path('module', 'models_nav') . '/js/models_nav.js');
+  $nid = 90;
+  $agenda = l(t('Agenda Builder'), 'agenda/' . $nid . '/create');
+  $vars['links'] = '<li>' . $agenda . '<span class="triangle"></span></a></li>
+    <li><a href="#">link item one<span class="triangle"></span></a></li>
+    <li><a href="#">link item one<span class="triangle"></span></a></li>
+    <li><a href="#">link item one<span class="triangle"></span></a></li>
+    <li><a href="#">link item one<span class="triangle"></span></a></li>';
+
+  $vars['links'] = '<li>' . $agenda . '</a></li>
+    <li><a href="#">link item one</a></li>
+    <li><a href="#">link item one</a></li>
+    <li><a href="#">link item one</a></li>
+    <li><a href="#">link item one</a></li>';
+}
+
+/**
+ * Template preprocess for Settings Nav.
+ */
+function template_preprocess_block_settings_nav(&$vars) {
+  global $user;
+  $nav  = '<ul>';
+  $nav .= '<li>' . l(t('Personal Information'), 'user/personal-information/settings', array('attributes' => array('class' => array('')))) . '</li>';
+  $nav .= '<li>' . l(t('Account Settings'), 'user/account/settings', array('attributes' => array('class' => array('')))) . '</li>';
+  // $nav .= '<li>' . l(t('Profile'), 'user/profile/settings', array('attributes' => array('class' => array('')))) . '</li>';
+  $nav .= '<li>' . l(t('Interests'), 'user/interests/settings', array('attributes' => array('class' => array('')))) . '</li>';
+  $nav .= '<li>' . l(t('Email Settings'), 'user/email/settings', array('attributes' => array('class' => array('')))) . '</li>';
+  $nav .= '</ul>';
+  $vars['settings_nav'] = $nav;
+}
+
+/**
+ * Template preprocess for Custom Job Nav.
+ */
+function template_preprocess_my_nav(&$vars) {
+  global $user;
+  if (!isset($vars['user_nav'])) {
+    $nw = entity_metadata_wrapper('node', arg(1));
+    if ($nw->field_hb_users_eck->value()) {
+      $reqs = '(' . sizeof($nw->field_hb_users_eck->value()) . ')';
+    }
+    else {
+      $reqs = FALSE;
+    }
+    $nav  = '<ul>';
+    $nav .= '<li>' . l(t('View'), 'node/' . arg(1), array('attributes' => array('class' => array('')))) . '</li>';
+    $nav .= '<li>' . l(t('Edit'), 'job/' . arg(1) . '/edit', array('attributes' => array('class' => array('')))) . '</li>';
+    $nav .= '<li>' . l(t('Photos'), 'job/' . arg(1) . '/photos', array('attributes' => array('class' => array('')))) . '</li>';
+    if ($nw->field_hb_assigned->value()) {
+      if ($nw->field_hb_feedback_complete->value()) {
+        $reqs = t('(complete)');
+      }
+      $nav .= '<li>' . l(t('Feedback') . ' ' . $reqs, 'job/' . arg(1) . '/feedback', array('html' => TRUE,  'attributes' => array('class' => array('')))) . '</li>';
+    }
+    else {
+      $nav .= '<li>' . l(t('Client Requests') . ' ' . $reqs, 'job/' . arg(1) . '/requests', array('attributes' => array('class' => array('')))) . '</li>';
+    }
+    $nav .= '</ul>';
+    $vars['my_nav'] = $nav;
+
+    $nav_2  = '<ul class="pull-right nav-2">';
+
+    if (!$nw->field_hb_feedback_complete->value()) {
+      if (!$nw->field_hb_completed->value()) {
+        if ($nw->status->value()) {
+          $nav_2 .= '<li>' . l(t('Pause'), '', array('fragment' => '#', 'attributes' => array('data-toggle' => array('modal'), 'data-target' => array('#job-pause-form-popup')))) . '</li>';
+        }
+        if (!$nw->field_hb_cancelled->value()) {
+          $nav_2 .= '<li>' . l(t('Cancel'), '', array('fragment' => '#', 'attributes' => array('data-toggle' => array('modal'), 'data-target' => array('#job-cancel-form-popup')))) . '</li>';
+        }
+      }
+    }
+
+    // if ($nw->field_hb_completed->value()) {
+      // $nav_2 .= '<li>' . l(t('Clone'), 'previous-jobs', array('attributes' => array('class' => array('')))) . '</li>';
+    // }
+    $nav_2 .= '</ul>';
+    $vars['nav_2'] = $nav_2;
+  }
+  else {
+    drupal_add_js(libraries_get_path('slick') . '/' . 'slick/slick.min.js');
+    drupal_add_css(libraries_get_path('slick') . '/' . 'slick/slick.css');
+    drupal_add_css(libraries_get_path('slick') . '/' . 'slick/slick-theme.css');
+    drupal_add_js(drupal_get_path('module', 'models_nav') . '/js/models_nav.js');
+
+    if (!isset($vars['someone_else'])) {
+      $my_jobs_count_ = views_get_view_result('user_profile_jobs', 'page_4');
+      $my_jobs_count = $my_jobs_count_[0]->nid > 0 ? ' (' . $my_jobs_count_[0]->nid . ')' : FALSE;
+      $my_requests_count = sizeof(views_get_view_result('user_profile_jobs', 'page_1')) ? ' (' . sizeof(views_get_view_result('user_profile_jobs', 'page_1')) . ')' : FALSE;
+
+      $uw = entity_metadata_wrapper('user', $vars['user_nav']);
+      $nav  = '<ul>';
+      $nav .= '<li>' . l(t('Dashboard'), 'user/' . $uw->getIdentifier(), array('attributes' => array('class' => array('')))) . '</li>';
+      $nav .= '<li>' . l(t('Settings'), 'user/personal-information/settings', array('attributes' => array('class' => array('')))) . '</li>';
+      $nav .= '<li>' . l(t('Photos'), 'user/photos', array('attributes' => array('class' => array('')))) . '</li>';
+      $nav .= '<li>' . l(t('My Feedback'), 'user/' . $uw->getIdentifier() . '/feedback', array('attributes' => array('class' => array('')))) . '</li>';
+      $nav .= '<li>' . l(t('My Jobs') . $my_jobs_count, 'my-jobs', array('attributes' => array('class' => array('')))) . '</li>';
+      $nav .= '<li>' . l(t('Job Requests') . $my_requests_count, 'job-requests', array('attributes' => array('class' => array('')))) . '</li>';
+      $nav .= '<li>' . l(t('Watchlist'), 'watchlist', array('attributes' => array('class' => array('')))) . '</li>';
+      $nav .= '<li>' . l(t('Previous Jobs'), 'previous-jobs', array('attributes' => array('class' => array('')))) . '</li>';
+      $nav .= '</ul>';
+      $vars['my_nav'] = $nav;
+
+      $nav_2  = '<ul class="pull-right nav-2">';
+      $nav_2 .= '<li>' . l(t('Logout'), 'user/logout', array('attributes' => array('class' => array('')))) . '</li>';
+      $nav_2 .= '</ul>';
+      $vars['nav_2'] = $nav_2;
+    }
+    else {
+      $uw = entity_metadata_wrapper('user', arg(1));
+      $nav  = '<ul>';
+      $nav .= '<li>' . l($uw->label() . '\'s ' . t('profile'), 'user/' . arg(1), array('attributes' => array('class' => array('')))) . '</li>';
+      $nav .= '<li>' . l(t('Feedback'), 'user/' . arg(1) . '/feedback', array('attributes' => array('class' => array('')))) . '</li>';
+      // $nav .= '<li>' . l(t('Jobs') . $my_jobs_count, 'my-jobs', array('attributes' => array('class' => array('')))) . '</li>';
+      // $nav .= '<li>' . l(t('Previous Jobs'), 'previous-jobs', array('attributes' => array('class' => array('')))) . '</li>';
+      $nav .= '</ul>';
+      $vars['my_nav'] = $nav;
+      $vars['nav_2'] = FALSE;
+    }
+  }
+}
+
+/**
+ * Template preprocess for Socal Nav.
+ */
+function template_preprocess_social_nav(&$vars) {
+  global $user;
+  $info = array();
+  $info[] = l(t('TCs'), 'terms-and-condtions');
+  $info[] = l(t('Contact'), 'contact');
+  $info[] = l(t('About'), 'about');
+  // $info[] = l(t('Sign Up / Sign In'), 'user/login');
+
+  $login = array();
+  $login[] = l('<span class="fa fa-envelope"></span> <span class="sr-only">' . t('Contact') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
+  $login[] = l('<span class="fa fa-facebook"></span> <span class="sr-only">' . t('Facebook') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
+  $login[] = l('<span class="fa fa-twitter"></span> <span class="sr-only">' . t('Twitter') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
+  $login[] = l('<span class="fa fa-instagram"></span> <span class="sr-only">' . t('Instagram') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
+  $login[] = l('<span class="fa fa-pinterest"></span> <span class="sr-only">' . t('Pinterest') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
+  $login[] = l('<span class="fa fa-google"></span> <span class="sr-only">' . t('Google') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
+  $login[] = $user->uid == 0 ? l(t('Sign Up / Sign In'), 'user/login') : FALSE;
+
+  $links = '<ul class="social-icons-nav pull-right">';
+  foreach ($login as $key => $value) {
+    $links .= '<li>' . $value . '</li>';
+  }
+  $links .= '</ul>';
+
+  $links_left = '<ul class="info-nav pull-left">';
+  foreach ($info as $key => $value) {
+    $links_left .= '<li>' . $value . '</li>';
+  }
+  $links_left .= '</ul>';
+
+  $vars['links_right'] = '<nav role="navigation">' . $links . '</nav>';
+  $vars['links_left'] = '<nav role="navigation">' . $links_left . '</nav>';
+}
+
+/**
+ * Template preprocess for Custom Nav.
+ */
+function template_preprocess_custom_nav(&$vars) {
+  global $user;
+  $uw = entity_metadata_wrapper('user', $user);
+
+  $type = field_info_field('field_hb_bt');
+  $options = list_allowed_values($type);
+  sort($options);
+  $active_beauty_menu = '<div class="my-menu-dd">';
+  $active_beauty_menu .= '<ul>';
+  foreach ($options as $key => $value) {
+    $active_beauty_menu .= '<li>' . l($value, 'search/type/beauty/beauty-treatment/'.$value) . '</li>';
+  }
+  $active_beauty_menu .= '</ul>';
+
+  $active_beauty = strpos(current_path(), 'search/type/beauty') !== FALSE ? 'active' : FALSE;
+  $links = '<li class="first leaf a-dd-wide a-dd ' . $active_beauty . '">' . l('Beauty', 'search/type/beauty') . $active_beauty_menu . '</li>';
+
+  $type = field_info_field('field_hb_ht');
+  $options = list_allowed_values($type);
+  sort($options);
+  $active_hair_menu = '<div class="my-menu-dd">';
+  $active_hair_menu .= '<ul>';
+  foreach ($options as $key => $value) {
+    $active_hair_menu .= '<li>' . l($value, 'search/type/hair/hair-treatment/'.$value) . '</li>';
+  }
+  $active_hair_menu .= '</ul>';
+  $active_hair_menu .= '</div>';
+
+  $active_hair = strpos(current_path(), 'search/type/hair') !== FALSE ? 'active' : FALSE;
+  $links .= '<li class="leaf a-dd-wide a-dd ' . $active_hair . '">' . l('Hair', 'search/type/hair') . $active_hair_menu . '</li>';
+
+  $active_personal = strpos(current_path(), 'search/type/personal') !== FALSE ? 'active' : FALSE;
+  $links .= '<li class="leaf ' . $active_personal . '">' . l('Last Minute', 'search/type/personal') . '</li>';
+
+  $msg_count = privatemsg_unread_count($user) > 0 ? ' (' . privatemsg_unread_count($user) . ')' : FALSE;
+
+  $active_msgs = current_path() == 'messages' ? 'active' : FALSE;
+  $links .= '<li class="leaf ' . $active_msgs . '">' . l('Messages' . $msg_count, 'messages') . '</li>';
+
+  $active_msgs = current_path() == 'job/create' ? 'active' : FALSE;
+  $links .= '<li class="leaf ' . $active_msgs . '">' . l('Post Job', 'job/create') . '</li>';
+
+  $active_user_menu = '<div class="my-menu-dd">';
+  $active_user_menu .=
+  '<ul>
+    <li>
+      ' . l(t('My Jobs'), 'my-jobs') . '
+    </li>
+    <li>
+      ' . l(t('My Feedback'), 'user/' . $user->uid . '/feedback', array('html' => true)) . '
+    </li>
+    <li>
+      ' . l(t('Job Requests'), 'job-requests') . '
+    </li>
+    <li>
+      ' . l(t('Watchlist'), 'watchlist') . '
+    </li>
+    <li>
+      ' . l(t('Previous Jobs'), 'previous-jobs') . '
+    </li>
+    <li>
+      ' . l(t('Photos'), 'user/photos') . '
+    </li>
+    <li>
+      ' . l(t('Edit Settings'), 'user/personal-information/settings') . '
+    </li>
+    <li>
+      ' . l(t('Logout'), 'user/logout', array('html' => true)).'
+    </li>
+  </ul>';
+  $active_user_menu .= '</div>';
+  $mypic = $uw->value()->picture;
+  if($mypic){
+    $pic = '<div class="my-image img-circle">'.theme('image_style', array('style_name' => 'profile', 'path'=>$uw->value()->picture->uri, 'attributes' => array('class' => array('img-circle')))).'</div>';
+  } else {
+    $pic = '<div class="my-image img-circle">'.theme('image_style', array('style_name' => 'profile', 'path'=>'public://pictures/picture-default.png', 'attributes' => array('class'=>array('img-circle')))).'</div>';
+  }
+  $pic .= '<i class="fa fa-chevron-down down"></i>';
+
+  $active_msgs = current_path() == 'user' ? 'active' : FALSE;
+  $fname = $uw->field_first_name->value() ? $uw->field_first_name->value() : t('Me');
+  $links .= '<li class="last leaf a-dd ' . $active_msgs . '">' .
+  l('<span>' . $fname . '</span>' . $pic, 'user', array('html' => TRUE)) . $active_user_menu . '</li>';
+
+  $vars['links'] = $links;
+
+  // $variables['my_menu'] =
+  //   '<ul class="menu nav navbar-nav my-menu">
+  //     <li class="first leaf '.$active_link.'">
+  //       '.$link.$active_menu.'
+  //     </li>
+  //   </ul>';
+}
+

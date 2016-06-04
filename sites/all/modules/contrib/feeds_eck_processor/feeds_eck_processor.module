@@ -1,0 +1,24 @@
+<?php
+
+
+function feeds_eck_processor_ctools_plugin_api($owner, $api) {
+  if ($owner == 'feeds' && $api == 'plugins') {
+    return array('version' => 1);
+  }
+}
+
+function feeds_eck_processor_feeds_plugins() {
+  $info = array();
+  $info['FeedsECKprocessor'] = array(
+    'name' => 'ECK processor',
+    'description' => 'Process eck-provided entities',
+    'help' => 'Create and update eck-provided entities from parsed content.',
+    'handler' => array(
+      'parent' => 'FeedsProcessor',
+      'class' => 'FeedsECKprocessor',
+      'file' => 'FeedsECKprocessor.inc',
+      'path' => drupal_get_path('module', 'feeds_eck_processor') . '/plugins',
+    ),
+  );
+  return $info;
+}

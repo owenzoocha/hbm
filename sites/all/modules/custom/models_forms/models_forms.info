@@ -1,0 +1,4 @@
+name = models forms
+description = MHB module for general formzz..
+package = MHB
+core = 7.x

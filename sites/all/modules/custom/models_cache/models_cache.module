@@ -1,0 +1,77 @@
+<?php
+/**
+ * @file
+ * Models caching module
+ *
+ * Provide all caching availability throughout
+ * @author: Owen Williams http://drupal.org/user/??
+ */
+
+ // $feed = models_cache_get_promoimg_cache($nid, $eid);
+ //  // $feed = false; // comment this out for caching
+ //  if($feed){
+ //    return drupal_json_decode($feed);
+ //  }
+
+/**
+ * Getter and setter for latlon cache.
+ */
+function models_cache_build_job_latlon_cache($data, $nid){
+  cache_set("latlon:$nid", $data, 'cache_models');
+}
+
+function models_cache_get_job_latlon_cache($nid) {
+  if ($data = cache_get("latlon:$nid", 'cache_models')) {
+    return $data->data;
+  }
+  else {
+    return FALSE;
+  }
+}
+
+/**
+ * Getter and setter for watchlist cache.
+ */
+function models_cache_build_wl_cache($data, $uid){
+  cache_set("watchlist:$uid", $data, 'cache_models');
+}
+
+function models_cache_get_wl_cache($uid) {
+  if ($data = cache_get("watchlist:$uid", 'cache_models')) {
+    return $data->data;
+  }
+  else {
+    return FALSE;
+  }
+}
+
+/**
+ * Getter and setter for promoted images.
+ */
+function models_cache_build_promoimg_cache($data, $nid){
+  cache_set("promoimg:$nid", $data, 'cache_models');
+}
+
+function models_cache_get_promoimg_cache($nid){
+  if ($data = cache_get("promoimg:$nid", 'cache_models')) {
+    return $data->data;
+  }
+  else {
+    $nw = entity_metadata_wrapper('node', $nid);
+    $no_promo = TRUE;
+    foreach ($nw->field_hb_pics->getIterator() as $key => $eck) {
+      if ($eck->field_pics_promote->value() == 1) {
+        $promoted_img_uri = $eck->field_pics_img->value()['uri'];
+        $no_promo = FALSE;
+        break;
+      }
+    }
+    if ($no_promo) {
+      $ew = entity_metadata_wrapper('pics', $nw->field_hb_pics->value()[0]);
+      $promoted_img_uri = $ew->field_pics_img->value()['uri'];
+    }
+    models_cache_build_promoimg_cache($promoted_img_uri, $nw->getIdentifier());
+    return $promoted_img_uri;
+  }
+}
+

@@ -1,0 +1,4 @@
+name = models nav
+description = MHB module for general navs..
+package = MHB
+core = 7.x

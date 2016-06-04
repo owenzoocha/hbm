@@ -1,0 +1,118 @@
+.page-messages {
+
+  .form-item-operation {
+    float: left;
+  }
+
+  #privatemsg-new {
+    margin-top: 15px;
+  }
+
+  .table-responsive {
+    clear: both;
+    margin-top: 15px;
+  }
+
+  .action-links {
+    float: right;
+    margin: 0;
+    li {
+      list-style: none;
+    }
+  }
+
+  #privatemsg-list-form,
+  .action-links {
+    &:first-child {
+      padding-top: 15px;
+    }
+  }
+
+  #edit-delete--2 {
+    margin-left: 15px;
+  }
+
+  .span.privatemsg-message-new {
+    font-size: 17px;
+  }
+
+  .privatemsg-message-participants,
+  .privatemsg-reply {
+    font-size: 16px;
+    border-bottom: 1px solid #ddd;
+    margin: 0 0 20px 0;
+    padding: 15px 0 0;
+    color: $hb-dark;
+    font-weight: 300;
+  }
+
+  .privatemsg-message {
+    padding: 15px 5px;
+    margin: 0;
+    &.privatemsg-message-even {
+      background-color: rgba(255, 255, 255, 0.10);
+    }
+
+    .privatemsg-reply {
+      margin-top: 15px;
+    }
+    .privatemsg-author-avatar {
+      width: 15%;
+      .user-picture {
+        margin: 0 auto;
+        width: 60px;
+        img {
+          border-radius: 50%;
+        }
+      }
+    }
+    .privatemsg-message-column {
+      width: 85%;
+      text-align: left;
+      background: $white;
+      padding: 5px 15px;
+      font-size: 13px;
+      border-radius: 5px;
+      border: 1px solid #eee;
+      position: relative;
+      padding-bottom: 0;
+
+      .privatemsg-author-name {
+        font-size: 14px;
+      }
+      ul.privatemsg-message-actions {
+        display: none;
+      }
+      .privatemsg-message-information {
+        border-bottom: none;
+      }
+    }
+    .privatemsg-message-body {
+      margin: 0;
+    }
+  }
+
+  /*
+    Media Queries..
+   */
+  @media (max-width: $screen-tablet){
+    .privatemsg-message {
+      .privatemsg-author-avatar {
+        // .user-picture {
+        //   width: 60px!important;
+        // }
+      }
+    }
+  }
+  @media (max-width: $screen-phone){
+    .privatemsg-message {
+      .privatemsg-author-avatar {
+        width: 30%;
+      }
+      .privatemsg-message-column {
+        width: 70%;
+      }
+    }
+  }
+}
+

@@ -1,0 +1,157 @@
+.hide-event-menu {
+  .col-sm-3 {
+    left: -220px;
+  }
+  .event-page {
+    transition: 0.3s all ease;
+    padding-left: 30px;
+  }
+}
+
+.show-event-menu-static {
+  .event-page {
+    padding-left: 30px!important;
+  }
+}
+
+.col-sm-12 {
+  transition: all 0.3s ease;
+}
+
+// Added to the content region - to apply height fix to tabs?
+.event-page {
+  padding-left: 265px!important;
+}
+
+.page-search {
+  .view-content {
+    margin-top: 0;
+  }
+  .col-sm-3 {
+    width: 250px;
+    z-index: 2;
+    position: absolute;
+    top: 100px;
+    left: 0;
+    height: 100%;
+    border-right: 1px solid $light-grey-border;
+
+    .well {
+      height: 100%;
+      padding: 0;
+      min-height: 20px;
+      margin-bottom: 20px;
+      background-color: $white;
+      border: none;
+      // border-right: 1px solid $light-grey-border;
+      border-radius: 0;
+      box-shadow: none;
+    }
+  }
+}
+
+// Change well to another selector..
+.well {
+  #block-eq-nav-event-nav {
+    // flex-direction: column;
+    // display: flex;
+    .eq-nav-head {
+      // @include pressed-border-bottom();
+      // height: 81px;
+      // border-bottom: 1px solid darken($navbar-default-bg, 6.5%);
+      background-color: $eq-blue;
+      // @include gradient-horizontal(#4977FE, #6DD8FE, 0%, 100%);
+      // @include gradient-horizontal(#4A2FBD, #328BFF, 0%, 100%);
+
+      span {
+        display: inline-block;
+        text-overflow: ellipsis;
+        color: $white;
+        font-size: 24px;
+        padding: 0 0 0 10px;
+        white-space: nowrap;
+        font-weight: lighter;
+        overflow: hidden;
+        width: 250px;
+      }
+    }
+    .eq-nav-footer {
+      // align-self: fixlex-end
+      @include pressed-border-top();
+      .eq-nav-footer-button {
+        border-left: 1px solid $light-grey-border;
+        height: 38px;
+        button {
+          padding: 10px 15px;
+        }
+      }
+    }
+    .eq-nav-body {
+      overflow-y: auto;
+      li {
+        @include pressed-border-bottom();
+        a {
+          display: block;
+          height: 100%;
+          width: 100%;
+          position: relative;
+          padding: 10px;
+          color: $eq-grey;
+          text-decoration: none;
+          transition: all ease 0.3s;
+          font-weight: lighter;
+
+          span.triangle {
+            position: absolute;
+            right: 0;
+            top: 8px;
+            display: none;
+
+            &:before,
+            &:after {
+              top: 0;
+              right: 0;
+              border: solid transparent;
+              content: " ";
+              height: 0;
+              width: 0;
+              position: absolute;
+              pointer-events: none;
+            }
+            &:before {
+              border-color: rgba(194, 225, 245, 0);
+              border-right-color: $light-grey-border;
+              border-width: 10px;
+              top: 0;
+            }
+            &:after {
+              border-color: rgba(136, 183, 213, 0);
+              border-right-color: #fff;
+              border-width: 10px;
+              right: -1px;
+            }
+          }
+
+          &:hover,
+          &.active {
+            background-color: rgba(29, 104, 229, 0.07);
+            padding-left: 13px;
+            .triangle {
+              display: block;
+            }
+            &:after {
+              content: '';
+              position: absolute;
+              top: 0;
+              left: 0;
+              height: 100%;
+              width: 3px;
+              background-color: $eq-blue;
+              // @include gradient-horizontal(#4A2FBD, #328BFF, 0%, 100%);
+            }
+          }
+        }
+      }
+    }
+  }
+}

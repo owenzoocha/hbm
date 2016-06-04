@@ -1,0 +1,4 @@
+name = dropzone for models jobs and everything dropzone rel8ed.
+description = MHB module for handling dropzone imagery..
+package = MHB
+core = 7.x
