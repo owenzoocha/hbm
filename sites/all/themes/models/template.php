@@ -21,8 +21,8 @@ function models_preprocess_node(&$variables) {
     $variables['theme_hook_suggestions'][] = 'node__' . $variables['node']->type . '__teaser';
     $variables['theme_hook_suggestions'][] = 'node__' . $variables['node']->nid . '__teaser';
   }
-
   if($variables['type'] == 'job'){
+
     $nw = entity_metadata_wrapper('node', $variables['nid']);
     $uw = entity_metadata_wrapper('user', $user->uid);
 
@@ -198,6 +198,7 @@ function models_preprocess_node(&$variables) {
       }
     }
     else {
+
       $variables['users_available'] = FALSE;
 
       $variables['show_slick'] = $nw->field_hb_pics->value() ? TRUE : FALSE;
@@ -213,7 +214,7 @@ function models_preprocess_node(&$variables) {
           // HACKY.
           if ($nw->field_hb_cancelled->value()) {
             $unpub_msg = '<div class="alert alert-block alert-danger messages info"><a class="close" data-dismiss="alert" href="#">×</a><h4 class="element-invisible">Informative message</h4>';
-            $unpub_msg .= t('This Job has been cancelled!');
+            $unpub_msg .= t('This Job has been cancelled - and will be removed soon!');
             $unpub_msg .= '</div>';
           }
           else if (!$nw->field_hb_paused->value()) {
@@ -252,7 +253,7 @@ function models_preprocess_node(&$variables) {
             // }
             foreach ($nw->field_hb_users_eck->getIterator() as $k => $u) {
               if ($u->field_feedb_user->getIdentifier() == $uw->getIdentifier()) {
-                $btn_text = $nw->field_hb_type->value() != 'personal' ? t('Job Requested') : t('Message Sent');
+                $btn_text = $nw->field_hb_type->value() != 'personal' ? t('Remove Request') : t('Message Sent');
                 $btn_class = 'btn-danger';
                 break;
               }
@@ -400,7 +401,7 @@ function models_preprocess_page(&$variables) {
   if (  (strpos(current_path(), 'node') !== FALSE) ||
         (strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/edit') !== FALSE) ||
         (strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/feedback') !== FALSE) ||
-        (strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/requests') !== FALSE) ||
+        (strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/clients') !== FALSE) ||
         (strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/photos') !== FALSE)
      ) {
 
@@ -416,21 +417,21 @@ function models_preprocess_page(&$variables) {
       drupal_add_css(libraries_get_path('slick') . '/' . 'slick/slick-theme.css');
       drupal_add_js(drupal_get_path('module', 'models_nav') . '/js/models_nav.js');
 
-      if (strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/requests') !== FALSE) {
-        if ($nw->field_hb_assigned->value()) {
-          drupal_goto('node/' . $nw->getIdentifier());
-        }
-      }
+      // if (strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/clients') !== FALSE) {
+      //   if ($nw->field_hb_assigned->value()) {
+      //     drupal_goto('node/' . $nw->getIdentifier());
+      //   }
+      // }
 
       // Page titles clean up
-      if ((strpos(current_path(), 'job/') !== FALSE && is_numeric(arg(1)) && strpos(current_path(), '/requests') !== FALSE)) {
+      if ((strpos(current_path(), 'job/') !== FALSE && is_numeric(arg(1)) && strpos(current_path(), '/clients') !== FALSE)) {
         if ($nw->field_hb_users_eck->value()) {
           $reqs = sizeof($nw->field_hb_users_eck->value());
         }
         else {
           $reqs = FALSE;
         }
-        drupal_set_title($reqs > 0 ? $nw->label() . ' - Job Requests (' . $reqs . ')' : $nw->label() . ' - Job Requests');
+        drupal_set_title($reqs > 0 ? $nw->label() . ' - Client Requests (' . $reqs . ')' : $nw->label() . ' - Client Requests');
       }
 
       // Page titles clean up
@@ -461,8 +462,8 @@ function models_preprocess_page(&$variables) {
       $variables['author_rating'] = '<div class="hb-rating raty raty-readonly" data-rating="' . $stars . '"></div>';
 
       if (1==1) {
-        $fbk = $uw->field_my_total_feedback->value() ? $uw->field_my_total_feedback->value() : 0;
-        $variables['author_feedback_amount'] = '<div class="hb-feedback-score">'. l($fbk . ' ' . t('feedback'), 'user/' . $nw->author->getIdentifier()) . ' | ' .  l(t('send message'), 'messages/new/' . $nw->author->getIdentifier(), array('query' => array('destination' => 'node/' . $nw->getIdentifier()))) . '</div>';
+        $fbk = $nw->author->field_my_total_feedback->value() ? $nw->author->field_my_total_feedback->value() : 0;
+        $variables['author_feedback_amount'] = '<div class="hb-feedback-score">'. l($fbk . ' ' . t('feedback'), 'user/' . $nw->author->getIdentifier() . '/feedback') . ' | ' .  l(t('send message'), 'messages/new/' . $nw->author->getIdentifier(), array('query' => array('destination' => 'node/' . $nw->getIdentifier()))) . '</div>';
       }
       else {
         $variables['author_feedback_amount'] = '<div class="hb-feedback-score">' . t('- no feedback -') . '</div>';
@@ -494,6 +495,24 @@ function models_preprocess_page(&$variables) {
       $stars = $uw->field_my_overall_rating->value() ? $uw->field_my_overall_rating->value() : 0;
       $variables['author_rating'] = '<div class="hb-rating raty raty-readonly" data-rating="' . $stars . '"></div>';
       // $variables['content_column_class'] = ' class="col-sm-12 event-page"';
+
+      // Page titles clean up
+      if ((strpos(current_path(), 'job/') !== FALSE && is_numeric(arg(1)) && strpos(current_path(), '/clients') !== FALSE)) {
+
+        // Client request accept / remove
+        $client_request_form = drupal_get_form('models_forms_confirm_clients_form');
+        $modal_options = array(
+          'attributes' => array('id' => 'job-publish-form-popup', 'class' => array('job-publish-form-popup-modal')),
+          'heading' => t('Confirm Clients'),
+          'body' => drupal_render($client_request_form),
+        );
+        $variables['client_request_confirm_form'] = theme('bootstrap_modal', $modal_options);
+
+        // $clients_text = !$nw->field_hb_paused->value() ? t('Accept clients') : t('Remove clients');
+
+        // $job_publish = l($clients_text, '#', array('attributes' => array('data-toggle' => array('modal'), 'data-target' => array('#job-publish-form-popup'), 'class' => array('btn btn-success'))));
+        // $variables['client_request_confirm_form_button'] = ($nw->author->getIdentifier() != 000) ? '<div class="hb-job-button">' . $job_publish . '</div>' : FALSE;
+      }
     }
 }
 
@@ -578,7 +597,7 @@ function models_preprocess_page(&$variables) {
  */
 function models_preprocess_html(&$variables) {
   if ( (strpos(current_path(), 'node') !== FALSE) ||
-       (strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/requests') !== FALSE)
+       (strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/clients') !== FALSE)
      ) {
     $variables['classes_array'][] = 'event-mode';
   }
@@ -760,18 +779,30 @@ function models_preprocess_entity(&$variables) {
     $ew = entity_metadata_wrapper('feedback', $variables['elements']['#entity']->id);
     $nw = entity_metadata_wrapper('node', $variables['field_feedb_nid'][0]['nid']);
 
-    $mypic = $nw->author->value()->picture;
-    if($mypic){
-      $pic = '<div class="my-image img-circle">' . l(theme('image_style', array('style_name' => 'profile', 'path' => $nw->author->value()->picture->uri, 'attributes' => array('class' => array('img-circle')))), 'user/' . $nw->author->getIdentifier(), array('html' => TRUE)) . '</div>';
-    } else {
-      $pic = '<div class="my-image img-circle">' . l(theme('image_style', array('style_name' => 'profile', 'path' => 'public://pictures/picture-default.png', 'attributes' => array('class' => array('img-circle')))), 'user/' . $nw->author->getIdentifier(), array('html' => TRUE)) . '</div>';
-    }
+// dpm($ew->value());
+// dpm($variables);
 
-    $author = l($nw->author->label(), 'user/' . $nw->author->getIdentifier(), array('attributes' => array('class' => array('uname'))));
-    $stars = $nw->author->field_my_overall_rating->value() ? $nw->author->field_my_overall_rating->value() : 0;
+    if ($ew->field_feedb_type->value() == 'owner') {
+      $mypic = $ew->uid->value()->picture;
+      $u_id = $ew->uid->getIdentifier();
+      $author = l($ew->uid->label(), 'user/' . $ew->uid->getIdentifier(), array('attributes' => array('class' => array('uname'))));
+      $stars = $ew->uid->field_my_overall_rating->value() ? $ew->uid->field_my_overall_rating->value() : 0;
+    }
+    else {
+      $mypic = $nw->author->value()->picture;
+      $u_id = $nw->author->getIdentifier();
+      $author = l($nw->author->label(), 'user/' . $nw->author->getIdentifier(), array('attributes' => array('class' => array('uname'))));
+      $stars = $nw->author->field_my_overall_rating->value() ? $nw->author->field_my_overall_rating->value() : 0;
+    }
+    if($mypic){
+      $pic = '<div class="my-image img-circle">' . l(theme('image_style', array('style_name' => 'profile', 'path' => $mypic->uri, 'attributes' => array('class' => array('img-circle')))), 'user/' . $u_id, array('html' => TRUE)) . '</div>';
+    } else {
+      $pic = '<div class="my-image img-circle">' . l(theme('image_style', array('style_name' => 'profile', 'path' => 'public://pictures/picture-default.png', 'attributes' => array('class' => array('img-circle')))), 'user/' . $u_id, array('html' => TRUE)) . '</div>';
+    }
 
     $variables['pic'] = $pic;
     $variables['author'] = $author;
+    $variables['type'] = '<div class="field-name-field-feedb-type">' . t('as: ') . $ew->field_feedb_type->value() . '</div>';
     $variables['author_rating'] = '<div class="hb-rating raty raty-readonly" data-rating="' . $stars . '"></div>';
     $variables['stars'] = '<div class="hb-rating raty raty-readonly" data-rating="' . $ew->field_rating->value() . '"></div>';
     $variables['job'] = l($nw->label(), 'node/' . $nw->getIdentifier()) . ' <span class="fb-created">(' . format_date($ew->created->value(), 'normal', 'Y-m-d H:i:s', 'UTC') . ')</span>';
@@ -820,30 +851,83 @@ function models_preprocess_views_view(&$vars) {
           $btn_text = $nw->field_hb_type->value() != 'personal' ? t('Request Job') : t('Get in touch');
           $btn_class = 'btn-info';
           if ($nw->field_hb_users_eck->value()) {
-            // if ($uw->getIdentifier() == $nw->author->getIdentifier()) {
-            //   $variables['users_available'] = sizeof($nw->field_hb_users->value());
-            // }
             foreach ($nw->field_hb_users_eck->getIterator() as $k => $u) {
               if ($u->field_feedb_user->getIdentifier() == $uw->getIdentifier()) {
-                $btn_text = $nw->field_hb_type->value() != 'personal' ? t('Job Requested') : t('Message Sent');
+                $btn_text = $nw->field_hb_type->value() != 'personal' ? t('Remove Request') : t('Message Sent');
                 $btn_class = 'btn-danger';
                 break;
               }
             }
           }
 
-          if ($user->uid != 0) {
-            $job_details = l($btn_text, '#', array('attributes' => array('data-toggle' => array('modal'), 'data-target' => array('#job-request-form-popup'), 'class' => array('btn btn-block ' . $btn_class))));
+          if ($nw->author->getIdentifier() != $uw->getIdentifier()) {
+            if ($user->uid != 0) {
+              $job_details = l($btn_text, '#', array('attributes' => array('data-toggle' => array('modal'), 'data-target' => array('#job-request-form-popup'), 'class' => array('btn btn-block ' . $btn_class))));
+            }
+            else {
+              $job_details = l($btn_text, 'user/login', array('attributes' => array('class' => array('btn btn-block' . $btn_class))));
+            }
           }
           else {
-            $job_details = l($btn_text, 'user/login', array('attributes' => array('class' => array('btn btn-block' . $btn_class))));
+            $job_details = l(t('Edit Job'), 'job/' . $nw->getIdentifier() . '/edit', array('attributes' => array('class' => array('btn btn-block btn-success'))));
           }
-          $vars['job_button'] = ($nw->author->getIdentifier() != 000) ? '<div class="hb-rhs-job-button">' . $job_details . '</div>' : FALSE;
+          $vars['job_button'] = '<div class="hb-rhs-job-button">' . $job_details . '</div>';
         }
       }
       else {
-        $vars['feedback_button'] = '<div class="hb-rhs-job-button">' . l(t('Leave Feedback'), 'job/' . $nw->getIdentifier() . '/feedback', array('attributes' => array('class' => array('btn btn-danger btn-block')))) . '</div>';
-        $vars['job_button'] = '<p><strong>' . t('Sorry, this job has already been assigned!') . '</strong></p>';
+        // Author to leave feedback
+        if ($uw->getIdentifier() == $nw->author->getIdentifier()) {
+          $fb_completed = $nw->field_hb_feedb_size->value() == $nw->field_hb_client_size->value() ? TRUE : FALSE;
+          $fbk_desc = $fb_completed ? t('Feedback is complete - click below to view') : t('Your job has been assigned - to leave feedback click below');
+          $fbk_btn_text = $fb_completed ?  t('View Feedback') : t('Leave Feedback');
+        }
+        else {
+          // Allow feedback if this user is an active client of the job.
+          $uw_label = str_replace(' ', '_', strtolower($uw->label()));
+          $title = 'client_' . $uw_label . '_uid_' . $uw->getIdentifier() . '_nid_' . $nw->getIdentifier();
+          $query = new EntityFieldQuery();
+          $query->entityCondition('entity_type', 'feedback')
+            ->entityCondition('bundle', 'feedback')
+            ->propertyCondition('title', $title, '=')
+            ->fieldCondition('field_client_selected', 'value', 1, '=');
+          $result = $query->execute();
+
+          if (sizeof($result)) {
+            // Now to check that the client has completed their feedback to the owner.
+            $title = '%_aid_' . $nw->author->getIdentifier() . '_uid_' . $uw->getIdentifier()  . '_nid_' . $nw->getIdentifier() . '%';
+            $query = new EntityFieldQuery();
+            $query->entityCondition('entity_type', 'feedback')
+              ->entityCondition('bundle', 'feedback')
+              ->propertyCondition('title', $title, 'like');
+            $result = $query->execute();
+
+            if (sizeof($result)) {
+              $aid = reset($result['feedback'])->id;
+              $aw = entity_metadata_wrapper('feedback', $aid);
+              if ($aw->field_feedb_received->value()) {
+                $fbk_btn_text = t('View Feedback');
+                $fbk_desc = t('Your job feedback is complete - click below to view');;
+              }
+              else {
+                $fbk_desc = t('You can now leave feedback for the job owner');
+                $fbk_btn_text = t('Leave Feedback');
+              }
+            }
+          }
+          else {
+            $fbk_btn_text = FALSE;
+            $fbk_desc = t('This Job has expired.') . ' ' . l(t('Click here to view more jobs'), 'search');
+          }
+        }
+
+        if ($fbk_btn_text) {
+          $vars['job_button'] = '<p class="feedback-note"><strong>' . $fbk_desc . '</strong></p>';
+          $vars['feedback_button'] = '<div class="hb-rhs-job-button">' . l($fbk_btn_text, 'job/' . $nw->getIdentifier() . '/feedback', array('attributes' => array('class' => array('btn btn-danger btn-block')))) . '</div>';
+        }
+        else {
+          $vars['job_button'] = '<p class="feedback-note"><strong>' . $fbk_desc . '</strong></p>';;
+          $vars['feedback_button'] = FALSE;
+        }
       }
     }
   }

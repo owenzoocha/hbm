@@ -5,6 +5,9 @@
     // left: 0;
     text-align: center;
     width: 15%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     .my-image {
       padding-bottom: 5px;
@@ -14,12 +17,12 @@
     .uname {
       font-size: 13px;
       font-weight: 300;
-      letter-spacing: 1px;
+      // letter-spacing: 1px;
     }
   }
 
   .rate-feedback {
-    width: 85%;
+    width: 84%;
     text-align: left;
     background: #fff;
     padding: 5px 15px;

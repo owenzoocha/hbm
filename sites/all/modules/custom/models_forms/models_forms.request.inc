@@ -22,6 +22,17 @@ function models_forms_request_form($form, &$form_state){
     }
   }
 
+  if (isset($requested)) {
+    $title = '%_aid_' . $nw->author->getIdentifier() . '_uid_' . $uw->getIdentifier()  . '_nid_' . $nw->getIdentifier() . '%';
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'feedback')
+      ->entityCondition('bundle', 'feedback')
+      ->propertyCondition('title', $title, 'like');
+    $result = $query->execute();
+    $aid = reset($result['feedback'])->id;
+    $form_state['aid'] = $aid;
+  }
+
   if ($nw->field_hb_type->value() != 'personal') {
     $desc = !isset($requested) ? t('Hey !name, to show you\'re interested in this job, leave a message for the job owner below and hit <strong>sign me up</strong>!', array('!name' => $uw->field_first_name->value())) : t('To remove your request select <strong>remove request</strong> below - we\'ll let the job owner know.', array('!name' => $uw->field_first_name->value()));
   }
@@ -76,26 +87,36 @@ function models_forms_request_form_submit($form, &$form_state){
   $removed = 1;
 
   if (!isset($form_state['requested'])) {
+    // Create an entity for the CLIENT..
     $uw_label = str_replace(' ', '_', strtolower($uw->label()));
     $title = 'client_' . $uw_label . '_uid_' . $uw->getIdentifier() . '_nid_' . $nw->getIdentifier();
-    // $query = new EntityFieldQuery();
-    // $query->entityCondition('entity_type', 'feedback')
-    //   ->entityCondition('bundle', 'feedback')
-    //   ->propertyCondition('title', $title, '=');
-    // $result = $query->execute();
     $ew = entity_create('feedback', array('type' => 'feedback'));
     $ew->title = $title;
     $ew->created = strtotime('now');
     $ew->field_rating[LANGUAGE_NONE][0]['value'] = 0;
-    // $ew->field_feedback[LANGUAGE_NONE][0]['value'] = $fs['msg_' . $nw->author->getIdentifier()];
     $ew->field_feedb_nid[LANGUAGE_NONE][0]['nid'] = $nw->getIdentifier();
     $ew->field_feedb_user[LANGUAGE_NONE][0]['uid'] = $uw->getIdentifier();
     $ew->field_client_selected[LANGUAGE_NONE][0]['value'] = 0;
     $ew->field_feedb_type[LANGUAGE_NONE][0]['value'] = 'client';
     $ew->save();
+
+    // Create an entity for the JOB OWNER..
+    $uw_label = str_replace(' ', '_', strtolower($nw->author->label()));
+    $title = 'owner_' . $uw_label . '_aid_' . $nw->author->getIdentifier() . '_uid_' . $uw->getIdentifier()  . '_nid_' . $nw->getIdentifier();
+    $aw = entity_create('feedback', array('type' => 'feedback'));
+    $aw->title = $title;
+    $aw->created = strtotime('now');
+    $aw->field_rating[LANGUAGE_NONE][0]['value'] = 0;
+    $aw->field_feedb_nid[LANGUAGE_NONE][0]['nid'] = $nw->getIdentifier();
+    $aw->field_feedb_user[LANGUAGE_NONE][0]['uid'] = $nw->author->getIdentifier();
+    $aw->field_feedb_give[LANGUAGE_NONE][0]['uid'] = $uw->getIdentifier();
+    $aw->field_client_selected[LANGUAGE_NONE][0]['value'] = 0;
+    $aw->field_feedb_type[LANGUAGE_NONE][0]['value'] = 'owner';
+    $aw->save();
   }
   else {
     $ew = entity_metadata_wrapper('feedback', $form_state['requested']);
+    $aw = entity_metadata_wrapper('feedback', $form_state['aid']);
   }
 
   if(sizeof($nw->field_hb_users_eck->value()) > 0){
@@ -108,6 +129,7 @@ function models_forms_request_form_submit($form, &$form_state){
         $flag = 1;
 
         entity_delete('feedback', $ew->getIdentifier());
+        entity_delete('feedback', $aw->getIdentifier());
         break;
       }
     }

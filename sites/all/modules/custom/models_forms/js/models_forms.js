@@ -53,11 +53,14 @@
         hbmf.formSelectHairType();
         hbmf.formSelectBeautyType();
         hbmf.formExtraInfo();
+        hbmf.clickScrolls();
+        hbmf.formAddressInfo();
+
         $('#edit-location-country').attr('disabled', 'disabled');
         // $("#edit-location-administrative-area, #edit-location-country").chosen();
 
         if (!$('.has-error').length) {
-          $('#hbf-field_hb_ht, #hbf-field_hb_bt, .hide-hair, .hide-beauty, #step-extra, #step-extra-btn').hide();
+          $('#hbf-field_hb_ht, #hbf-field_hb_bt, .hide-hair, .hide-beauty, #step-address-continue, #after-location, #step-extra, #step-extra-btn').hide();
         } else {
           $('.hide-hair, .hide-beauty').hide();
           var jobType = $('#edit-hbf-field-hb-type option:selected').val();
@@ -226,13 +229,40 @@
       });
     },
 
+    clickScrolls : function(){
+      $('#edit-title').on('click', function(){
+        var top = $('#edit-wrapper').offset().top;
+        $('html, body').animate({ scrollTop: top }, 500);
+      });
+
+      $('.hbm-choose-type .choice-box .choice-type').on('click', function(){
+        var top = $('#block-system-main').offset().top;
+        $('html, body').animate({ scrollTop: top - 20 }, 500);
+      });
+    },
+
     formExtraInfo : function(){
       $('#step-extra-btn').on('click', function(){
         hbmf.nanobar.go(100);
         setTimeout(function(){
           $('#step-extra').slideDown();
-        }, 500);
+          var top = $('#step-extra-btn').offset().top;
+          $('html, body').animate({ scrollTop: top }, 400);
+        }, 200);
       });
+    },
+
+    formAddressInfo : function(){
+      setInterval(function() {
+        if ($('input#edit-location-thoroughfare').val() != '') {
+          $('#after-location').fadeIn();
+          console.log('yee');
+        }
+        else {
+          $('#after-location').fadeOut();
+          console.log('noo');
+        }
+      }, 100);
     },
 
     formSubmit : function(){

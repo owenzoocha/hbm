@@ -444,3 +444,36 @@ function tweaks_views_query_alter(&$view, &$query) {
     }
   }
 }
+
+/**
+ * Implements hook_mail_alter();
+ * Provide custom branded html emails.
+ */
+function tweaks_mail_alter(&$message) {
+  // $headers = array(
+  //   'MIME-Version' => '1.0',
+  //   'Content-Type' => 'text/html; charset=UTF-8; format=flowed',
+  //   'Content-Transfer-Encoding' => '8Bit',
+  //   'X-Mailer' => 'Drupal',
+  // );
+  // foreach ($headers as $key => $value) {
+  //   $message['headers'][$key] = $value;
+  // }
+  // $message['headers']['Bcc'] = 'owenwilliams1@gmail.com';
+  // dpm($message, 'after3');
+}
+
+function tweaks_preprocess_htmlmail(&$variables) {
+  dpm($variables);
+
+  switch($variables['key']){
+    case 'rules_action_mail_rules_send_mail_test_2':
+      if (strpos($variables['body'], '<hbm>') !== FALSE) {
+        $body = explode('<hbm>', $variables['body']);
+        dpm($body);
+        $variables['body'] = $body[0];
+      }
+     break;
+    break;
+   }
+ }

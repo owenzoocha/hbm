@@ -8,6 +8,7 @@ require_once 'models_forms.publish.inc';
 require_once 'models_forms.contactus.inc';
 require_once 'models_forms.canceljob.inc';
 require_once 'models_forms.pausejob.inc';
+require_once 'models_forms.confirm_clients.inc';
 
 
 /**

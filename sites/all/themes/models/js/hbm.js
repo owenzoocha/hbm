@@ -17,6 +17,7 @@
       hbm.hbmMenu();
       hbm.watchlist();
       hbm.reorder();
+      hbm.selectClient();
 
       $('table').addClass('table-bordered');
       $('.page-messages .btn-xs').removeClass('btn-xs');
@@ -97,6 +98,53 @@
       //     });
       //   });
       // }
+    },
+
+    selectClient : function(){
+      if ($('.page-job-clients').length) {
+        $('.page-job-clients .option a').on('click', function(){
+          if ($(this).closest('.views-row').find('.views-field-nothing-2 a').data('feedback') != 1) {
+            if ($(this).closest('.views-row').hasClass('active')) {
+              $(this).closest('.views-row').removeClass('active');
+              $(this).html('Client Select');
+            } else {
+              $(this).closest('.views-row').addClass('active');
+              $(this).html('<i class="fa fa-times"></i> Selected');
+            }
+            hbm.confirmClient();
+          }
+          return false;
+        });
+      }
+      if ($('.page-job-clients .views-field-nothing-2 a[data-selected="1"]').length) {
+        $.each($('.page-job-clients .views-field-nothing-2 a[data-selected="1"]'), function(i, v) {
+          $(this).closest('.views-row').addClass('active');
+          if ($(this).closest('.views-row').find('.views-field-nothing-2 a').data('feedback') != 1) {
+            $(this).closest('.views-row').find('.option a').html('<i class="fa fa-times"></i> Selected');
+          } else {
+            $(this).closest('.views-row').find('.option a').html('<i class="fa fa-check"></i> Feedback Given');
+          }
+        });
+        hbm.confirmClient();
+      }
+    },
+
+    confirmClient : function(){
+      if ($('.page-job-clients .views-row.active').length) {
+        $('#selected-clients, #selected-clients-popup').html('');
+        $('#clients_hidden').val('');
+        $('#block-block-6 button').attr('disabled', false);
+        var eids = '';
+        $.each($('.page-job-clients .views-row.active'), function(i, v) {
+          $('#selected-clients, #selected-clients-popup').append('<li>' + $(this).find('.views-field-name .field-content').html() + '</li>')
+          eids += $(this).find('.views-field-nothing-2 a').data('eid') + ',';
+        });
+        $('#clients_hidden').val(eids);
+      } else {
+        $('#block-block-6 button').attr('disabled', true);
+        $('#selected-clients, #selected-clients-popup').html('');
+        $('#clients_hidden').val('');
+      }
     },
 
     skrollr : function(){

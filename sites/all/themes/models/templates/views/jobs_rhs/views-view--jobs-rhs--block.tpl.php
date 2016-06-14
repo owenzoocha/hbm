@@ -53,8 +53,8 @@
   <?php if ($rows): ?>
     <div class="view-content">
       <?php print $rows; ?>
-      <?php if (isset($feedback_button)): print $feedback_button; endif; ?>
       <?php if (isset($job_button)): print $job_button; endif; ?>
+      <?php if (isset($feedback_button)): print $feedback_button; endif; ?>
       <?php if (isset($job_publish_button)): print $job_publish_button; endif; ?>
     </div>
   <?php elseif ($empty): ?>

@@ -47,7 +47,7 @@
 </header>
 
 <div id="hb-header" class="container-fluid <?php if (empty($my_nav)): print 'no-my-nav '; endif; ?><?php print $title_search_class; ?>">
-  <div id="page-header-bg" data-0="transform: translateY(0px);" data-300="transform: translateY(-110px);"></div>
+  <div id="page-header-bg" data-0="transform: translateY(-100px);" data-300="transform: translateY(0);"></div>
 
   <div class="container">
     <div class="<?php if (!empty($hb_header_class)): print $hb_header_class; endif;?>">
@@ -125,6 +125,7 @@
         <?php print render($page['search_top']); ?>
       <?php endif; ?>
       <?php print render($page['content']); ?>
+      <?php  if (isset($client_request_confirm_form)) : print $client_request_confirm_form; endif; ?>
     </section>
 
   </div>

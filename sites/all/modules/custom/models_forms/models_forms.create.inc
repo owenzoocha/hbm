@@ -505,6 +505,14 @@ function models_forms_create_form($form, &$form_state) {
     '#available_countries' => array('AU'),
   );
 
+  $form['wrapper']['step2_end'] = array('#markup' => '</div>');
+
+  $form['wrapper']['step3_start'] = array('#markup' => '<div id="after-location">');
+
+  // $form['wrapper']['step3_start_btn'] = array(
+  //   '#markup' => '<div id="step-address-continue" class="text-center"><btn class="btn btn-sm btn-success">Continue</button></div>',
+  // );
+
   $form['wrapper']['heading3'] = array(
     '#markup' => '<h2><span>3.</span> Cost and Dates</h2>',
   );
@@ -622,7 +630,7 @@ function models_forms_create_form($form, &$form_state) {
     '#suffix' => '</div>',
   );
 
-  $form['wrapper']['step2_end'] = array('#markup' => '</div>');
+  $form['wrapper']['step3_end'] = array('#markup' => '</div>');
   return $form;
 }
 

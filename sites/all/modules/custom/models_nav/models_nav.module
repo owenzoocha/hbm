@@ -140,15 +140,19 @@ function template_preprocess_my_nav(&$vars) {
     $nav .= '<li>' . l(t('View'), 'node/' . arg(1), array('attributes' => array('class' => array('')))) . '</li>';
     $nav .= '<li>' . l(t('Edit'), 'job/' . arg(1) . '/edit', array('attributes' => array('class' => array('')))) . '</li>';
     $nav .= '<li>' . l(t('Photos'), 'job/' . arg(1) . '/photos', array('attributes' => array('class' => array('')))) . '</li>';
+
+    $request_text = $nw->field_hb_assigned->value() ? t('Manage Clients') : t('Client Requests') . ' ' . $reqs;
+    $nav .= '<li>' . l($request_text, 'job/' . arg(1) . '/clients', array('attributes' => array('class' => array('')))) . '</li>';
+
     if ($nw->field_hb_assigned->value()) {
+      $fbk_size = $nw->field_hb_client_size->value() ? '(' . $nw->field_hb_client_size->value() . ')' : FALSE;
+
       if ($nw->field_hb_feedback_complete->value()) {
         $reqs = t('(complete)');
       }
-      $nav .= '<li>' . l(t('Feedback') . ' ' . $reqs, 'job/' . arg(1) . '/feedback', array('html' => TRUE,  'attributes' => array('class' => array('')))) . '</li>';
+      $nav .= '<li>' . l(t('Feedback') . ' ' . $fbk_size, 'job/' . arg(1) . '/feedback', array('html' => TRUE,  'attributes' => array('class' => array('')))) . '</li>';
     }
-    else {
-      $nav .= '<li>' . l(t('Client Requests') . ' ' . $reqs, 'job/' . arg(1) . '/requests', array('attributes' => array('class' => array('')))) . '</li>';
-    }
+
     $nav .= '</ul>';
     $vars['my_nav'] = $nav;
 
