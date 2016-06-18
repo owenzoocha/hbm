@@ -34,6 +34,14 @@ function geocoder_admin_settings($form, &$form_state) {
     '#required' => FALSE,
   );
 
+  $form['geocoder_apikey_mapzen'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Mapzen Search API Key'),
+    '#description' => t('You can obtain a Mapzen Search API Key at ') . 'https://mapzen.com/developers',
+    '#default_value' => empty($geocoder_settings['geocoder_apikey_mapzen']) ? '' : $geocoder_settings['geocoder_apikey_mapzen'],
+    '#required' => FALSE,
+  );
+
   $form['geocoder_google_auth_method'] = array(
     '#type'          => 'select',
     '#title'         => t('Google API Authorization Method'),
@@ -110,6 +118,13 @@ function geocoder_admin_settings($form, &$form_state) {
     '#description' => t('Geocoder caches all queries by default. Do you want that to include the ones with no results? If not, it will be checked every time, probably with the same no-result.'),
   );
 
+  $form['geocoder_log_empty_results'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Log empty results'),
+    '#default_value' => variable_get('geocoder_log_empty_results', FALSE),
+    '#description' => t('Whether to generate a watchdog log when geocoding returns no results.'),
+  );
+
   $form['#submit'][] = 'geocoder_admin_settings_submit';
   return system_settings_form($form);
 }
@@ -125,6 +140,7 @@ function geocoder_admin_settings_submit($form, &$form_state) {
   $geocoder_settings['geocoder_apikey_yahoo'] = trim($form_state['values']['geocoder_apikey_yahoo']);
   $geocoder_settings['geocoder_apikey_yandex'] = trim($form_state['values']['geocoder_apikey_yandex']);
   $geocoder_settings['geocoder_apikey_bing'] = trim($form_state['values']['geocoder_apikey_bing']);
+  $geocoder_settings['geocoder_apikey_mapzen'] = trim($form_state['values']['geocoder_apikey_mapzen']);
   $geocoder_settings['geocoder_apikey_google'] = trim($form_state['values']['geocoder_apikey_google']);
   variable_set("geocoder_settings", $geocoder_settings);
 }

@@ -334,27 +334,22 @@ function geocoder_widget_get_field_value($entity_type, $field_instance, $entity 
           // Geocode any value from our source field.
           try {
             $geometry = call_user_func($handler['field_callback'], $field_info, $item, $handler_settings);
+
+            // Save result persistently.
+            geocoder_cache_set($geometry, $handler['name'], $item, $handler_settings);
           }
-          // No-results or errors throw exceptions, which affects 1 field item, not all.
+          // Exception affects just this one field item.
           catch (Exception $e) {
-            $geometry = FALSE;
-
-            $uri_info = entity_uri($entity_type, $entity);
-            list($id, , $bundle) = entity_extract_ids($entity_type, $entity);
-            $label = t('View offending @entity_type (@bundle # @id)', array(
-              '@entity_type' => $entity_type,
-              '@bundle' => $bundle,
-              '@id' => $id,
-            ));
-            watchdog_exception('geocoder', $e, NULL, array(), WATCHDOG_WARNING, l($label, $uri_info['path'], $uri_info));
+            watchdog_exception('geocoder', $e, NULL, array(), WATCHDOG_ERROR, geocoder_widget_get_link($entity_type, $entity));
+            continue;
           }
-
-          // Save result persistently.
-          geocoder_cache_set($geometry, $handler['name'], $item, $handler_settings);
         }
 
         if ($geometry instanceof Geometry) {
           $geometries[] = $geometry;
+        }
+        elseif (variable_get('geocoder_log_empty_results', FALSE)) {
+          watchdog('geocoder', 'No results for geocoding', NULL, WATCHDOG_NOTICE, geocoder_widget_get_link($entity_type, $entity));
         }
       }
 
@@ -529,4 +524,18 @@ function geocoder_widget_parse_locationfield($field_item) {
   $address = rtrim($address, ', ');
 
   return $address;
+}
+
+/**
+ * Geocoder Widget utility function to build a link for an entity, ready for use in watchdog().
+ */
+function geocoder_widget_get_link($entity_type, $entity) {
+  $uri_info = entity_uri($entity_type, $entity);
+  list($id, , $bundle) = entity_extract_ids($entity_type, $entity);
+  $label = t('View offending @entity_type (@bundle # @id)', array(
+    '@entity_type' => $entity_type,
+    '@bundle' => $bundle,
+    '@id' => $id,
+  ));
+  return l($label, $uri_info['path'], $uri_info);
 }

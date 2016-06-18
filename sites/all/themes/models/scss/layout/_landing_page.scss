@@ -1,0 +1,328 @@
+.front {
+  #navbar {
+    background: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    .logo {
+      img {
+        width: 105px;
+        margin: 10px 0 0 10px;
+      }
+    }
+  }
+}
+
+#main {
+  height: 100%;
+
+  #hero {
+    background-color: $hb-dark;
+    background: url("../images/hero-img1.png") center 0 no-repeat;
+    background-size: cover;
+    height: 600px;
+    .hero-content {
+      padding-top: 160px;
+      .hero {
+        text-align: center;
+        h1,
+        h2,
+        p {
+          color: #f8f8f8;
+          border-bottom: none;
+          font-weight: normal;
+          text-shadow: 2px 1px 1px $hb-dark;
+        }
+
+        h1 {
+          font-size: 55px;
+          margin-bottom: 15px;
+        }
+
+        h2 {
+          font-size: 18px;
+          letter-spacing: 0.5px;
+          line-height: 25px;
+        }
+
+        p {
+          letter-spacing: 0.5px;
+        }
+
+        #block-webform-client-block-166 {
+          text-align: left;
+          .email {
+            border: none;
+            border-bottom: 2px solid $light-grey;
+            padding: 12px;
+            font-size: 18px;
+            outline: none!important;
+            background: rgba(22, 39, 54, 0.36);
+            font-weight: 300;
+            &:focus {
+              outline: none!important;
+            }
+          }
+          button.btn {
+            // background: none;
+            border: none;
+            border-bottom: 2px solid $light-grey;
+            text-transform: uppercase;
+            padding: 15px;
+            transition: 0.3s all ease;
+            background: rgba(22, 39, 54, 0.36);
+
+            &:hover {
+              background: darken($hb-dark, 3%);
+            }
+          }
+        }
+      }
+      .left {
+        width: 615px;
+        margin: 0 auto;
+      }
+    }
+  }
+
+  #what-is-it {
+    text-align: center;
+    .what-block {
+      // @include blocks();
+      margin: 15px 0;
+      // height: 370px;
+    }
+  }
+}
+
+
+/**
+ * RESPONSIVE stuffs
+ */
+@media (min-width: $screen-lg-desktop){
+  body {
+    color: red!important;
+  }
+}
+
+
+// Screen Desktop and UP UP UP!
+@media (min-width: $screen-tablet) {
+  .search-surround {
+    float: left;
+  }
+
+  .my-nav {
+    .container {
+      .last {
+        display: none;
+      }
+    }
+  }
+
+  .front {
+    #navbar {
+      .navbar-nav {
+        a {
+          .nav-btn {
+            padding: 5px 10px;
+            border-radius: 2px;
+            border: 2px solid $light-grey;
+            &:hover {
+              background: darken($hb-dark, 3%);
+            }
+          }
+          &:hover {
+            background: none;
+          }
+          &:focus {
+            color: $hb-blue;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Hack for the main nav...
+@media (min-width: 767px) and (max-width: 930px){
+  #navbar {
+    .navbar-nav > li > a {
+      padding: 0 10px!important;
+    }
+
+    .search-surround #models-forms-search-form #edit-search {
+      width: 110px!important;
+    }
+  }
+}
+
+// Screen Desktop and BELOW!!
+@media (max-width: $screen-desktop){
+  body {
+    color: blue!important;
+  }
+
+  #navbar {
+    .navbar-nav > li > a {
+      padding: 0 15px;
+    }
+
+    .search-surround #models-forms-search-form #edit-search {
+      width: 200px!important;
+    }
+  }
+
+  .my-nav {
+    .container {
+      .last {
+        display: inline;
+      }
+      .nav-2 {
+        display: none;
+      }
+      nav {
+        // width: 1000px;
+      }
+      white-space: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
+  }
+
+}
+
+@media (max-width: $screen-tablet){
+  body {
+    color: yellow!important;
+  }
+
+  #navbar {
+    .container,
+    .container-fluid {
+      > .navbar-header,
+      > .navbar-collapse {
+        margin-right: 0;
+        margin-left:  0;
+      }
+
+      .navbar-collapse {
+        position: absolute;
+        width: 100%;
+        .my-menu-dd, .a-dd .fa {
+          display: none!important;
+        }
+      }
+
+      .search-surround {
+       @include clearfix;
+        background-color: rgba(0, 0, 0, 0.64);
+        &:hover,
+        &:focus,
+        &.search-surround-focus {
+          background-color: rgba(0, 0, 0, 0.85);
+        }
+
+        .hbm-search-icon, #models-forms-search-form #edit-search {
+          color: $light-grey;
+        }
+      }
+    }
+
+    .navbar-nav {
+      float: none!important;
+      margin: 0;
+      li {
+        a {
+          background-color: rgba(0, 0, 0, 0.64);
+          &:hover,
+          &:focus {
+            background-color: rgba(0, 0, 0, 0.85);
+          }
+        }
+      }
+    }
+  }
+
+  #main {
+    #hero {
+      .hero-content {
+        .left {
+          width: 460px;
+        }
+        .hero {
+          h1 {
+            font-size: 45px;
+          }
+        }
+      }
+    }
+  }
+
+  // .my-nav {
+  //   .container {
+  //     .last {
+  //       display: block;
+  //     }
+  //     background-color: #ccc;
+  //     // width: 100%;
+  //     overflow-x: scroll;
+  //   }
+  // }
+
+}
+
+@media (min-width: 360px){
+  #navbar-top-top {
+    display: block;
+  }
+}
+
+@media (max-width: 360px){
+  #navbar-top-top {
+    // display: none;
+    white-space: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    overflow: scroll;
+    .social-icons-nav.pull-right {
+      float: none!important;
+    }
+  }
+}
+
+@media (max-width: $screen-phone){
+  body {
+    color: green!important;
+  }
+
+  #main {
+    #hero {
+      .hero-content {
+        padding-top: 100px;
+        .left {
+          width: 300px;
+        }
+        .hero {
+          h1 {
+            font-size: 35px;
+          }
+        }
+      }
+    }
+  }
+
+  #block-webform-client-block-132,
+  #block-webform-client-block-166 {
+    width: auto;
+    .webform-component-email {
+      width: 74%
+    }
+  }
+}
+
+

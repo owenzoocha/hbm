@@ -29,8 +29,7 @@ function geocoder_yahoo($address, $options = array()) {
     $consumer_key = $geocoder_settings["geocoder_apikey_yahoo"];
   }
   else {
-    drupal_set_message(t('You must set up your Yahoo API key. Click !config', array('!config' => l(t('here'), $base_path .'admin/config/content/geocoder'))),'error');
-    return;
+    throw new Exception(t('You must set up your Yahoo API key. Click !config', array('!config' => l(t('here'), $base_path .'admin/config/content/geocoder'))));
   }
 
   $request = drupal_http_request("http://where.yahooapis.com/geocode?location=" . urlencode($address) . "&flags=J&appid={$consumer_key}");

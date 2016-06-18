@@ -18,6 +18,7 @@
       hbm.watchlist();
       hbm.reorder();
       hbm.selectClient();
+      hbm.expandFilters();
 
       $('table').addClass('table-bordered');
       $('.page-messages .btn-xs').removeClass('btn-xs');
@@ -100,6 +101,11 @@
       // }
     },
 
+    expandFilters : function(){
+      $('#block-block-7 button').on('click', function(){
+        $('body').toggleClass('show-filters');
+      });
+    },
     selectClient : function(){
       if ($('.page-job-clients').length) {
         $('.page-job-clients .option a').on('click', function(){
@@ -234,36 +240,37 @@
 
     scrollAnimations : function() {
       // init controller
-      var controller = new ScrollMagic.Controller();
-
-      var topH = $('#navbar').offset().top;
-      // Build scenes.
-      new ScrollMagic.Scene({offset: topH})
-      // new ScrollMagic.Scene({triggerElement: "#navbar-top-top", offset: 50})
-        // .on('leave', function(){
-        //   console.log('left!');
-        // })
-        .setClassToggle("body", "nav-animate") // add class toggle
-        .setPin(".col-sm-3")
-        .addIndicators() // add indicators (requires plugin)
-        .addTo(controller);
-
+      if (!$('body.front').length) {
+        var controller = new ScrollMagic.Controller();
+        var topH = $('#navbar').offset().top;
+        // Build scenes.
+        new ScrollMagic.Scene({offset: topH})
+        // new ScrollMagic.Scene({triggerElement: "#navbar-top-top", offset: 50})
+          // .on('leave', function(){
+          //   console.log('left!');
+          // })
+          .setClassToggle("body", "nav-animate") // add class toggle
+          // .setPin(".col-sm-3")
+          .addIndicators() // add indicators (requires plugin)
+          .addTo(controller);
+      }
     },
 
     scrollAnimationsMenu : function() {
       // init controller
-      var controller = new ScrollMagic.Controller();
-
-      var topH = $('#navbar').offset().top;
-      // Build scenes.
-      new ScrollMagic.Scene({offset: topH})
-      // new ScrollMagic.Scene({triggerElement: "#navbar-top-top", offset: 50})
-        // .on('leave', function(){
-        //   console.log('left!');
-        // })
-        .setClassToggle("body", "nav-animate") // add class toggle
-        .addIndicators() // add indicators (requires plugin)
-        .addTo(controller);
+      if (!$('body.front').length) {
+        var controller = new ScrollMagic.Controller();
+        var topH = $('#navbar').offset().top;
+        // Build scenes.
+        new ScrollMagic.Scene({offset: topH})
+        // new ScrollMagic.Scene({triggerElement: "#navbar-top-top", offset: 50})
+          // .on('leave', function(){
+          //   console.log('left!');
+          // })
+          .setClassToggle("body", "nav-animate") // add class toggle
+          .addIndicators() // add indicators (requires plugin)
+          .addTo(controller);
+      }
     },
 
     loginFormHacks : function() {

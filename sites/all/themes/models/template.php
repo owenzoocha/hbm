@@ -313,6 +313,13 @@ function models_preprocess_page(&$variables) {
   global $user;
   $uw = entity_metadata_wrapper('user', $user);
 
+  $variables['home_nav'] = $user->uid == 0 ? theme('home_nav') : FALSE;
+
+  if (drupal_is_front_page()) {
+    $variables['logo'] = drupal_get_path('theme', 'models') . '/' . 'white-logo.png';
+    dpm($variables);
+  }
+
   // $msg_count = privatemsg_unread_count($uw->value());
   // dpm( $msg_count );
 
@@ -329,6 +336,7 @@ function models_preprocess_page(&$variables) {
   }
 
   if (strrpos(current_path(), 'search') !== FALSE) {
+    $variables['no_footer'] = TRUE;
     unset($variables['tabs']);
   }
 
@@ -446,6 +454,7 @@ function models_preprocess_page(&$variables) {
       }
       else {
         $variables['my_nav'] = FALSE;
+        $variables['show_bg'] = TRUE;
       }
 
       $variables['hb_header_class'] = 'header-title pull-left';

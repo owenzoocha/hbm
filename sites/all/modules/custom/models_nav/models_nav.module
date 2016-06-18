@@ -85,6 +85,9 @@ function models_nav_theme() {
     'custom_nav' => array(
       'template' => 'templates/custom-nav',
     ),
+    'home_nav' => array(
+      'template' => 'templates/home-nav',
+    ),
   );
 }
 
@@ -196,6 +199,7 @@ function template_preprocess_my_nav(&$vars) {
       $nav .= '<li>' . l(t('Job Requests') . $my_requests_count, 'job-requests', array('attributes' => array('class' => array('')))) . '</li>';
       $nav .= '<li>' . l(t('Watchlist'), 'watchlist', array('attributes' => array('class' => array('')))) . '</li>';
       $nav .= '<li>' . l(t('Previous Jobs'), 'previous-jobs', array('attributes' => array('class' => array('')))) . '</li>';
+      $nav .= '<li class="last">' . l(t('Logout'), 'user/logout', array('attributes' => array('class' => array('')))) . '</li>';
       $nav .= '</ul>';
       $vars['my_nav'] = $nav;
 
@@ -224,7 +228,7 @@ function template_preprocess_my_nav(&$vars) {
 function template_preprocess_social_nav(&$vars) {
   global $user;
   $info = array();
-  $info[] = l(t('TCs'), 'terms-and-condtions');
+  $info[] = l(t('TCs'), 'terms');
   $info[] = l(t('Contact'), 'contact');
   $info[] = l(t('About'), 'about');
   // $info[] = l(t('Sign Up / Sign In'), 'user/login');
@@ -236,7 +240,7 @@ function template_preprocess_social_nav(&$vars) {
   $login[] = l('<span class="fa fa-instagram"></span> <span class="sr-only">' . t('Instagram') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
   $login[] = l('<span class="fa fa-pinterest"></span> <span class="sr-only">' . t('Pinterest') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
   $login[] = l('<span class="fa fa-google"></span> <span class="sr-only">' . t('Google') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
-  $login[] = $user->uid == 0 ? l(t('Sign Up / Sign In'), 'user/login') : FALSE;
+  // $login[] = $user->uid == 0 ? l(t('Sign Up / Sign In'), 'user/login') : FALSE;
 
   $links = '<ul class="social-icons-nav pull-right">';
   foreach ($login as $key => $value) {
@@ -252,6 +256,19 @@ function template_preprocess_social_nav(&$vars) {
 
   $vars['links_right'] = '<nav role="navigation">' . $links . '</nav>';
   $vars['links_left'] = '<nav role="navigation">' . $links_left . '</nav>';
+}
+
+/**
+ * Template preprocess for Custom Nav.
+ */
+function template_preprocess_home_nav(&$vars) {
+  global $user;
+  $uw = entity_metadata_wrapper('user', $user);
+  $links  = '<li class="first leaf">' . l('Beauty', 'search/type/beauty'). '</li>';
+  $links .= '<li class="leaf">' . l('Hair', 'search/type/hair') . '</li>';
+  $links .= '<li class="leaf">' . l('Last Minute', 'search/type/personal') . '</li>';
+  $links .= '<li class="leaf">' . l('<span class="nav-btn">Sign Up / Sign In<span>', 'user/login', array('html' => TRUE)) . '</li>';
+  $vars['links'] = $links;
 }
 
 /**

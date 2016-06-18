@@ -12,7 +12,7 @@
         <a class="name navbar-brand" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>"><?php print $site_name; ?></a>
       <?php endif; ?>
 
-      <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($page['navigation'])): ?>
+      <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($home_nav) || !empty($page['navigation'])): ?>
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="sr-only"><?php print t('Toggle navigation'); ?></span>
           <span class="icon-bar"></span>
@@ -22,7 +22,7 @@
       <?php endif; ?>
     </div>
 
-    <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($page['navigation'])): ?>
+    <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($home_nav) || !empty($page['navigation'])): ?>
       <div class="navbar-collapse collapse">
         <nav role="navigation">
           <?php if (!empty($primary_nav)): ?>
@@ -37,6 +37,9 @@
           <?php if (!empty($custom_nav)): ?>
             <?php print $custom_nav; ?>
           <?php endif; ?>
+          <?php if (!empty($home_nav)): ?>
+            <?php print $home_nav; ?>
+          <?php endif; ?>
           <?php if (!empty($page['navigation'])): ?>
             <?php print render($page['navigation']); ?>
           <?php endif; ?>
@@ -46,8 +49,11 @@
   </div>
 </header>
 
-<div id="hb-header" class="container-fluid <?php if (empty($my_nav)): print 'no-my-nav '; endif; ?><?php print $title_search_class; ?>">
+<div id="hb-header" class="container-fluid <?php if (empty($my_nav) && !isset($show_bg)): print 'no-my-nav '; endif; ?><?php print $title_search_class; ?>">
+
+  <?php if (!empty($my_nav) || isset($show_bg)): ?>
   <div id="page-header-bg" data-0="transform: translateY(-100px);" data-300="transform: translateY(0);"></div>
+  <?php endif; ?>
 
   <div class="container">
     <div class="<?php if (!empty($hb_header_class)): print $hb_header_class; endif;?>">
@@ -71,7 +77,6 @@
     <a id="main-content"></a>
   </div>
 </div>
-<!-- <div data-0="background-color:rgb(0,0,255);transform[bounce]:rotate(0deg);" data-top="background-color:rgb(255,0,0);transform[bounce]:rotate(360deg);">WOOOT</div> -->
 
 <?php if (!empty($my_nav)): ?>
 <div class="my-nav">
@@ -127,15 +132,18 @@
       <?php print render($page['content']); ?>
       <?php  if (isset($client_request_confirm_form)) : print $client_request_confirm_form; endif; ?>
     </section>
-
   </div>
 </div>
 
 <?php if (!empty($page['footer'])): ?>
-  <footer class="footer container-fluid">
-    <?php print render($page['footer']); ?>
-  </footer>
-  <footer class="footer-cr container-fluid">
-    <span class="cr"><?php print '&copy; ' . t(':date hairandbeautymodels.com all rights reserved.', array(':date' => date('Y', strtotime('now')))); ?></span>
-  </footer>
+  <div class="footer-surround">
+    <?php if (!isset($no_footer)): ?>
+      <footer class="footer container-fluid">
+        <?php print render($page['footer']); ?>
+      </footer>
+    <?php endif; ?>
+    <footer class="footer-cr container-fluid">
+      <span class="cr"><?php print '&copy; ' . t(':date hairandbeautymodels.com all rights reserved.', array(':date' => date('Y', strtotime('now')))); ?></span>
+    </footer>
+  </div>
 <?php endif; ?>

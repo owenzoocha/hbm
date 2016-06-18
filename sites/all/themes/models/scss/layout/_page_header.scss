@@ -20,6 +20,8 @@
 
   &.no-my-nav {
     margin-bottom: 15px;
+    text-shadow: none;
+    color: #777;
   }
 
   .page-header {
@@ -101,3 +103,58 @@
     background-size: cover;
   }
 // }
+
+
+// Screen Desktop and UP UP UP!
+@media (max-width: $screen-desktop) {
+  #hb-header {
+    .header-title {
+      h1 {
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+// Screen Desktop and UP UP UP!
+@media (max-width: $screen-tablet) {
+  #hb-header {
+    .header-title {
+      width: 300px;
+    }
+    .header-author-pic {
+      .my-image {
+        width: 60px;
+      }
+    }
+  }
+}
+
+// Screen Desktop and UP UP UP!
+@media (max-width: 540px) {
+  #hb-header {
+    .header-title {
+      width: 200px;
+    }
+    #page-header-bg {
+      height: 580px;
+    }
+    .header-author-pic {
+      .my-image {
+        width: 60px;
+      }
+      .hb-feedback-score {
+        width: 100px;
+      }
+    }
+  }
+}
+
+// Screen Desktop and UP UP UP!
+@media (max-width: 360px) {
+  #hb-header {
+    .header-title {
+      width: 180px;
+    }
+  }
+}

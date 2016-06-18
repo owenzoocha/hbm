@@ -79,14 +79,14 @@ function location_taxonomize_initialize($form, $form_state) {
       taxonomy_vocabulary_save((object) array(
         'name' => t('Location'),
         'machine_name' => LT_VOCAB_NAME,
-        'description' => t('This vocabulary is synchronized with Location data automatically by the @name module', 
+        'description' => t('This vocabulary is synchronized with Location data automatically by the @name module',
                          array('@name' => LT_MODULE_NAME)),
       ));
       // save the vid of the newly created vocabulary
       $vocab = taxonomy_vocabulary_machine_name_load(LT_VOCAB_NAME);
       $vid = $vocab->vid;
       variable_set('location_taxonomize_vid', $vid);
-      $msg = t('Successfully created the Location taxonomy (vid @vid)', 
+      $msg = t('Successfully created the Location taxonomy (vid @vid)',
               array('@vid' => $vid));
       break;
     case 'existing':
@@ -170,7 +170,7 @@ function location_taxonomize_taxonomize_bulk($items) {
 }
 
 /**
- * Determines if a location needs to be taxonomized. 
+ * Determines if a location needs to be taxonomized.
  * If so, it saves the appropriate terms
  * Returns an array containing two items: the first is the number of new terms
  * saved, and the second is an array of all the terms that correspond to this
@@ -385,12 +385,12 @@ function _location_taxonomize_create_term_name($hlevel_name, &$location, &$setti
   * Attaches the given tids to the node form given in form_state if they need to
   * be attached
   * Note that all it does is remove the old numbers and add the new ones. It's
-  * faster than checking which ones are missing and adding. Also ensures that 
+  * faster than checking which ones are missing and adding. Also ensures that
   * only the terms that are relevant are getting saved.
   */
 function location_taxonomize_term_attach($tids, $form, &$form_state) {
   $lang = 'und';
-  
+
   // check that the field exists and is set up correctly
   $field = location_taxonomize_term_attach_check_field($form);
   if ($field == FALSE) {
@@ -400,10 +400,10 @@ function location_taxonomize_term_attach($tids, $form, &$form_state) {
 
   // empty the currently set values
   $form_state['values'][$field][$lang] = array();
-  
+
   // Reverse the order to assign the lowest term in the hierarchy first
   $tids = array_reverse($tids);
-  
+
   // add the values
   $tids = array_unique($tids);
   foreach ($tids as $tid) {
@@ -416,10 +416,10 @@ function location_taxonomize_term_attach_bulk($tids, $nid) {
   // load the node
   $node = node_load($nid);
   if (!isset($node->field_location_taxonomize_terms)) return;
-  
+
   // Reverse the order to assign the lowest term in the hierarchy first
   $tids = array_reverse($tids);
-  
+
   $tids = array_unique($tids);
   $save = array();
   foreach ($tids as $tid) {

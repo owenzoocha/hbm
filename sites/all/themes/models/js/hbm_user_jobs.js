@@ -22,7 +22,6 @@
 
         // bind event.
         $grid.masonry( 'on', 'layoutComplete', function() {
-          console.log('done');
           $('.region-content .loader').remove();
         });
 

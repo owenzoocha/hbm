@@ -149,6 +149,10 @@ function tweaks_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'webform_client_form_132') {
     $form['submitted']['e_mail']['#attributes']['placeholder'] = t('Subscribe to HBM Newsletter');
   }
+  if ($form_id == 'webform_client_form_166') {
+    $form['submitted']['email_address']['#attributes']['placeholder'] = t('Keep up to date with HBM');
+    $form['actions']['submit']['#attributes']['class'][1] = 'btn-danger';
+  }
   if ($form_id == 'user_profile_form') {
     if (strrpos(current_path(), 'personal-information/settings') !== FALSE) {
       $form['#submit'][] = 'models_forms_update_address';

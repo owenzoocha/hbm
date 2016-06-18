@@ -34,7 +34,15 @@
     .form-submit {
       display: none;
     }
+  }
 
+  &.search-surround-focus {
+    background-color: rgba(255, 255, 255, 0.50);
+  }
+}
+
+@media (min-width: $screen-tablet){
+  .search-surround {
     input::-webkit-input-placeholder { /* WebKit browsers */
       color: darken($hb-blue, 20%)
     }
@@ -47,9 +55,5 @@
     input:-ms-input-placeholder { /* Internet Explorer 10+ */
       color: darken($hb-blue, 20%)
     }
-  }
-
-  &.search-surround-focus {
-    background-color: rgba(255, 255, 255, 0.50);
   }
 }

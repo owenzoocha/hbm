@@ -6,7 +6,7 @@
   <?php print $active_menu; ?>
 </div>
 <?php endif; ?>
-<div class="search-surround pull-left">
+<div class="search-surround">
   <div class="hbm-search-icon pull-left">
     <span><i class="fa fa-search"></i></span>
   </div>

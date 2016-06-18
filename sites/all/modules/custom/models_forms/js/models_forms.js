@@ -106,6 +106,15 @@
       }
       if (type == 'personal') {
         var s = edit ? 'Edit your personal job below - time remaining: 1.30h.' : 'Let\'s get started! You are posting about a personal job, fill in the form below to become a last minute model..';
+
+        // // Labels..
+        // 'Hair treatments I will model..'
+        // 'Beauty treatments I will model..'
+        // 'Give us some information about what you\'re willing to model...'
+        // 2. Description (What are you looking for)
+        // 3. Cost and Dates (How much you're willing to pay / when are you free?)
+
+
         $('#form-intro').removeClass('type-b type-h').addClass('type-p').html(s);
         $('.form-item-field-hb-gender').hide();
         setTimeout(function(){

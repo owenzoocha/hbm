@@ -2106,8 +2106,7 @@ function file_download_access($uri) {
 function file_scan_directory($dir, $mask, $options = array(), $depth = 0) {
   // Merge in defaults.
   $options += array(
-    // 'nomask' => '/(\.\.?|CVS)$/',
-    'nomask' => '/(\.\.?|CVS|node_modules)$/', // https://www.drupal.org/node/2329453#comment-9360519
+    'nomask' => '/(\.\.?|CVS)$/',
     'callback' => 0,
     'recurse' => TRUE,
     'key' => 'uri',

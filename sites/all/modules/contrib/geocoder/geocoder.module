@@ -67,6 +67,10 @@ function geocoder($handler, $data, $options = array(), $cache_type = 'DEPRECATED
     geocoder_cache_set($geometry, $handler, $data, $options);
   }
 
+  if (!$geometry && variable_get('geocoder_log_empty_results', FALSE)) {
+    watchdog('geocoder', t('No results for geocoding @data', array('@data' => $data)));
+  }
+
   return $geometry;
 }
 
@@ -74,11 +78,11 @@ function geocoder($handler, $data, $options = array(), $cache_type = 'DEPRECATED
 /**
  * Implements hook_menu().
  */
-function  geocoder_menu() {
+function geocoder_menu() {
   // Admin settings for the site.
   $items['admin/config/content/geocoder'] = array(
     'title' => 'Geocoder settings',
-    'description' => 'Configuration for API keys.',
+    'description' => 'Configuration for API keys and other global settings.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('geocoder_admin_settings'),
     'file' => 'geocoder.admin.inc',
