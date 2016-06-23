@@ -389,7 +389,41 @@
   .page-my-jobs {
     .view-content {
       .views-field-rendered-entity {
+        width: 33.3%;
+      }
+    }
+  }
+}
+
+@media (max-width: 545px){
+  .page-search,
+  .page-job-requests,
+  .page-previous-jobs,
+  .page-watchlist,
+  #block-views-user-profile-jobs-block,
+  #block-views-user-profile-jobs-block-1,
+  #block-views-user-profile-jobs-block-2,
+  .page-my-jobs {
+    .view-content {
+      .views-field-rendered-entity {
         width: 50%;
+      }
+    }
+  }
+}
+
+@media (max-width: 340px){
+  .page-search,
+  .page-job-requests,
+  .page-previous-jobs,
+  .page-watchlist,
+  #block-views-user-profile-jobs-block,
+  #block-views-user-profile-jobs-block-1,
+  #block-views-user-profile-jobs-block-2,
+  .page-my-jobs {
+    .view-content {
+      .views-field-rendered-entity {
+        width: 100%;
       }
     }
   }

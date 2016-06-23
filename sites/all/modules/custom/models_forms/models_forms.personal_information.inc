@@ -47,35 +47,35 @@ function models_forms_personal_info() {
     '#suffix' => '<div class="map_canvas"></div><!--<p><a href="#" class="geocomplete-manual">' . t('+ add manual location') . '</a></p>-->',
   );
 
-  $user_form['geocomplete_results'] = array(
-    '#markup' => '<div class="details sr-only">
-                    Latitude:     <input data-geo="lat" />
-                    Longitude:    <input data-geo="lng" />
-                    thoroughfare:      <input data-geo="thoroughfare" />
-                    "subpremise":      <input data-geo="subpremise" />
-                    "street_address":      <input data-geo="street_address" />
-                    "route":      <input data-geo="route" />
+  // $user_form['geocomplete_results'] = array(
+  //   '#markup' => '<div class="details sr-only">
+  //                   Latitude:     <input data-geo="lat" />
+  //                   Longitude:    <input data-geo="lng" />
+  //                   thoroughfare:      <input data-geo="thoroughfare" />
+  //                   "subpremise":      <input data-geo="subpremise" />
+  //                   "street_address":      <input data-geo="street_address" />
+  //                   "route":      <input data-geo="route" />
 
-                    state - new:      <input data-geo="administrative_area_level_1" />
+  //                   state - new:      <input data-geo="administrative_area_level_1" />
 
-                    sublocality - new:      <input data-geo="sublocality" />
-                    neighborhood:      <input data-geo="neighborhood" />
-                    street_number - new:      <input data-geo="street_number" />
-                    floor - new:      <input data-geo="floor" />
-                    room - new:      <input data-geo="room" />
-                    vicinity - new:      <input data-geo="vicinity" />
-
-
+  //                   sublocality - new:      <input data-geo="sublocality" />
+  //                   neighborhood:      <input data-geo="neighborhood" />
+  //                   street_number - new:      <input data-geo="street_number" />
+  //                   floor - new:      <input data-geo="floor" />
+  //                   room - new:      <input data-geo="room" />
+  //                   vicinity - new:      <input data-geo="vicinity" />
 
 
-                    premise:      <input data-geo="premise" />
-                    locality:      <input data-geo="locality" />
-                    state:      <input data-geo="state" />
-                    postal_code:      <input data-geo="postal_code" />
-                    Address:      <input data-geo="formatted_address" />
-                    Country Code: <input data-geo="country_short" />
-                  </div>',
-  );
+
+
+  //                   premise:      <input data-geo="premise" />
+  //                   locality:      <input data-geo="locality" />
+  //                   state:      <input data-geo="state" />
+  //                   postal_code:      <input data-geo="postal_code" />
+  //                   Address:      <input data-geo="formatted_address" />
+  //                   Country Code: <input data-geo="country_short" />
+  //                 </div>',
+  // );
 
 
   $user_form['picture']['picture_upload']['#description'] = t('Your profile picture');
@@ -93,6 +93,8 @@ function models_forms_personal_info() {
   unset($user_form['field_my_overall_rating']);
   unset($user_form['field_my_watchlist']);
   unset($user_form['field_my_latlon']);
+  unset($user_form['field_flags_strikes']);
+  unset($user_form['field_flags_running_posts']);
   return drupal_render($user_form);
 
 }
@@ -148,7 +150,7 @@ function models_forms_email_settings() {
   unset($user_form['field_gender']);
   unset($user_form['field_my_web']);
   unset($user_form['field_my_address']);
-  unset($user_form['field_my_bio']);
+  // unset($user_form['field_my_bio']);
   unset($user_form['field_my_latlong']);
   unset($user_form['timezone']);
   unset($user_form['picture']);
@@ -162,6 +164,11 @@ function models_forms_email_settings() {
   unset($user_form['field_my_latlon']);
   unset($user_form['field_my_college']);
   unset($user_form['field_my_company']);
+  unset($user_form['field_flags_strikes']);
+  unset($user_form['field_flags_running_posts']);
+  unset($user_form['field_hb_cover_pic']);
+  // $user_form['privatemsg']['pm_enable']['#access'] = FALSE;
+  // dpm($user_form);
   // unset($user_form['privatemsg']['pm_email_only_user']);
   // $user_form['privatemsg']['pm_enable']['#value'] = TRUE;
   // $user_form['privatemsg']['pm_enable']['#default_value'] = TRUE;
@@ -188,7 +195,7 @@ function models_forms_interests() {
   unset($user_form['field_gender']);
   unset($user_form['field_my_web']);
   unset($user_form['field_my_address']);
-  unset($user_form['field_my_bio']);
+  // unset($user_form['field_my_bio']);
   unset($user_form['field_my_latlong']);
   // unset($user_form['privatemsg']);
   unset($user_form['timezone']);
@@ -201,6 +208,9 @@ function models_forms_interests() {
   unset($user_form['field_my_latlon']);
   unset($user_form['field_my_college']);
   unset($user_form['field_my_company']);
+  unset($user_form['field_flags_strikes']);
+  unset($user_form['field_hb_cover_pic']);
+  unset($user_form['field_flags_running_posts']);
   // $user_form['field_my_tcs']['und']['#required'] = FALSE;
   // unset($user_form['field_my_tcs']);
   return drupal_render($user_form);
@@ -226,7 +236,7 @@ function models_forms_account_settings() {
   unset($user_form['field_gender']);
   unset($user_form['field_my_web']);
   unset($user_form['field_my_address']);
-  unset($user_form['field_my_bio']);
+  // unset($user_form['field_my_bio']);
   unset($user_form['field_my_latlong']);
   // unset($user_form['privatemsg']);
   unset($user_form['timezone']);
@@ -241,6 +251,9 @@ function models_forms_account_settings() {
   unset($user_form['field_my_latlon']);
   unset($user_form['field_my_college']);
   unset($user_form['field_my_company']);
+  unset($user_form['field_hb_cover_pic']);
+  unset($user_form['field_flags_strikes']);
+  unset($user_form['field_flags_running_posts']);
   if (isset($identity_table)) {
     return drupal_render($user_form) . $identity_table;
   }

@@ -49,7 +49,7 @@
   </div>
 </header>
 
-<div id="hb-header" class="container-fluid <?php if (empty($my_nav) && !isset($show_bg)): print 'no-my-nav '; endif; ?><?php print $title_search_class; ?>">
+<div id="hb-header" class="container-fluid <?php if (empty($my_nav)): print 'no-my-nav '; endif; ?><?php print $title_search_class; ?>">
 
   <?php if (!empty($my_nav) || isset($show_bg)): ?>
   <div id="page-header-bg" data-0="transform: translateY(-100px);" data-300="transform: translateY(0);"></div>

@@ -39,7 +39,7 @@
 
     // Masonry....
     masonryLayout : function() {
-      $('.region-content').append('<div class="loader"></div>');
+      // $('.region-content').append('<div class="loader"></div>');
       $('.view-job-search .view-content').imagesLoaded( function() {
 
         var $grid = $('.view-job-search .view-content').masonry({

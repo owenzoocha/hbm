@@ -43,7 +43,9 @@
 .page-user-account-settings,
 .page-user-interests-settings,
 .page-user-email-settings {
-  .form-item-field-my-tcs-und {
+  .form-item-field-my-tcs-und,
+  .field-name-field-my-bio,
+  .form-item-pm-enable {
     display: none;
   }
 }
@@ -62,5 +64,13 @@
   #edit-field-hb-bt,
   #edit-field-hb-ht {
     display: none;
+  }
+}
+
+#user-profile-form {
+  .row {
+    h2 {
+      padding-left: 15px;
+    }
   }
 }

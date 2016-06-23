@@ -9,7 +9,7 @@
 
     // Masonry....
     masonryLayout : function() {
-      $('.region-content').append('<div class="loader"></div>');
+      // $('.region-content').append('<div class="loader"></div>');
       $('.page-my-jobs .view-content, .page-previous-jobs .view-content, .page-job-requests .view-content, .page-watchlist .view-content').imagesLoaded( function() {
 
         var $grid = $('.page-my-jobs .view-content, .page-previous-jobs .view-content, .page-job-requests .view-content, .page-watchlist .view-content').masonry({

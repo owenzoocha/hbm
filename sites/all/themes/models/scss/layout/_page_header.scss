@@ -91,6 +91,14 @@
   }
 }
 
+.node-type-job {
+  #hb-header.no-my-nav {
+    margin-bottom: 15px;
+    color: $light-grey-border;
+    text-shadow: 1px 1px 1px $hb-dark;
+  }
+}
+
 // .page-user {
   #page-header-bg {
     width: 100%;

@@ -5740,6 +5740,12 @@ html,
 body {
   height: 100%; }
 
+.a-link {
+  color: #E01563; }
+
+h1, h2, h3, p {
+  -webkit-font-smoothing: antialiased; }
+
 h2 {
   font-size: 20px;
   margin-bottom: 10px;
@@ -5941,7 +5947,8 @@ select.form-control {
     border-bottom-color: #ccd1d4;
     border-radius: 4px;
     margin-bottom: 20px;
-    padding: 15px; }
+    padding: 15px;
+    position: relative; }
 
 #block-views-jobs-rhs-block-1 ul,
 #block-views-user-profile-rhs-block-1 ul,
@@ -6035,6 +6042,11 @@ select.form-control {
   #hb-header #block-search-api-sorts-search-sorts {
     margin-top: 5px;
     width: 150px; }
+
+.node-type-job #hb-header.no-my-nav {
+  margin-bottom: 15px;
+  color: #dfe1e3;
+  text-shadow: 1px 1px 1px #172A3A; }
 
 #page-header-bg {
   width: 100%;
@@ -6895,7 +6907,29 @@ select.form-control {
   #block-views-user-profile-jobs-block-1 .view-content .views-field-rendered-entity,
   #block-views-user-profile-jobs-block-2 .view-content .views-field-rendered-entity,
   .page-my-jobs .view-content .views-field-rendered-entity {
+    width: 33.3%; } }
+
+@media (max-width: 545px) {
+  .page-search .view-content .views-field-rendered-entity,
+  .page-job-requests .view-content .views-field-rendered-entity,
+  .page-previous-jobs .view-content .views-field-rendered-entity,
+  .page-watchlist .view-content .views-field-rendered-entity,
+  #block-views-user-profile-jobs-block .view-content .views-field-rendered-entity,
+  #block-views-user-profile-jobs-block-1 .view-content .views-field-rendered-entity,
+  #block-views-user-profile-jobs-block-2 .view-content .views-field-rendered-entity,
+  .page-my-jobs .view-content .views-field-rendered-entity {
     width: 50%; } }
+
+@media (max-width: 340px) {
+  .page-search .view-content .views-field-rendered-entity,
+  .page-job-requests .view-content .views-field-rendered-entity,
+  .page-previous-jobs .view-content .views-field-rendered-entity,
+  .page-watchlist .view-content .views-field-rendered-entity,
+  #block-views-user-profile-jobs-block .view-content .views-field-rendered-entity,
+  #block-views-user-profile-jobs-block-1 .view-content .views-field-rendered-entity,
+  #block-views-user-profile-jobs-block-2 .view-content .views-field-rendered-entity,
+  .page-my-jobs .view-content .views-field-rendered-entity {
+    width: 100%; } }
 
 #block-block-6 #selected-clients {
   padding: 0; }
@@ -7272,8 +7306,14 @@ select.form-control {
   margin-bottom: 0; }
 
 .page-user-account-settings .form-item-field-my-tcs-und,
+.page-user-account-settings .field-name-field-my-bio,
+.page-user-account-settings .form-item-pm-enable,
 .page-user-interests-settings .form-item-field-my-tcs-und,
-.page-user-email-settings .form-item-field-my-tcs-und {
+.page-user-interests-settings .field-name-field-my-bio,
+.page-user-interests-settings .form-item-pm-enable,
+.page-user-email-settings .form-item-field-my-tcs-und,
+.page-user-email-settings .field-name-field-my-bio,
+.page-user-email-settings .form-item-pm-enable {
   display: none; }
 
 .page-user-account-settings #edit-privatemsg,
@@ -7288,6 +7328,9 @@ select.form-control {
 .page-user-personal-information-settings #edit-field-hb-bt,
 .page-user-personal-information-settings #edit-field-hb-ht {
   display: none; }
+
+#user-profile-form .row h2 {
+  padding-left: 15px; }
 
 .hbm-user-details .hbm-user-details-wrapper {
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.03);
@@ -7372,10 +7415,6 @@ select.form-control {
 /**
  * RESPONSIVE stuffs
  */
-@media (min-width: 1200px) {
-  body {
-    color: red !important; } }
-
 @media (min-width: 768px) {
   .search-surround {
     float: left; }
@@ -7399,13 +7438,12 @@ select.form-control {
     width: 110px !important; } }
 
 @media (max-width: 992px) {
-  body {
-    color: blue !important; }
   #navbar .navbar-nav > li > a {
     padding: 0 15px; }
   #navbar .search-surround #models-forms-search-form #edit-search {
     width: 200px !important; }
   .my-nav .container {
+    padding: 0;
     white-space: nowrap;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -7416,8 +7454,6 @@ select.form-control {
       display: none; } }
 
 @media (max-width: 768px) {
-  body {
-    color: yellow !important; }
   #navbar .container > .navbar-header,
   #navbar .container > .navbar-collapse,
   #navbar .container-fluid > .navbar-header,
@@ -7479,8 +7515,6 @@ select.form-control {
       float: none !important; } }
 
 @media (max-width: 480px) {
-  body {
-    color: green !important; }
   #main #hero .hero-content {
     padding-top: 100px; }
     #main #hero .hero-content .left {

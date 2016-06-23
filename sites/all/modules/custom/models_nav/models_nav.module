@@ -185,11 +185,17 @@ function template_preprocess_my_nav(&$vars) {
     drupal_add_js(drupal_get_path('module', 'models_nav') . '/js/models_nav.js');
 
     if (!isset($vars['someone_else'])) {
-      $my_jobs_count_ = views_get_view_result('user_profile_jobs', 'page_4');
-      $my_jobs_count = $my_jobs_count_[0]->nid > 0 ? ' (' . $my_jobs_count_[0]->nid . ')' : FALSE;
-      $my_requests_count = sizeof(views_get_view_result('user_profile_jobs', 'page_1')) ? ' (' . sizeof(views_get_view_result('user_profile_jobs', 'page_1')) . ')' : FALSE;
+      $my_jobs_count_ = views_get_view_result('user_profile_jobs', 'block_3');
+      $my_jobs_count = sizeof($my_jobs_count_) > 0 ? ' (' . sizeof($my_jobs_count_) . ')' : FALSE;
 
       $uw = entity_metadata_wrapper('user', $vars['user_nav']);
+      if ($uw->field_flags_running_posts->value() != sizeof($my_jobs_count_)) {
+        $uw->field_flags_running_posts->set(sizeof($my_jobs_count_));
+        $uw->save();
+      }
+
+      $my_requests_count = sizeof(views_get_view_result('user_profile_jobs', 'page_1')) ? ' (' . sizeof(views_get_view_result('user_profile_jobs', 'page_1')) . ')' : FALSE;
+
       $nav  = '<ul>';
       $nav .= '<li>' . l(t('Dashboard'), 'user/' . $uw->getIdentifier(), array('attributes' => array('class' => array('')))) . '</li>';
       $nav .= '<li>' . l(t('Settings'), 'user/personal-information/settings', array('attributes' => array('class' => array('')))) . '</li>';
@@ -357,6 +363,8 @@ function template_preprocess_custom_nav(&$vars) {
   $fname = $uw->field_first_name->value() ? $uw->field_first_name->value() : t('Me');
   $links .= '<li class="last leaf a-dd ' . $active_msgs . '">' .
   l('<span>' . $fname . '</span>' . $pic, 'user', array('html' => TRUE)) . $active_user_menu . '</li>';
+
+  $links .= '<li class="visible-xs leaf">' . l('Logout', 'user/logout') . '</li>';
 
   $vars['links'] = $links;
 

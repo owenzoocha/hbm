@@ -16,7 +16,27 @@ function tweaks_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'tweaks.watchlist.inc',
   );
+
+  $items['revalidate-email/%'] = array(
+    'page callback' => 'tweaks_revalidate_email',
+    'access callback' => 'user_is_anonymous',
+    'page arguments' => array(1),
+    'type' => MENU_CALLBACK,
+    // 'file' => 'tweaks.watchlist.inc',
+  );
   return $items;
+}
+
+// Revalidate an unauthenticated user.
+function tweaks_revalidate_email($var) {
+  if (is_numeric(arg(1))) {
+    $account = user_load(arg(1));
+    if (in_array('unauthenticated user', $account->roles)) {
+      _user_mail_notify('register_no_approval_required', $account);
+    }
+  }
+  drupal_set_message(t('Verification email has been re sent. Please check your email'), 'status', FALSE);
+  drupal_goto('<front>');
 }
 
 /**
@@ -146,6 +166,36 @@ function tweaks_ctools_plugin_directory($module, $type) {
  * Implements hook_form_alter().
  */
 function tweaks_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'privatemsg_form_reply') {
+    $form['body']['#format'] = 'plain_text';
+  }
+  if ($form_id == 'user_pass_reset') {
+    $uw = entity_metadata_wrapper('user', arg(2));
+    $just_registered = variable_get('just_registered_' . arg(2));
+    if (!empty($just_registered)) {
+      $intro = '<h2>' . t('Welcome to HBM') . '</h2>';
+      $intro .= '<h4>' . t('Hey !name.', array('!name' => $uw->label())) . '</h4>';
+      $intro .= '<p>' . t('Welcome to Hair & Beauty Models, to verify your account click <strong>Confirm</strong> below!') . '</p>';
+      $form['intro'] = array(
+        '#markup' => $intro,
+        '#weight' => -1,
+      );
+      $msg = explode('.', $form['message']['#markup']);
+      $form['message']['#markup'] = $msg[0] . '</p>';
+      // $form['help']['#markup'] = '<p>' . t('Click confirm to continue to your HBM profile.') . '</p>';
+      $form['help']['#markup'] = '';
+      $form['actions']['submit']['#value'] = t('Confirm');
+    }
+    else {
+      // $intro = '<h2>' . t('Hi there!') . '</h2>';
+      $intro = '<h2>' . t('Hey !name', array('!name' => $uw->field_first_name->value())) . '</h2>';
+      $intro .= '<p>' . t('Please follow the instructions below to reset your password.') . '</p>';
+      $form['intro'] = array(
+        '#markup' => $intro,
+        '#weight' => -1,
+      );
+    }
+  }
   if ($form_id == 'webform_client_form_132') {
     $form['submitted']['e_mail']['#attributes']['placeholder'] = t('Subscribe to HBM Newsletter');
   }
@@ -223,16 +273,29 @@ function tweaks_form_alter(&$form, &$form_state, $form_id) {
     $form['account']['name']['#description'] = t('Pick a username.');
     $form['account']['mail']['#description'] = t('A valid e-mail address, so we can keep you up to date.');
     $form['actions']['submit']['#attributes'] = array('class' => array('btn-success'));
-    $form['field_my_tcs']['und']['#description'] = t('You must agree to the') . ' ' . l('terms & conditions', 'terms-conditions', array('attributes' => array('target' => '_blank'))) .'.';
+    $form['field_my_tcs']['und']['#description'] = t('You must agree to the') . ' ' . l('terms & conditions', 'terms', array('attributes' => array('target' => '_blank'))) .'.';
     unset($form['account']['pass']['#description']);
     $signup_msg = '<ul class="user-info">';
     $signup_msg .= '<li>' . t('Already a member?') . ' ' . l('Sign in now', 'user/login') . '</li>';
     // $signup_msg .= '<li>' . t('I\'ve forgotten my password!') . ' ' . l('Reset it here', 'user/password') . '</li>';
     $signup_msg .= '</ul>';
     $form['actions']['submit']['#suffix'] = $signup_msg;
+    $form['#submit'][] = 'tweaks_registered_user';
   }
 }
 
+// Flag this user as just registered.
+function tweaks_registered_user(&$form, &$form_state){
+  variable_set('just_registered_' . $form_state['values']['uid'], 1);
+}
+
+// When logging out an unauthorised user - show them the verify message.
+function tweaks_user_logout($account) {
+  user_cookie_save(array('not_verified.logoff' => $account->uid));
+  // drupal_set_message(t('Oops - it looks like you haven\'t verified your account yet! Please check your email for the verification link - or request a new password'), 'status', FALSE);
+  // drupal_goto('search');
+  // user_logout();
+}
 
 // function tweaks_add_closest_param_form_submit(&$form, &$form_state) {
 //   $form_state['values']['honk'] = 'yes';
@@ -319,10 +382,9 @@ function tweaks_assign_job($entities, $context = array()) {
  * @param  Object $mypic Picture from user object.
  * @param  String $uri   Picture uri.
  */
-function tweaks_get_profile_picture($mypic, $uri) {
-  // $mypic = $uw->value()->picture;
-  if($mypic){
-    $pic = '<div class="my-image img-circle">' . theme('image_style', array('style_name' => 'profile', 'path' => $uri, 'attributes' => array('class' => array('img-circle')))).'</div>';
+function tweaks_get_profile_picture($mypic) {
+  if($mypic->picture){
+    $pic = '<div class="my-image img-circle">' . theme('image_style', array('style_name' => 'profile', 'path' => $mypic->picture->uri, 'attributes' => array('class' => array('img-circle')))).'</div>';
   } else {
     $pic = '<div class="my-image img-circle">' . theme('image_style', array('style_name' => 'profile', 'path' => 'public://pictures/picture-default.png', 'attributes' => array('class' => array('img-circle')))).'</div>';
   }
@@ -468,13 +530,13 @@ function tweaks_mail_alter(&$message) {
 }
 
 function tweaks_preprocess_htmlmail(&$variables) {
-  dpm($variables);
+  // dpm($variables);
 
   switch($variables['key']){
     case 'rules_action_mail_rules_send_mail_test_2':
       if (strpos($variables['body'], '<hbm>') !== FALSE) {
         $body = explode('<hbm>', $variables['body']);
-        dpm($body);
+        // dpm($body);
         $variables['body'] = $body[0];
       }
      break;

@@ -3,6 +3,14 @@ body {
   height: 100%;
 }
 
+.a-link {
+  color: $hb-pink;
+}
+
+h1, h2, h3, p {
+  -webkit-font-smoothing: antialiased;
+}
+
 h2 {
   font-size: 20px;
   margin-bottom: 10px;

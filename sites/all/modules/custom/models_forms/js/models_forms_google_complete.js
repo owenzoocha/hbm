@@ -5,7 +5,7 @@
 
     init: function(context) {
 
-      // $('#edit-location-thoroughfare').attr('placeholder', 'Address 1');
+      $('#edit-field-my-address-und-0-thoroughfare').attr('placeholder', 'Address 1');
       // $('#edit-location-locality').attr('placeholder', 'City/Suburb');
       // $('#edit-location-administrative-area').attr('placeholder', 'Address 1');
       // $('#edit-location-postal-code').attr('placeholder', 'Postcode');
@@ -69,11 +69,11 @@
         // console.log(pc);
         // console.log(sublocality);
 
-        $('#edit-location-thoroughfare').val(add1);
+        $('#edit-location-thoroughfare, #edit-field-my-address-und-0-thoroughfare').val(add1);
         // $('#edit-location-premise').val(add2);
-        $('#edit-location-locality').val(add2);
-        $('#edit-location-administrative-area').val(state);
-        $('#edit-location-postal-code').val(pc);
+        $('#edit-location-locality, #edit-field-my-address-und-0-locality').val(add2);
+        $('#edit-location-administrative-area, #edit-field-my-address-und-0-administrative-area').val(state);
+        $('#edit-location-postal-code, #edit-field-my-address-und-0-postal-code').val(pc);
 
       });
 

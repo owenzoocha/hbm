@@ -78,7 +78,7 @@ function models_forms_request_form($form, &$form_state){
 
 function models_forms_request_form_submit($form, &$form_state){
   global $user;
-  dpm($form_state);
+  // dpm($form_state);
 
   $nw = entity_metadata_wrapper('node', $form_state['nid']);
   $uw = entity_metadata_wrapper('user', $user->uid);

@@ -47,9 +47,9 @@ select.form-control {
     border: none;
     background: none;
     box-shadow: none;
-
     .block {
       @include blocks();
+      position: relative;
     }
   }
 }

@@ -21,8 +21,8 @@ function models_preprocess_node(&$variables) {
     $variables['theme_hook_suggestions'][] = 'node__' . $variables['node']->type . '__teaser';
     $variables['theme_hook_suggestions'][] = 'node__' . $variables['node']->nid . '__teaser';
   }
-  if($variables['type'] == 'job'){
 
+  if($variables['type'] == 'job'){
     $nw = entity_metadata_wrapper('node', $variables['nid']);
     $uw = entity_metadata_wrapper('user', $user->uid);
 
@@ -313,11 +313,47 @@ function models_preprocess_page(&$variables) {
   global $user;
   $uw = entity_metadata_wrapper('user', $user);
 
+  // Save the first name part.
+  if (!$uw->field_first_name->value()){
+    if ($uw->field_my_name->value()) {
+      $fname = explode(' ', $uw->field_my_name->value());
+      $uw->field_first_name->set($fname[0]);
+      $uw->save();
+    }
+  }
+
+  // Save the whole my name part.
+  if ($uw->field_first_name->value()){
+    $update_name = $uw->field_first_name->value();
+    if ($uw->field_surname->value()) {
+      $update_name .= ' ' . $uw->field_surname->value();
+      $uw->field_my_name->set($update_name);
+      $uw->save();
+    }
+  }
+
   $variables['home_nav'] = $user->uid == 0 ? theme('home_nav') : FALSE;
 
   if (drupal_is_front_page()) {
+    unset($variables['page']['content']);
     $variables['logo'] = drupal_get_path('theme', 'models') . '/' . 'white-logo.png';
-    dpm($variables);
+    if (isset($_COOKIE['Drupal_visitor_not_verified_logoff'])) {
+      if ($_COOKIE['Drupal_visitor_not_verified_logoff'] != 0 ) {
+        // drupal_set_message(t('Oops - it looks like you haven\'t verified your account yet! Please check your email for the verification link - or request a new password'), 'status', FALSE);
+
+        drupal_set_message('Oops - it looks like you haven\'t verified your account yet! Please check your email for the verification link - or ' . l(t('resend validation e-mail'), 'revalidate-email/' . $_COOKIE['Drupal_visitor_not_verified_logoff']));
+        user_cookie_save(array('not_verified.logoff' => 0));
+      }
+    }
+  }
+
+  // Bounce non admin onto personal info instead of user/edit.
+  if (!in_array('hbm_admin', $user->roles) || $user->uid != 1) {
+    unset($variables['tabs']);
+
+    if (strrpos(current_path(), 'user/' . $user->uid . '/edit') !== FALSE) {
+      drupal_goto('user/personal-information/settings');
+    }
   }
 
   // $msg_count = privatemsg_unread_count($uw->value());
@@ -340,8 +376,7 @@ function models_preprocess_page(&$variables) {
     unset($variables['tabs']);
   }
 
-  if ( arg(0) == 'user' && is_numeric(arg(1)) && !arg(2) ||
-      strrpos(current_path(), '/settings') !== FALSE) {
+  if ( (arg(0) == 'user' && is_numeric(arg(1)) && !arg(2) || strrpos(current_path(), '/settings') !== FALSE) && strpos(current_path(), 'user/reset') === FALSE) {
     $variables['content_column_class'] = ' class="col-sm-pull-3 col-sm-9"';
   }
 
@@ -402,6 +437,12 @@ function models_preprocess_page(&$variables) {
   }
 
   if (strpos(current_path(), 'job/create') !== FALSE) {
+    if ($user->uid != 1) {
+      if ($uw->field_flags_running_posts->value() >= 1) {
+        drupal_set_message(t('Hi !name, you currently have 5 jobs running. To post another, you must wait until one of your jobs has completed.', array('!name' => $uw->field_first_name->value() ? $uw->field_first_name->value() : $uw->label())), 'info', FALSE);
+        drupal_goto('my-jobs');
+      }
+    }
     // $variables['content_column_class'] = ' class="col-sm-pull-3 col-sm-9"';
   }
 
@@ -523,78 +564,92 @@ function models_preprocess_page(&$variables) {
         // $variables['client_request_confirm_form_button'] = ($nw->author->getIdentifier() != 000) ? '<div class="hb-job-button">' . $job_publish . '</div>' : FALSE;
       }
     }
-}
+  }
 
-  // Build up the users home page top bar..
-  if (arg(0) == 'user' && is_numeric(arg(1)) && !arg(2) ||
-     strpos(current_path(), 'previous-jobs') !== FALSE ||
-     strpos(current_path(), 'user/') !== FALSE && strpos(current_path(), '/feedback') !== FALSE ||
-     strpos(current_path(), 'user/') !== FALSE && strpos(current_path(), '/photos') !== FALSE ||
-     strpos(current_path(), 'my-jobs') !== FALSE ||
-     strpos(current_path(), 'watchlist') !== FALSE ||
-     strpos(current_path(), 'job-requests') !== FALSE ||
-     ( arg(0) == 'user' && !is_numeric(arg(1)) && arg(2) ))
-  {
+  // Ignore below if user/reset is in the path.
+  if (strpos(current_path(), 'user/reset') === FALSE) {
 
-    if (is_numeric(arg(1))) {
-      if ($user->uid == arg(1)) {
-        $greeting = t('Welcome back'); // If cookie set?
-        $greeting = t('Hi') . ', ';
-        drupal_set_title($greeting . $uw->field_first_name->value());
-        $pic = tweaks_get_profile_picture($uw->value(), $uw->value()->picture->uri);
+    // Build up the users home page top bar..
+    if (arg(0) == 'user' && is_numeric(arg(1)) && !arg(2) ||
+       strpos(current_path(), 'previous-jobs') !== FALSE ||
+       strpos(current_path(), 'user/') !== FALSE && strpos(current_path(), '/feedback') !== FALSE ||
+       strpos(current_path(), 'user/') !== FALSE && strpos(current_path(), '/photos') !== FALSE ||
+       strpos(current_path(), 'my-jobs') !== FALSE ||
+       strpos(current_path(), 'watchlist') !== FALSE ||
+       strpos(current_path(), 'job-requests') !== FALSE ||
+       ( arg(0) == 'user' && !is_numeric(arg(1)) && arg(2) ))
+    {
+
+      if (in_array('unauthenticated user', $user->roles)) {
+        require_once(drupal_get_path('module', 'user') . '/user.pages.inc');
+        user_logout();
+        // drupal_set_message(t('Oops - it looks like you haven\'t verified your account yet! Please check your email for the verification link - or request a new password'), 'status', FALSE);
+        // drupal_goto('search');
+      }
+
+      // Delete the 'just registered' set_variable.
+      if ( variable_get('just_registered_' . $user->uid) ) {
+        variable_del('just_registered_' . $user->uid);
+      }
+
+      if (is_numeric(arg(1))) {
+        if ($user->uid == arg(1)) {
+          $greeting = t('Welcome back'); // If cookie set?
+          $greeting = t('Hi') . ', ';
+          drupal_set_title($greeting . $uw->field_first_name->value());
+          $pic = tweaks_get_profile_picture($uw->value());
+          $author_pic = tweaks_get_profile_url($pic, $uw->getIdentifier());
+          $stars = $uw->field_my_overall_rating->value() ? $uw->field_my_overall_rating->value() : 0;
+          $job_details = tweaks_get_profile_intro($uw);
+          $author_feedback_amount = tweaks_get_feedback_amount($uw);
+        }
+        else {
+          $person = entity_metadata_wrapper('user', arg(1));
+          drupal_set_title($person->field_my_name->value());
+          $pic = tweaks_get_profile_picture($person->value());
+          $author_pic = tweaks_get_profile_url($pic, $person->getIdentifier());
+          $stars = $person->field_my_overall_rating->value() ? $person->field_my_overall_rating->value() : 0;
+          $job_details = tweaks_get_profile_intro($person);
+          $author_feedback_amount = tweaks_get_feedback_amount($person);
+        }
+      }
+      else {
+
+        // HACKATHON
+        // $greeting = t('Welcome back'); // If cookie set?
+        // $greeting = t('Hi') . ', ';
+        // drupal_set_title($greeting . $uw->field_first_name->value());
+        $pic = tweaks_get_profile_picture($uw->value());
         $author_pic = tweaks_get_profile_url($pic, $uw->getIdentifier());
         $stars = $uw->field_my_overall_rating->value() ? $uw->field_my_overall_rating->value() : 0;
         $job_details = tweaks_get_profile_intro($uw);
         $author_feedback_amount = tweaks_get_feedback_amount($uw);
       }
-      else {
-        $person = entity_metadata_wrapper('user', arg(1));
-        drupal_set_title($person->field_my_name->value());
-        $pic = tweaks_get_profile_picture($person->value(), $person->value()->picture->uri);
-        $author_pic = tweaks_get_profile_url($pic, $person->getIdentifier());
-        $stars = $person->field_my_overall_rating->value() ? $person->field_my_overall_rating->value() : 0;
-        $job_details = tweaks_get_profile_intro($person);
-        $author_feedback_amount = tweaks_get_feedback_amount($person);
+
+      $variables['hb_header_class'] = 'header-title pull-left';
+      $variables['author_pic'] = $author_pic;
+      $variables['author_rating'] = '<div class="hb-rating raty raty-readonly" data-rating="' . $stars . '"></div>';
+      $variables['author_feedback_amount'] = $author_feedback_amount;
+      $variables['job_details'] = $job_details;
+
+     // Initiate custom job navigation if logged in user = author.
+      if (arg(1) == $uw->getIdentifier() ||
+         strpos(current_path(), 'previous-jobs') !== FALSE ||
+         strpos(current_path(), 'my-jobs') !== FALSE ||
+         strpos(current_path(), 'user/') !== FALSE && strpos(current_path(), '/photos') !== FALSE ||
+         strpos(current_path(), 'job-requests') !== FALSE ||
+         strpos(current_path(), 'watchlist') !== FALSE ||
+         (arg(0) == 'user' && !is_numeric(arg(1)) && arg(2)))
+      {
+        $variables['my_nav'] = theme('my_nav', array('user_nav' => $uw->getIdentifier()));
       }
-    }
-    else {
-
-      // HACKATHON
-      // $greeting = t('Welcome back'); // If cookie set?
-      // $greeting = t('Hi') . ', ';
-      // drupal_set_title($greeting . $uw->field_first_name->value());
-      $pic = tweaks_get_profile_picture($uw->value(), $uw->value()->picture->uri);
-      $author_pic = tweaks_get_profile_url($pic, $uw->getIdentifier());
-      $stars = $uw->field_my_overall_rating->value() ? $uw->field_my_overall_rating->value() : 0;
-      $job_details = tweaks_get_profile_intro($uw);
-      $author_feedback_amount = tweaks_get_feedback_amount($uw);
-    }
-
-    $variables['hb_header_class'] = 'header-title pull-left';
-    $variables['author_pic'] = $author_pic;
-    $variables['author_rating'] = '<div class="hb-rating raty raty-readonly" data-rating="' . $stars . '"></div>';
-    $variables['author_feedback_amount'] = $author_feedback_amount;
-    $variables['job_details'] = $job_details;
-
-   // Initiate custom job navigation if logged in user = author.
-    if (arg(1) == $uw->getIdentifier() ||
-       strpos(current_path(), 'previous-jobs') !== FALSE ||
-       strpos(current_path(), 'my-jobs') !== FALSE ||
-       strpos(current_path(), 'user/') !== FALSE && strpos(current_path(), '/photos') !== FALSE ||
-       strpos(current_path(), 'job-requests') !== FALSE ||
-       strpos(current_path(), 'watchlist') !== FALSE ||
-       (arg(0) == 'user' && !is_numeric(arg(1)) && arg(2)))
-    {
-      $variables['my_nav'] = theme('my_nav', array('user_nav' => $uw->getIdentifier()));
-    }
-    else {
-      $variables['my_nav'] = theme('my_nav', array('user_nav' => $uw->getIdentifier(), 'someone_else' => TRUE));
+      else {
+        $variables['my_nav'] = theme('my_nav', array('user_nav' => $uw->getIdentifier(), 'someone_else' => TRUE));
+      }
     }
   }
 
-  if ( strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/photos') !== FALSE ||
-      strpos(current_path(), 'user/photos') !== FALSE )
-  {
+  if ( strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/photos') !== FALSE || strpos(current_path(), 'user/photos') !== FALSE ) {
     drupal_add_css(libraries_get_path('dropzone') . '/' . 'dist/min/basic.min.css');
     drupal_add_css(libraries_get_path('dropzone') . '/' . 'dist/min/dropzone.min.css');
     drupal_add_js( libraries_get_path('dropzone') . '/' . 'dist/min/dropzone.min.js');

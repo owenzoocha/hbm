@@ -103,7 +103,7 @@
  */
 @media (min-width: $screen-lg-desktop){
   body {
-    color: red!important;
+    // color: red!important;
   }
 }
 
@@ -162,7 +162,7 @@
 // Screen Desktop and BELOW!!
 @media (max-width: $screen-desktop){
   body {
-    color: blue!important;
+    // color: blue!important;
   }
 
   #navbar {
@@ -177,6 +177,7 @@
 
   .my-nav {
     .container {
+      padding: 0;
       .last {
         display: inline;
       }
@@ -197,7 +198,7 @@
 
 @media (max-width: $screen-tablet){
   body {
-    color: yellow!important;
+    // color: yellow!important;
   }
 
   #navbar {
@@ -297,7 +298,7 @@
 
 @media (max-width: $screen-phone){
   body {
-    color: green!important;
+    // color: green!important;
   }
 
   #main {
