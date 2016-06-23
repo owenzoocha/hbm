@@ -62,10 +62,11 @@ function geocomplete_form_views_exposed_form_alter(&$form, &$form_state, $form_i
       }
     }
   }
+  // http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCLxwLPavRyWseQhhaiBVPvONNb1Korie0
   if ($flag && empty($form_state['view']->live_preview)) {
     // Geocomplete field is used, add js.
     $form['#attached']['js'][] = array(
-      'data' => '//maps.googleapis.com/maps/api/js?sensor=false&libraries=places',
+      'data' => '//maps.googleapis.com/maps/api/js?sensor=false&libraries=places&key=AIzaSyCLxwLPavRyWseQhhaiBVPvONNb1Korie0',
       'type' => 'external',
     );
     $form['#attached']['js'][] = array(

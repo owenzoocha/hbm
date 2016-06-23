@@ -28,7 +28,7 @@ function models_forms_personal_info() {
   drupal_add_js($wysiwyg_js, 'setting');
 
   $user_form['#attached']['js'] = array(
-    'http://maps.googleapis.com/maps/api/js?libraries=places' => array(
+    'http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCLxwLPavRyWseQhhaiBVPvONNb1Korie0' => array(
       'type' => 'external',
     ),
     libraries_get_path('geocomplete') . '/' . 'jquery.geocomplete.min.js',

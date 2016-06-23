@@ -153,7 +153,7 @@ function models_forms_create_form($form, &$form_state) {
     'https://cdnjs.cloudflare.com/ajax/libs/nanobar/0.2.1/nanobar.min.js' => array(
       'type' => 'external',
     ),
-    'http://maps.googleapis.com/maps/api/js?libraries=places' => array(
+    'http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCLxwLPavRyWseQhhaiBVPvONNb1Korie0' => array(
       'type' => 'external',
     ),
     libraries_get_path('geocomplete') . '/' . 'jquery.geocomplete.min.js',
