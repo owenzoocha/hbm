@@ -19,6 +19,7 @@
       hbm.reorder();
       hbm.selectClient();
       hbm.expandFilters();
+      hbm.mobileChecks();
 
       $('table').addClass('table-bordered');
       $('.page-messages .btn-xs').removeClass('btn-xs');
@@ -99,6 +100,12 @@
       //     });
       //   });
       // }
+    },
+
+    mobileChecks : function(){
+      if (!!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform)) {
+        $('select').addClass('ios-select'); // provide a class for iOS select box
+      }
     },
 
     expandFilters : function(){

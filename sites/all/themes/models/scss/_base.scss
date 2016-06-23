@@ -19,6 +19,23 @@ h2 {
   border-bottom: 1px solid #e7eaeb;
 }
 
+input.form-text {
+  border-radius: 0;
+  -webkit-appearance: none;
+}
+
+select.ios-select {
+  -webkit-appearance: none;
+  background-color: white;
+  background-image: url("../images/ios-select.png");
+  background-position: 95% center;
+  background-repeat: no-repeat;
+  padding-right: 1.5em;
+  border-radius: 0;
+  position: relative;
+  background-size:10px 5px;
+}
+
 // .nav-animate {
 //   // transition: 0.3s all ease;
 //   padding-top: 100px;
@@ -200,6 +217,21 @@ h2 {
       top: 100px;
       left: -230px;
       height: 100%;
+
+
+      .block {
+        h2 {
+          font-size: 16px!important;
+        }
+
+          li {
+            a {
+              font-size: 16px!important;
+            }
+          }
+
+      }
+
 
       #block-block-7 {
         transition: ease 1.5s left;

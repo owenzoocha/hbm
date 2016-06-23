@@ -135,7 +135,7 @@
     .block-dd {
       height: 30px;
       overflow: hidden;
-      transition: 0.3s ease all;
+      // transition: 0.3s ease all;
 
       &:last-child {
         margin-bottom: 60px;
@@ -154,7 +154,7 @@
       }
 
       &.active {
-        transition: 0.3s ease all;
+        // transition: 0.3s ease all;
         // min-height: 100px;
         height: auto;
 
