@@ -5738,7 +5738,9 @@ button.close {
 
 html,
 body {
-  height: 100%; }
+  height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: auto; }
 
 .a-link {
   color: #E01563; }
