@@ -154,7 +154,7 @@
     },
 
     skrollr : function(){
-      var s = skrollr.init({forceHeight: false});
+      // var s = skrollr.init({forceHeight: false});
     },
 
     reorder : function(){
