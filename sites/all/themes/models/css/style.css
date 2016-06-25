@@ -5739,7 +5739,6 @@ button.close {
 html,
 body {
   height: 100%;
-  overflow: auto;
   -webkit-overflow-scrolling: auto; }
 
 .a-link {
@@ -5850,7 +5849,7 @@ select.ios-select {
   #block-block-7 p {
     margin-bottom: 0; }
   #block-block-7 button {
-    background: #172A3A;
+    background: rgba(23, 42, 58, 0.35);
     border: none;
     color: #EDEFF0;
     border-radius: 0 5px 0 0;
@@ -5895,7 +5894,16 @@ select.ios-select {
     .page-search .col-sm-3 .block h2 {
       font-size: 16px !important; }
     .page-search .col-sm-3 .block li a {
-      font-size: 16px !important; }
+      font-size: 16px !important;
+      padding-left: 27px !important; }
+      .page-search .col-sm-3 .block li a:before {
+        top: 3px !important;
+        width: 15px !important;
+        height: 15px !important; }
+      .page-search .col-sm-3 .block li a:after {
+        top: 2px !important;
+        left: 8px !important;
+        font-size: 13px !important; }
     .page-search .col-sm-3 #block-block-7 {
       transition: ease 1.5s left;
       left: 0 !important; }
@@ -5921,6 +5929,14 @@ select.ios-select {
     .nav-animate.page-search .col-sm-3 {
       position: fixed;
       top: 53px; } }
+
+@media (max-width: 480px) {
+  .page-search .col-sm-3 {
+    transition: 0.2s left ease;
+    position: absolute;
+    top: 53px;
+    left: -230px;
+    height: 100%; } }
 
 .hb-cost {
   background-color: #172A3A;
@@ -8005,7 +8021,7 @@ li.a-dd {
         li.a-dd .my-menu-dd ul li a {
           padding: 10px;
           display: block;
-          font-size: 12px;
+          font-size: 13px;
           color: #172A3A;
           border-bottom: 1px solid #dfe1e3;
           position: relative;

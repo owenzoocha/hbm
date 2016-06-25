@@ -1,7 +1,7 @@
 html,
 body {
   height: 100%;
-  overflow: auto;
+  // overflow: auto;
   -webkit-overflow-scrolling: auto
 }
 
@@ -142,7 +142,8 @@ select.ios-select {
     margin-bottom: 0;
   }
   button {
-    background: $hb-dark;
+    // background: $hb-dark;
+    background: rgba(23, 42, 58, 0.35);
     border: none;
     color: $light-grey;
     border-radius: 0 5px 0 0;
@@ -220,7 +221,6 @@ select.ios-select {
       left: -230px;
       height: 100%;
 
-
       .block {
         h2 {
           font-size: 16px!important;
@@ -229,6 +229,17 @@ select.ios-select {
           li {
             a {
               font-size: 16px!important;
+              padding-left: 27px!important;
+              &:before {
+                top: 3px!important;
+                width: 15px!important;
+                height: 15px!important;
+              }
+              &:after {
+                top: 2px !important;
+                left: 8px !important;
+                font-size: 13px !important;
+              }
             }
           }
 
@@ -284,5 +295,18 @@ select.ios-select {
       }
     }
   }
+}
 
+@media (max-width: $screen-phone){
+
+  // the lhs filters..
+  .page-search {
+    .col-sm-3 {
+      transition: 0.2s left ease;
+      position: absolute;
+      top: 53px;
+      left: -230px;
+      height: 100%;
+    }
+  }
 }

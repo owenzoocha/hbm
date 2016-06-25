@@ -7,6 +7,8 @@
     init: function(context) {
       if ($('.page-search').length) {
         hbm.scrollAnimations();
+        var h2 = $('.main-container').outerHeight(true) + $('#hb-header').outerHeight(true);
+        $('.page-search .col-sm-3 .well').height(h2);
       } else {
         hbm.scrollAnimationsMenu();
       }
@@ -161,7 +163,10 @@
     },
 
     skrollr : function(){
-      // var s = skrollr.init({forceHeight: false});
+      if ($(window).width() > 440) {
+        // $('body').prepend('<div id="skrollr-body"></div>');
+        var s = skrollr.init();
+      }
     },
 
     reorder : function(){
@@ -247,36 +252,41 @@
 
     scrollAnimations : function() {
       // init controller
-      if (!$('body.front').length) {
-        var controller = new ScrollMagic.Controller();
-        var topH = $('#navbar').offset().top;
-        // Build scenes.
-        new ScrollMagic.Scene({offset: topH})
-        // new ScrollMagic.Scene({triggerElement: "#navbar-top-top", offset: 50})
-          // .on('leave', function(){
-          //   console.log('left!');
-          // })
-          .setClassToggle("body", "nav-animate") // add class toggle
-          // .setPin(".col-sm-3")
-          .addIndicators() // add indicators (requires plugin)
-          .addTo(controller);
+      if ($(window).width() > 440) {
+        if (!$('body.front').length) {
+
+          var controller = new ScrollMagic.Controller();
+          var topH = $('#navbar').offset().top;
+          // Build scenes.
+          new ScrollMagic.Scene({offset: topH})
+          // new ScrollMagic.Scene({triggerElement: "#navbar-top-top", offset: 50})
+            // .on('leave', function(){
+            //   console.log('left!');
+            // })
+            .setClassToggle("body", "nav-animate") // add class toggle
+            // .setPin(".col-sm-3")
+            .addIndicators() // add indicators (requires plugin)
+            .addTo(controller);
+        }
       }
     },
 
     scrollAnimationsMenu : function() {
       // init controller
-      if (!$('body.front').length) {
-        var controller = new ScrollMagic.Controller();
-        var topH = $('#navbar').offset().top;
-        // Build scenes.
-        new ScrollMagic.Scene({offset: topH})
-        // new ScrollMagic.Scene({triggerElement: "#navbar-top-top", offset: 50})
-          // .on('leave', function(){
-          //   console.log('left!');
-          // })
-          .setClassToggle("body", "nav-animate") // add class toggle
-          .addIndicators() // add indicators (requires plugin)
-          .addTo(controller);
+      if ($(window).width() > 440) {
+        if (!$('body.front').length) {
+          var controller = new ScrollMagic.Controller();
+          var topH = $('#navbar').offset().top;
+          // Build scenes.
+          new ScrollMagic.Scene({offset: topH})
+          // new ScrollMagic.Scene({triggerElement: "#navbar-top-top", offset: 50})
+            // .on('leave', function(){
+            //   console.log('left!');
+            // })
+            .setClassToggle("body", "nav-animate") // add class toggle
+            .addIndicators() // add indicators (requires plugin)
+            .addTo(controller);
+        }
       }
     },
 

@@ -929,7 +929,7 @@ function models_preprocess_views_view(&$vars) {
               $job_details = l($btn_text, '#', array('attributes' => array('data-toggle' => array('modal'), 'data-target' => array('#job-request-form-popup'), 'class' => array('btn btn-block ' . $btn_class))));
             }
             else {
-              $job_details = l($btn_text, 'user/login', array('attributes' => array('class' => array('btn btn-block' . $btn_class))));
+              $job_details = l($btn_text, 'user/login', array('attributes' => array('class' => array('btn btn-block ' . $btn_class))));
             }
           }
           else {

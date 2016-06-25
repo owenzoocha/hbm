@@ -136,14 +136,14 @@
 </div>
 
 <?php if (!empty($page['footer'])): ?>
-  <div class="footer-surround">
-    <?php if (!isset($no_footer)): ?>
+  <?php if (!isset($no_footer)): ?>
+    <div class="footer-surround">
       <footer class="footer container-fluid">
         <?php print render($page['footer']); ?>
       </footer>
-    <?php endif; ?>
     <footer class="footer-cr container-fluid">
       <span class="cr"><?php print '&copy; ' . t(':date hairandbeautymodels.com all rights reserved.', array(':date' => date('Y', strtotime('now')))); ?></span>
     </footer>
   </div>
+  <?php endif; ?>
 <?php endif; ?>
