@@ -1,0 +1,23 @@
+.pac-container {
+  .pac-item {
+    font-size: 14px !important;
+    color: #777!important;
+    font-family: "Open Sans", sans-serif !important;
+    font-weight: 300 !important;
+    padding: 5px 10px !important;
+
+    &:hover {
+      background-color: rgba(128, 207, 223, 0.1)!important;
+    }
+    .pac-matched {
+      color: #000;
+      font-weight: normal!important;
+    }
+    .pac-icon {
+      display: none!important;
+    }
+  }
+  &:after {
+    display: none!important;
+  }
+}
