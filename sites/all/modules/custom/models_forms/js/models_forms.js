@@ -85,7 +85,8 @@
       // })
     },
 
-    showTypeSelected : function(type, edit = false) {
+    showTypeSelected : function(type, edit) {
+      if (typeof(edit)==='undefined') edit = false;
       $('.hide-beauty, .hide-hair').hide();
       $('.form-item-field-hb-gender').show();
       hbmf.nanobar.go(100);
