@@ -5933,10 +5933,11 @@ select.ios-select {
 @media (max-width: 480px) {
   .page-search .col-sm-3 {
     transition: 0.2s left ease;
-    position: absolute;
-    top: 53px;
-    left: -230px;
-    height: 100%; } }
+    position: fixed;
+    top: 0;
+    left: -250px;
+    height: 100% !important;
+    z-index: 9999 !important; } }
 
 .hb-cost {
   background-color: #172A3A;

@@ -7,8 +7,8 @@
     init: function(context) {
       if ($('.page-search').length) {
         hbm.scrollAnimations();
-        var h2 = $('.main-container').outerHeight(true) + $('#hb-header').outerHeight(true);
-        $('.page-search .col-sm-3 .well').height(h2);
+        // var h2 = $('.main-container').outerHeight(true) + $('#hb-header').outerHeight(true);
+        // $('.page-search .col-sm-3 .well').height(h2);
       } else {
         hbm.scrollAnimationsMenu();
       }
