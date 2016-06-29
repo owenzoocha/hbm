@@ -37,8 +37,10 @@
 
   .col-sm-3 {
     padding: 0;
+    -webkit-overflow-scrolling: touch;
     .region {
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     #search-api-sorts-widget-form {

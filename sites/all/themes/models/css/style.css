@@ -5937,7 +5937,7 @@ select.ios-select {
     top: 0;
     left: -250px;
     height: 100% !important;
-    z-index: 9999 !important; } }
+    z-index: 1000 !important; } }
 
 .hb-cost {
   background-color: #172A3A;
@@ -7700,9 +7700,11 @@ select.form-control {
     width: 100%; }
 
 .page-search .col-sm-3 {
-  padding: 0; }
+  padding: 0;
+  -webkit-overflow-scrolling: touch; }
   .page-search .col-sm-3 .region {
-    overflow-y: auto; }
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; }
   .page-search .col-sm-3 #search-api-sorts-widget-form {
     padding: 0 10px;
     margin-bottom: 10px; }
@@ -7939,7 +7941,7 @@ select.form-control {
   padding: 0;
   font-size: 300;
   background-color: rgba(110, 202, 220, 0.85);
-  z-index: 1030;
+  z-index: 999;
   border-radius: 0;
   border: none; }
   #navbar .navbar-toggle {
