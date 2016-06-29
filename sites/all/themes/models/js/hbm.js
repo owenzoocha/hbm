@@ -265,7 +265,7 @@
             // })
             .setClassToggle("body", "nav-animate") // add class toggle
             // .setPin(".col-sm-3")
-            .addIndicators() // add indicators (requires plugin)
+            // .addIndicators() // add indicators (requires plugin)
             .addTo(controller);
         }
       }
@@ -284,7 +284,7 @@
             //   console.log('left!');
             // })
             .setClassToggle("body", "nav-animate") // add class toggle
-            .addIndicators() // add indicators (requires plugin)
+            // .addIndicators() // add indicators (requires plugin)
             .addTo(controller);
         }
       }

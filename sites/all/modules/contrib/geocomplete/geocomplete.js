@@ -10,7 +10,10 @@
       $('.geocomplete-input').each(function(){
         $(this).geocomplete({
           details: $(this).parents('form').find('[data-geocomplete-src="' + $(this).attr('name') + '"]'),
-          detailsAttribute: "data-geocomplete-type"
+          detailsAttribute: "data-geocomplete-type",
+          componentRestrictions: {
+            country: "aus",
+          }
         });
       });
 

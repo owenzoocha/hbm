@@ -8022,7 +8022,7 @@ li.a-dd {
           padding: 10px;
           display: block;
           font-size: 13px;
-          color: #172A3A;
+          color: #777;
           border-bottom: 1px solid #dfe1e3;
           position: relative;
           transition: all 0.2s ease; }
@@ -8687,5 +8687,22 @@ label {
   .dz-remove:hover {
     background-color: #E01563;
     text-decoration: none !important; }
+
+.pac-container .pac-item {
+  font-size: 14px !important;
+  color: #777 !important;
+  font-family: "Open Sans", sans-serif !important;
+  font-weight: 300 !important;
+  padding: 5px 10px !important; }
+  .pac-container .pac-item:hover {
+    background-color: rgba(128, 207, 223, 0.1) !important; }
+  .pac-container .pac-item .pac-matched {
+    color: #000;
+    font-weight: normal !important; }
+  .pac-container .pac-item .pac-icon {
+    display: none !important; }
+
+.pac-container:after {
+  display: none !important; }
 
 /*# sourceMappingURL=maps/style.css.map */
