@@ -9,6 +9,14 @@ body {
   }
 }
 
+span.badge {
+  font-weight: 300;
+  margin-left: 5px;
+  font-size: 11px;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.14);
+  padding: 3px 5px;
+}
+
 .a-link {
   color: $hb-pink;
 }
@@ -176,6 +184,10 @@ select.ios-select {
 
 
 @media (min-width: $screen-tablet){
+
+  span.badge {
+    background: $hb-pink;
+  }
 
   // the lhs filters..
   .page-search {

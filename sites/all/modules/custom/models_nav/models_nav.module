@@ -314,10 +314,10 @@ function template_preprocess_custom_nav(&$vars) {
   $active_personal = strpos(current_path(), 'search/type/personal') !== FALSE ? 'active' : FALSE;
   $links .= '<li class="leaf ' . $active_personal . '">' . l('Last Minute', 'search/type/personal') . '</li>';
 
-  $msg_count = privatemsg_unread_count($user) > 0 ? ' (' . privatemsg_unread_count($user) . ')' : FALSE;
+  $msg_count = privatemsg_unread_count($user) > 0 ? ' <span class="badge">' . privatemsg_unread_count($user) . '</span>' : FALSE;
 
   $active_msgs = current_path() == 'messages' ? 'active' : FALSE;
-  $links .= '<li class="leaf ' . $active_msgs . '">' . l('Messages' . $msg_count, 'messages') . '</li>';
+  $links .= '<li class="leaf ' . $active_msgs . '">' . l('Messages' . $msg_count, 'messages', array('html' => TRUE)) . '</li>';
 
   $active_msgs = current_path() == 'job/create' ? 'active' : FALSE;
   $links .= '<li class="leaf ' . $active_msgs . '">' . l('Post Job', 'job/create') . '</li>';

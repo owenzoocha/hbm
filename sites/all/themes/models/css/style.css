@@ -5744,6 +5744,13 @@ body {
   body.no-scroll {
     overflow: hidden !important; }
 
+span.badge {
+  font-weight: 300;
+  margin-left: 5px;
+  font-size: 11px;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.14);
+  padding: 3px 5px; }
+
 .a-link {
   color: #E01563; }
 
@@ -5873,6 +5880,8 @@ select.ios-select {
       padding-left: 15px; }
 
 @media (min-width: 768px) {
+  span.badge {
+    background: #E01563; }
   .page-search .col-sm-3 {
     position: absolute;
     top: 100px;
@@ -6342,7 +6351,7 @@ select.form-control {
 
 .hb-type {
   text-transform: uppercase;
-  width: 130px;
+  width: 120px;
   background: #6ECADC;
   position: absolute;
   top: 7px;
