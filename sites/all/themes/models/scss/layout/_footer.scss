@@ -82,7 +82,7 @@
         border: 1px solid $hb-light-grey;
         color: $hb-light-grey;
         outline: none;
-        height: auto;
+        height: 33px;
       }
     }
   }
@@ -127,6 +127,14 @@
       li {
         display: block;
         border: none;
+      }
+    }
+    #block-models-nav-social-nav-footer {
+      li {
+        &:last-of-type {
+          display: block;
+          padding: 10px 0 0;
+        }
       }
     }
   }

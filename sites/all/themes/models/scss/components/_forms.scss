@@ -16,8 +16,11 @@
 }
 
 .not-logged-in.page-user {
-  .form-control {
-    font-size: 18px;
+
+  .main-container {
+    .form-control {
+      font-size: 18px;
+    }
   }
 
   #edit-submit {
