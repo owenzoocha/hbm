@@ -7236,7 +7236,8 @@ select.form-control {
   background-clip: padding-box;
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
-  color: #EDEFF0; }
+  color: #EDEFF0;
+  outline: none !important; }
   #block-tweaks-contact-us-button a.contact-btn:hover {
     background-color: #E01563; }
   #block-tweaks-contact-us-button a.contact-btn .fa {
@@ -8235,6 +8236,19 @@ li.a-dd {
     color: #AF514F; }
   .alert.alert-danger:before {
     background-color: #AF514F; }
+
+body.front .alert.alert-success {
+  position: fixed;
+  bottom: 15px;
+  left: 10px;
+  margin: 0;
+  width: 230px;
+  color: #052d19;
+  background-color: rgba(173, 227, 210, 0.8); }
+
+body.front .alert.alert-cya {
+  opacity: 0;
+  transition: all 0.7s ease; }
 
 .nav-tabs > li {
   margin-right: 5px; }

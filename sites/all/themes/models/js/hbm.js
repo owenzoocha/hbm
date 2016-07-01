@@ -22,6 +22,7 @@
       hbm.selectClient();
       hbm.expandFilters();
       hbm.mobileChecks();
+      hbm.fadeOutAlertsOnHome();
 
       $('table').addClass('table-bordered');
       $('.page-messages .btn-xs').removeClass('btn-xs');
@@ -110,12 +111,24 @@
       }
     },
 
+    fadeOutAlertsOnHome : function(){
+      if ($('body.front .alert-success').length ){
+        setTimeout(function(){
+          $('body.front .alert-success').addClass('alert-cya');
+          setTimeout(function(){
+            $('body.front .alert-success').remove();
+          }, 2000);
+        }, 2500);
+      };
+    },
+
     expandFilters : function(){
       $('#block-block-7 button').on('click', function(){
         $('body').toggleClass('show-filters');
         $('body, html').toggleClass('no-scroll');
       });
     },
+
     selectClient : function(){
       if ($('.page-job-clients').length) {
         $('.page-job-clients .option a').on('click', function(){
