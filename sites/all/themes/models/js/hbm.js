@@ -118,7 +118,7 @@
           setTimeout(function(){
             $('body.front .alert-success').remove();
           }, 2000);
-        }, 2500);
+        }, 8000);
       };
     },
 
