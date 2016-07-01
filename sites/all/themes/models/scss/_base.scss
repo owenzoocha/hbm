@@ -153,14 +153,15 @@ select.ios-select {
     text-transform: uppercase;
     i {
       transition: 0.2s ease all;
-      font-size: 10px;
+      font-size: 14px;
+      display: inline-block;
+      transform-origin: 50% 50%;
     }
   }
   position: fixed;
   bottom: 0;
   transition: ease 1.5s left;
   left: -100%;
-  // display: block!important;
   &:hover, .active {
     transition: all ease 0.2s;
     button {
@@ -179,10 +180,6 @@ select.ios-select {
       top: 100px;
       left: 0;
       height: 100%;
-
-      #block-block-7 {
-        // display: none;
-      }
     }
   }
 
@@ -211,6 +208,12 @@ select.ios-select {
 }
 
 @media (max-width: $screen-tablet){
+
+  #block-block-7 {
+    transition: ease 1.5s left;
+    left: 0!important;
+    z-index: 999999;
+  }
 
   // the lhs filters..
   .page-search {
@@ -244,12 +247,6 @@ select.ios-select {
           }
 
       }
-
-
-      #block-block-7 {
-        transition: ease 1.5s left;
-        left: 0!important;
-      }
     }
     .event-page {
       padding-left: 20px!important;
@@ -260,13 +257,12 @@ select.ios-select {
     &.page-search {
       .col-sm-3 {
         left: 0;
-
-        #block-block-7 {
-          i {
-            // transition: 0.2 ease all;
-            // transform: rotate(-180deg);
-            transform: scaleX(-1);
-          }
+      }
+      #block-block-7 {
+        i {
+          // transition: 0.2 ease all;
+          // transform: rotateZ( -180deg );
+          transform: scaleX(-1);
         }
       }
       .event-page {

@@ -147,3 +147,10 @@
   </div>
   <?php endif; ?>
 <?php endif; ?>
+
+<?php if (strpos(current_path(), 'search') !== FALSE): ?>
+<section id="block-block-7" class="block block-block clearfix">
+  <p><button>filters <i class="fa fa-chevron-right"></i></button></p>
+</section>
+<?php endif; ?>
+

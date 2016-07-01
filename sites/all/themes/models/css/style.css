@@ -5859,7 +5859,11 @@ select.ios-select {
     text-transform: uppercase; }
     #block-block-7 button i {
       transition: 0.2s ease all;
-      font-size: 10px; }
+      font-size: 14px;
+      display: inline-block;
+      -webkit-transform-origin: 50% 50%;
+          -ms-transform-origin: 50% 50%;
+              transform-origin: 50% 50%; }
   #block-block-7:hover, #block-block-7 .active {
     transition: all ease 0.2s; }
     #block-block-7:hover button, #block-block-7 .active button {
@@ -5885,6 +5889,10 @@ select.ios-select {
       top: 54px; } }
 
 @media (max-width: 768px) {
+  #block-block-7 {
+    transition: ease 1.5s left;
+    left: 0 !important;
+    z-index: 999999; }
   .page-search .col-sm-3 {
     transition: 0.2s left ease;
     position: absolute;
@@ -5904,17 +5912,14 @@ select.ios-select {
         top: 2px !important;
         left: 8px !important;
         font-size: 13px !important; }
-    .page-search .col-sm-3 #block-block-7 {
-      transition: ease 1.5s left;
-      left: 0 !important; }
   .page-search .event-page {
     padding-left: 20px !important; }
   .show-filters.page-search .col-sm-3 {
     left: 0; }
-    .show-filters.page-search .col-sm-3 #block-block-7 i {
-      -webkit-transform: scaleX(-1);
-          -ms-transform: scaleX(-1);
-              transform: scaleX(-1); }
+  .show-filters.page-search #block-block-7 i {
+    -webkit-transform: scaleX(-1);
+        -ms-transform: scaleX(-1);
+            transform: scaleX(-1); }
   .show-filters.page-search .event-page {
     padding-left: 20px !important; }
   .nav-animate {
