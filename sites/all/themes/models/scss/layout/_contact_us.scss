@@ -1,30 +1,33 @@
 #block-tweaks-contact-us-button {
   a.contact-btn {
     display: block;
-    bottom: 0;
+    bottom: 15px;
     right: 15px;
     z-index: 9;
     position: fixed;
-    padding: 5px 25px 5px 15px;
-    text-decoration: none;
-    transition: all 0.1s ease;
     background: $hb-dark;
-    color: $white;
     text-align: center;
     border-radius: 5px 5px 0 0;
     font-size: 13px;
     letter-spacing: 1px;
     font-weight: 300;
     border: 1px solid rgba(237, 239, 240, 0.14);
-    border-bottom: none;
+    line-height: 56px;
+    min-width: 0;
+    width: 56px;
+    height: 56px;
+    vertical-align: middle;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    border-radius: 50%;
+    background-clip: padding-box;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
+    color: $light-grey;
     &:hover {
-      padding-bottom: 10px;
+      background-color: $hb-pink;
     }
     .fa {
-        font-size: 10px;
-        position: absolute;
-        top: 9px;
-        right: 10px;
+      font-size: 24px;
     }
   }
 }

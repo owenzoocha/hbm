@@ -97,7 +97,7 @@ function template_preprocess_contact_us_button(&$vars) {
     'body' => drupal_render($contactus_form),
   );
   $vars['contactus_form'] = theme('bootstrap_modal', $modal_options);
-  $vars['contactus_btn'] = l(t('Contact Us') . ' <i class="fa fa-chevron-up"></i>', '#', array('html' => TRUE, 'attributes' => array('data-toggle' => array('modal'), 'data-target' => array('#contactus-popup'), 'class' => array('contact-btn'))));
+  $vars['contactus_btn'] = l('<i class="fa fa-comment"></i>', '#', array('html' => TRUE, 'attributes' => array('data-toggle' => array('modal'), 'data-target' => array('#contactus-popup'), 'class' => array('contact-btn'))));
 }
 
 /**
