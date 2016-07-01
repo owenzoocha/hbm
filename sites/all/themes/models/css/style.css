@@ -8272,10 +8272,12 @@ li.a-dd {
       line-height: 32px; }
     .modal .modal-header .close {
       background: #172A3A;
-      padding: 2px 9px;
       border-radius: 50%;
       opacity: 1;
-      font-size: 30px;
+      font-size: 27px;
+      height: 30px;
+      width: 30px;
+      line-height: 30px;
       color: #fff;
       text-shadow: none;
       transition: 0.3s ease all; }
