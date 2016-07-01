@@ -113,6 +113,7 @@
     expandFilters : function(){
       $('#block-block-7 button').on('click', function(){
         $('body').toggleClass('show-filters');
+        $('body, html').toggleClass('no-scroll');
       });
     },
     selectClient : function(){

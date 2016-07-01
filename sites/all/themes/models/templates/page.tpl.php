@@ -149,8 +149,9 @@
 <?php endif; ?>
 
 <?php if (strpos(current_path(), 'search') !== FALSE): ?>
-<section id="block-block-7" class="block block-block clearfix">
+<div id="block-block-7">
   <p><button>filters <i class="fa fa-chevron-right"></i></button></p>
-</section>
+</div>
+<span class="search-overlay"></span>
 <?php endif; ?>
 

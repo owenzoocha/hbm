@@ -5740,6 +5740,9 @@ html,
 body {
   height: 100%;
   -webkit-overflow-scrolling: auto; }
+  html.no-scroll,
+  body.no-scroll {
+    overflow: hidden !important; }
 
 .a-link {
   color: #E01563; }
@@ -5936,6 +5939,22 @@ select.ios-select {
       top: 53px; } }
 
 @media (max-width: 480px) {
+  html .search-overlay,
+  body .search-overlay {
+    height: 0;
+    opacity: 0;
+    transition: 0.2s ease opacity; }
+  html.no-scroll .search-overlay,
+  body.no-scroll .search-overlay {
+    opacity: 1;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: 0;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.41); }
   .page-search .col-sm-3 {
     transition: 0.2s left ease;
     position: fixed;

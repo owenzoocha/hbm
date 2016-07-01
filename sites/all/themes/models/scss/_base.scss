@@ -2,7 +2,11 @@ html,
 body {
   height: 100%;
   // overflow: auto;
-  -webkit-overflow-scrolling: auto
+  -webkit-overflow-scrolling: auto;
+
+  &.no-scroll {
+    overflow: hidden!important;
+  }
 }
 
 .a-link {
@@ -294,6 +298,28 @@ select.ios-select {
 }
 
 @media (max-width: $screen-phone){
+
+  html,
+  body {
+    .search-overlay {
+      height: 0;
+      opacity: 0;
+      transition: 0.2s ease opacity;
+    }
+    &.no-scroll {
+      .search-overlay {
+        opacity: 1;
+        height: 100%;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        top: 0;
+        z-index: 999;
+        background-color: rgba(0, 0, 0, 0.41);
+      }
+    }
+  }
 
   // the lhs filters..
   .page-search {
