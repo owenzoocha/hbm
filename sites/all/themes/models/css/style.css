@@ -6,6 +6,7 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,600,300,300italic,400italic);
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,600,300,300italic,400italic);
 @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css);
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 /**
  * Variable Overrides.
  *
@@ -5747,6 +5748,10 @@ body {
 .my-image img {
   background: #f4f4f4 !important; }
 
+.ad-here img {
+  width: 100%;
+  height: auto; }
+
 span.badge {
   font-weight: 300;
   margin-left: 5px;
@@ -7367,8 +7372,10 @@ select.form-control {
   border-top: 1px solid #e7eaeb; }
 
 .page-user #block-views-user-profile-rhs-block span,
-.page-user #block-views-user-profile-rhs-block-2 span {
-  font-size: 11px; }
+.page-user #block-views-user-profile-rhs-block .material-icons,
+.page-user #block-views-user-profile-rhs-block-2 span,
+.page-user #block-views-user-profile-rhs-block-2 .material-icons {
+  font-size: 14px; }
 
 .page-user #block-views-user-profile-rhs-block .views-field-name span,
 .page-user #block-views-user-profile-rhs-block-2 .views-field-name span {

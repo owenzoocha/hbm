@@ -186,7 +186,7 @@ function template_preprocess_my_nav(&$vars) {
 
     if (!isset($vars['someone_else'])) {
       $my_jobs_count_ = views_get_view_result('user_profile_jobs', 'block_3');
-      $my_jobs_count = sizeof($my_jobs_count_) > 0 ? ' (' . sizeof($my_jobs_count_) . ')' : FALSE;
+      $my_jobs_count = sizeof($my_jobs_count_) > 0 ? '<span class="badge">' . sizeof($my_jobs_count_) . '</span>' : FALSE;
 
       $uw = entity_metadata_wrapper('user', $vars['user_nav']);
       if ($uw->field_flags_running_posts->value() != sizeof($my_jobs_count_)) {
@@ -194,15 +194,15 @@ function template_preprocess_my_nav(&$vars) {
         $uw->save();
       }
 
-      $my_requests_count = sizeof(views_get_view_result('user_profile_jobs', 'page_1')) ? ' (' . sizeof(views_get_view_result('user_profile_jobs', 'page_1')) . ')' : FALSE;
+      $my_requests_count = sizeof(views_get_view_result('user_profile_jobs', 'page_1')) ? '<span class="badge">' . sizeof(views_get_view_result('user_profile_jobs', 'page_1')) . '</span>' : FALSE;
 
       $nav  = '<ul>';
       $nav .= '<li>' . l(t('Dashboard'), 'user/' . $uw->getIdentifier(), array('attributes' => array('class' => array('')))) . '</li>';
       $nav .= '<li>' . l(t('Settings'), 'user/personal-information/settings', array('attributes' => array('class' => array('')))) . '</li>';
       $nav .= '<li>' . l(t('Photos'), 'user/photos', array('attributes' => array('class' => array('')))) . '</li>';
       $nav .= '<li>' . l(t('My Feedback'), 'user/' . $uw->getIdentifier() . '/feedback', array('attributes' => array('class' => array('')))) . '</li>';
-      $nav .= '<li>' . l(t('My Jobs') . $my_jobs_count, 'my-jobs', array('attributes' => array('class' => array('')))) . '</li>';
-      $nav .= '<li>' . l(t('Job Requests') . $my_requests_count, 'job-requests', array('attributes' => array('class' => array('')))) . '</li>';
+      $nav .= '<li>' . l(t('My Jobs') . $my_jobs_count, 'my-jobs', array('html' => TRUE, 'attributes' => array('class' => array('')))) . '</li>';
+      $nav .= '<li>' . l(t('Job Requests') . $my_requests_count, 'job-requests', array('html' => TRUE, 'attributes' => array('class' => array('')))) . '</li>';
       $nav .= '<li>' . l(t('Watchlist'), 'watchlist', array('attributes' => array('class' => array('')))) . '</li>';
       $nav .= '<li>' . l(t('Previous Jobs'), 'previous-jobs', array('attributes' => array('class' => array('')))) . '</li>';
       $nav .= '<li class="last">' . l(t('Logout'), 'user/logout', array('attributes' => array('class' => array('')))) . '</li>';

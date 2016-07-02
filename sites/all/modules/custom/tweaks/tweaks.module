@@ -474,7 +474,7 @@ function tweaks_field_formatter_view($entity_type, $entity, $field, $instance, $
     if (!empty($item['administrative_area'])) {
       $address_parts[] = $item['administrative_area'];
     }
-    $inline_address .= '<p><i class="fa fa-map-marker"></i> ' . implode(', ', $address_parts) . '</p>';
+    $inline_address .= '<p><i class="material-icons">public</i> ' . implode(', ', $address_parts) . '</p>';
     $inline_address .= '<p class="open-link">' . l(t('View Directions'), 'http://maps.google.com/', array('attributes' => array('target' => '_blank', 'rel' => 'nofollow'), 'query' => array('q' => implode(', ', $address_parts)))) . '</p>';
     $build[] = array('#markup' => $inline_address);
     $count++;
