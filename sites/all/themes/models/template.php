@@ -195,7 +195,12 @@ function models_preprocess_node(&$variables) {
           }
 
           if ($nw->field_hb_users_eck->value()) {
-            $variables['requestees'] = '<span class="interested"><i class="fa fa-user"></i>' . ' ' . sizeof($nw->field_hb_users_eck->value()) . ' ' . t('interested') . '</span>';
+            if (!$nw->field_hb_assigned->value()) {
+              $variables['requestees'] = '<span class="interested"><i class="fa fa-user"></i>' . ' ' . sizeof($nw->field_hb_users_eck->value()) . ' ' . t('interested') . '</span>';
+            }
+            else {
+              $variables['requestees'] = '<span class="interested"><i class="fa fa-user"></i>' . ' ' . sizeof($nw->field_hb_client_size->value()) . ' ' . t('feedback required') . '</span>';
+            }
           }
         }
       }
