@@ -48,5 +48,12 @@
         color: $hb-pink;
       }
     }
+    .views-field-field-my-web {
+      .field-content {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+    }
   }
 }

@@ -7387,6 +7387,12 @@ select.form-control {
 .page-user #block-views-user-profile-rhs-block-2 .views-field-field-my-web a {
   color: #E01563; }
 
+.page-user #block-views-user-profile-rhs-block .views-field-field-my-web .field-content,
+.page-user #block-views-user-profile-rhs-block-2 .views-field-field-my-web .field-content {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden; }
+
 #user-profile-form .panel-heading {
   display: none; }
 
