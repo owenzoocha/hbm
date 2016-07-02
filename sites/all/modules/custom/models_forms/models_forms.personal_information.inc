@@ -114,10 +114,11 @@ function models_forms_update_address(&$form, $form_state) {
     $add .= isset($uw->field_my_address->value()['postal_code']) ? $uw->field_my_address->value()['postal_code'] : FALSE;
   }
 
+  $add = str_replace(' , ', ', ', $add);
+  $add = str_replace(',,', ',', $add);
+
   if (!empty($add)) {
     $point = geocoder('google', $add, array('https' => TRUE));
-    // dpm($point, 'pointtt');
-
     $geo_array = array(
       'geo_type' => 'point',
       'lat' => $point->coords[1],

@@ -6116,7 +6116,8 @@ select.form-control {
     margin-top: 5px;
     width: 150px; }
 
-.node-type-job #hb-header.no-my-nav {
+.node-type-job #hb-header.no-my-nav,
+.page-job-feedback #hb-header.no-my-nav {
   margin-bottom: 15px;
   color: #dfe1e3;
   text-shadow: 1px 1px 1px #172A3A; }

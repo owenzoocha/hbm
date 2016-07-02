@@ -16,6 +16,8 @@ function models_forms_feedback_form($form, &$form_state) {
   $usrs = FALSE;
   $owner_fb = FALSE;
 
+  drupal_set_title($nw->label() . ' - ' . t('Feedback'));
+
   // Check if this is a user submitting feedback on the job owner...
   $title = '%_aid_' . $nw->author->getIdentifier() . '_uid_' . $uw->getIdentifier()  . '_nid_' . $nw->getIdentifier() . '%';
   $query = new EntityFieldQuery();
@@ -35,16 +37,16 @@ function models_forms_feedback_form($form, &$form_state) {
   // $form_state['aid'] = $aid;
 
   if (!$owner_fb) {
-    $desc = t('Provide a star rating from 0 - 5 and leave some feedback.');
+    $desc = '<h3>' . t('Leave Feedback') . '</h3>' . t('Provide a star rating from 0 - 5 and leave client feedback for !job.', array('!job' => l($nw->label(), $nw->getIdentifier())));
     $fb_completed = $nw->field_hb_feedb_size->value() == $nw->field_hb_client_size->value() ? TRUE : FALSE;
     if ($fb_completed) {
-      $desc = t('The feedback for this job is now complete!');
+      $desc = '<h3>' . t('Leave Feedback') . '</h3>' . t('The feedback for this job is now complete!');
     }
   }
   else {
-    $desc = t('Provide a star rating from 0 - 5 and leave some feedback for the </strong>job owner</strong>.');
+    $desc = '<h3>' . t('Leave Feedback') . '</h3>' . t('Provide a star rating from 0 - 5 and leave some feedback for the </strong>job owner</strong> of !job.', array('!job' => l($nw->label(), $nw->getIdentifier())));
     if ($fb_completed) {
-      $desc = t('Your feedback for the job owner is now complete! Click <strong>!here</strong> to view the job.', array('!here' => l(t('here'), 'node/' . $nw->getIdentifier())) );
+      $desc = '<h3>' . t('Leave Feedback') . '</h3>' . t('Your feedback for the job owner is now complete! Click <strong>!here</strong> to view the job.', array('!here' => l(t('here'), 'node/' . $nw->getIdentifier())) );
     }
   }
 
@@ -232,8 +234,7 @@ function models_forms_feedback_form_submit(&$form, &$form_state){
 
             $sql_res = $sql->fetchAll();
             $total_stars = $sql_res[0]->score;
-            $overall_rating = $total_stars / $fb_amt;
-
+            $overall_rating = $total_stars / ($fb_amt - 1);
             $overall_rating = number_format($overall_rating, 2);
             $u->field_feedb_user->field_my_overall_rating->set($overall_rating);
           }
@@ -268,8 +269,6 @@ function models_forms_feedback_form_submit(&$form, &$form_state){
       // dpm($form_state);
 
       $aw = entity_metadata_wrapper('feedback', $form_state['aid']);
-      // dpm($aw->value());
-
 
       // Save the Job Owner ECK data.
       // ------- ECK --------
@@ -302,18 +301,19 @@ function models_forms_feedback_form_submit(&$form, &$form_state){
 
         $sql_res = $sql->fetchAll();
         $total_stars = $sql_res[0]->score;
-        $overall_rating = $total_stars / $fb_amt;
-
+        $overall_rating = $total_stars / ($fb_amt - 1);
         $overall_rating = number_format($overall_rating, 2);
         $aw->field_feedb_user->field_my_overall_rating->set($overall_rating);
       }
       else {
         $aw->field_feedb_user->field_my_overall_rating->set($fs['rating_' . $nw->author->getIdentifier()]);
       }
+
       // Save the user profile data.
       $aw->field_feedb_user->save();
 
-      drupal_set_message(t('Hey !name, your feedback for the job owner is now complete! Keep an eye on your profile for your feedback from this job.', array('!name' => $nw->author->field_first_name->value())), 'info', FALSE);
+      $uw = entity_metadata_wrapper('user', $user->uid);
+      drupal_set_message(t('Hey !name, your feedback for the job owner is now complete! Keep an eye on your profile for personal feedback from this job.', array('!name' => $uw->field_first_name->value())), 'info', FALSE);
 
     }
   }
