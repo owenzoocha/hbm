@@ -508,7 +508,8 @@ function models_preprocess_page(&$variables) {
       }
       $variables['author_pic'] = l($pic, 'user/' . $nw->author->getIdentifier(), array('html' => true, 'attributes' => array('class' => array('author-pic'))));
 
-      $stars = $uw->field_my_overall_rating->value() ? $uw->field_my_overall_rating->value() : 0;
+      $stars = $nw->author->field_my_overall_rating->value() ? $nw->author->field_my_overall_rating->value() : 0;
+
       $variables['author_rating'] = '<div class="hb-rating raty raty-readonly" data-rating="' . $stars . '"></div>';
 
       if (1==1) {
@@ -542,8 +543,8 @@ function models_preprocess_page(&$variables) {
       $variables['job_details'] = $job_details;
       // dpm(theme_date_time_ago($ts));
 
-      $stars = $uw->field_my_overall_rating->value() ? $uw->field_my_overall_rating->value() : 0;
-      $variables['author_rating'] = '<div class="hb-rating raty raty-readonly" data-rating="' . $stars . '"></div>';
+      // $stars = $uw->field_my_overall_rating->value() ? $uw->field_my_overall_rating->value() : 0;
+      // $variables['author_rating'] = '<div class="hb-rating raty raty-readonly" data-rating="' . $stars . '"></div>';
       // $variables['content_column_class'] = ' class="col-sm-12 event-page"';
 
       // Page titles clean up
