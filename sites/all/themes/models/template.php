@@ -179,7 +179,7 @@ function models_preprocess_node(&$variables) {
             $variables['job_status'] = t('Paused');
           }
           else if ($nw->field_hb_assigned->value()) {
-            $variables['job_status'] = t('Leave Feedback');
+            $variables['job_status'] = $nw->field_hb_feedb_size->value() != $nw->field_hb_client_size->value() ? t('Leave Feedback') : t('Feedback Complete');
           }
           else if ($nw->field_hb_feedback_complete->value()) {
             $variables['job_status'] = t('Complete');
@@ -195,11 +195,15 @@ function models_preprocess_node(&$variables) {
           }
 
           if ($nw->field_hb_users_eck->value()) {
-            if (!$nw->field_hb_assigned->value()) {
-              $variables['requestees'] = '<span class="interested"><i class="fa fa-user"></i>' . ' ' . sizeof($nw->field_hb_users_eck->value()) . ' ' . t('interested') . '</span>';
-            }
-            else {
-              $variables['requestees'] = '<span class="interested"><i class="fa fa-user"></i>' . ' ' . sizeof($nw->field_hb_client_size->value()) . ' ' . t('feedback required') . '</span>';
+            if ($nw->field_hb_feedb_size->value() != $nw->field_hb_client_size->value()) {
+              if (!$nw->field_hb_assigned->value()) {
+                $variables['requestees'] = '<span class="interested"><i class="fa fa-user"></i>' . ' ' . l(sizeof($nw->field_hb_users_eck->value()) . ' ' . t('interested'), 'job/' . $nw->getIdentifier() . '/clients') . '</span>';
+              }
+              else {
+                $variables['requestees'] = '<span class="interested"><i class="fa fa-user"></i>' . ' ' . l(sizeof($nw->field_hb_client_size->value()) . ' ' . t('feedback required'), 'job/' . $nw->getIdentifier() . '/feedback') . '</span>';
+              }
+            } else {
+              $variables['requestees'] = '<span class="interested"><i class="fa fa-user"></i>' . ' ' . l(' ' . t('feedback complete'), 'job/' . $nw->getIdentifier() . '/feedback') . '</span>';
             }
           }
         }

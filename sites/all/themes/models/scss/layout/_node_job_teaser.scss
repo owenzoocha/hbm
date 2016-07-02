@@ -183,7 +183,7 @@
         .status {
           text-align: center;
           padding: 5px 15px;
-          font-size: 12px;
+          font-size: 10px;
           border: 1px solid $light-grey-border;
           border-top: none;
           color: $white;
@@ -194,6 +194,10 @@
             background: $hb-blue;
           }
           &.status-leave-feedback {
+            background: $hb-green;
+            color: $white;
+          }
+          &.status-feedback-complete {
             background: $hb-green;
             color: $white;
           }

@@ -6639,7 +6639,7 @@ select.form-control {
       .page-my-jobs .view-content .views-field-rendered-entity .views-row-surrounder .status {
         text-align: center;
         padding: 5px 15px;
-        font-size: 12px;
+        font-size: 10px;
         border: 1px solid #dfe1e3;
         border-top: none;
         color: #fff;
@@ -6664,6 +6664,17 @@ select.form-control {
         #block-views-user-profile-jobs-block-2 .view-content .views-field-rendered-entity .views-row-surrounder .status.status-leave-feedback,
         .slick-me-up .view-content .views-field-rendered-entity .views-row-surrounder .status.status-leave-feedback,
         .page-my-jobs .view-content .views-field-rendered-entity .views-row-surrounder .status.status-leave-feedback {
+          background: #3EB991;
+          color: #fff; }
+        .page-search .view-content .views-field-rendered-entity .views-row-surrounder .status.status-feedback-complete,
+        .page-job-requests .view-content .views-field-rendered-entity .views-row-surrounder .status.status-feedback-complete,
+        .page-watchlist .view-content .views-field-rendered-entity .views-row-surrounder .status.status-feedback-complete,
+        .page-previous-jobs .view-content .views-field-rendered-entity .views-row-surrounder .status.status-feedback-complete,
+        #block-views-user-profile-jobs-block .view-content .views-field-rendered-entity .views-row-surrounder .status.status-feedback-complete,
+        #block-views-user-profile-jobs-block-1 .view-content .views-field-rendered-entity .views-row-surrounder .status.status-feedback-complete,
+        #block-views-user-profile-jobs-block-2 .view-content .views-field-rendered-entity .views-row-surrounder .status.status-feedback-complete,
+        .slick-me-up .view-content .views-field-rendered-entity .views-row-surrounder .status.status-feedback-complete,
+        .page-my-jobs .view-content .views-field-rendered-entity .views-row-surrounder .status.status-feedback-complete {
           background: #3EB991;
           color: #fff; }
         .page-search .view-content .views-field-rendered-entity .views-row-surrounder .status.status-paused,
