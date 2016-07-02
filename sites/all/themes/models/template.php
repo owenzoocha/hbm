@@ -880,6 +880,9 @@ function models_preprocess_entity(&$variables) {
     $variables['pic'] = $pic;
     $variables['author'] = $author;
     $variables['type'] = '<div class="field-name-field-feedb-type">' . t('as: ') . $ew->field_feedb_type->value() . '</div>';
+
+    $variables['comment_type'] = $ew->field_feedb_type->value() == 'owner' ? '<div class="field-name-field-feedb-type type-client">' . t('Client') . '</div>' : '<div class="field-name-field-feedb-type type-owner">' . t('Job Owner') . '</div>';
+
     $variables['author_rating'] = '<div class="hb-rating raty raty-readonly" data-rating="' . $stars . '"></div>';
     $variables['stars'] = '<div class="hb-rating raty raty-readonly" data-rating="' . $ew->field_rating->value() . '"></div>';
     $variables['job'] = l($nw->label(), 'node/' . $nw->getIdentifier()) . ' <span class="fb-created">(' . format_date($ew->created->value(), 'normal', 'Y-m-d H:i:s', 'UTC') . ')</span>';

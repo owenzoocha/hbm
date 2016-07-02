@@ -8599,6 +8599,16 @@ div.addressfield-container-inline > div.form-item {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; }
+  .view-user-feedback .rate-author .field-name-field-feedb-type {
+    font-weight: 300;
+    font-size: 13px;
+    color: #fff;
+    margin: 5px;
+    border-radius: 15px; }
+    .view-user-feedback .rate-author .field-name-field-feedb-type.type-client {
+      background: rgba(225, 28, 104, 0.39); }
+    .view-user-feedback .rate-author .field-name-field-feedb-type.type-owner {
+      background: rgba(102, 183, 199, 0.49); }
   .view-user-feedback .rate-author .my-image {
     padding-bottom: 5px;
     width: 60px;
@@ -8672,7 +8682,7 @@ div.addressfield-container-inline > div.form-item {
 .view-user-feedback .views-row-even .rate-feedback {
   float: left; }
   .view-user-feedback .views-row-even .rate-feedback .hb-rating {
-    text-align: right; }
+    text-align: left; }
   .view-user-feedback .views-row-even .rate-feedback .field-name-field-feedb-type {
     right: auto;
     left: 0px;

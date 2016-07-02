@@ -9,6 +9,21 @@
     overflow: hidden;
     text-overflow: ellipsis;
 
+    .field-name-field-feedb-type {
+      font-weight: 300;
+      font-size: 13px;
+      color: $white;
+      margin: 5px;
+      border-radius: 15px;
+
+      &.type-client {
+        background: rgba(225, 28, 104, 0.39);
+      }
+      &.type-owner {
+        background: rgba(102, 183, 199, 0.49);
+      }
+    }
+
     .my-image {
       padding-bottom: 5px;
       width: 60px;
@@ -95,7 +110,7 @@
     .rate-feedback {
       float: left;
       .hb-rating {
-        text-align: right;
+        text-align: left;
       }
       .field-name-field-feedb-type {
         right: auto;
