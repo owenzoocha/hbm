@@ -6105,7 +6105,8 @@ select.form-control {
       width: 80px;
       margin: 0 auto; }
       #hb-header .header-author-pic .my-image img {
-        border: 2px solid #dfe1e3; }
+        border: 2px solid #dfe1e3;
+        background: #dfe1e3; }
     #hb-header .header-author-pic .hb-rating {
       margin: 3px 0; }
     #hb-header .header-author-pic .hb-feedback-score {
