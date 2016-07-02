@@ -5744,6 +5744,9 @@ body {
   body.no-scroll {
     overflow: hidden !important; }
 
+.my-image img {
+  background: #f4f4f4 !important; }
+
 span.badge {
   font-weight: 300;
   margin-left: 5px;
@@ -6106,7 +6109,7 @@ select.form-control {
       margin: 0 auto; }
       #hb-header .header-author-pic .my-image img {
         border: 2px solid #dfe1e3;
-        background: #dfe1e3; }
+        background: #f4f4f4; }
     #hb-header .header-author-pic .hb-rating {
       margin: 3px 0; }
     #hb-header .header-author-pic .hb-feedback-score {
