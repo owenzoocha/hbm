@@ -193,6 +193,10 @@
           &.status-unpublished {
             background: $hb-blue;
           }
+          &.status-leave-feedback {
+            background: $hb-green;
+            color: $white;
+          }
           &.status-paused {
             background: $hb-dark;
           }

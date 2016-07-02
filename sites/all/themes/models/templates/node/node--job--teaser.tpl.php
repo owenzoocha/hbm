@@ -21,7 +21,7 @@
     <?php print $starting; ?>
   </div>
   <?php if (isset($job_status)): ?>
-    <div class="status <?php print 'status-' . strtolower($job_status); ?>">
+    <div class="status <?php print 'status-' . str_replace(' ', '-', strtolower($job_status)); ?>">
       <?php print $job_status; ?>
     </div>
   <?php endif; ?>

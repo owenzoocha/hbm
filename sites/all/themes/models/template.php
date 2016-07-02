@@ -178,6 +178,9 @@ function models_preprocess_node(&$variables) {
           else if ($nw->field_hb_paused->value()) {
             $variables['job_status'] = t('Paused');
           }
+          else if ($nw->field_hb_assigned->value()) {
+            $variables['job_status'] = t('Leave Feedback');
+          }
           else if ($nw->field_hb_feedback_complete->value()) {
             $variables['job_status'] = t('Complete');
           }
