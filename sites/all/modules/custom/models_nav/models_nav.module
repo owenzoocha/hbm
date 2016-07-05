@@ -141,17 +141,22 @@ function template_preprocess_my_nav(&$vars) {
     }
     $nav  = '<ul>';
     $nav .= '<li>' . l(t('View'), 'node/' . arg(1), array('attributes' => array('class' => array('')))) . '</li>';
-    $nav .= '<li>' . l(t('Edit'), 'job/' . arg(1) . '/edit', array('attributes' => array('class' => array('')))) . '</li>';
+
+    if (!$nw->field_hb_completed->value()) {
+      $nav .= '<li>' . l(t('Edit'), 'job/' . arg(1) . '/edit', array('attributes' => array('class' => array('')))) . '</li>';
+    }
     $nav .= '<li>' . l(t('Photos'), 'job/' . arg(1) . '/photos', array('attributes' => array('class' => array('')))) . '</li>';
 
-    if ($nw->field_hb_type->value() != 'personal') {
-      $request_text = $nw->field_hb_assigned->value() ? t('Manage Clients') : t('Client Requests') . ' ' . $reqs;
-    }
-    else {
-      $request_text = $nw->field_hb_assigned->value() ? t('Manage Offers') : t('Job Offers') . ' ' . $reqs;
-    }
+    if (!$nw->field_hb_completed->value()) {
+      if ($nw->field_hb_type->value() != 'personal') {
+        $request_text = $nw->field_hb_assigned->value() ? t('Manage Clients') : t('Client Requests') . ' ' . $reqs;
+      }
+      else {
+        $request_text = $nw->field_hb_assigned->value() ? t('Manage Offers') : t('Job Offers') . ' ' . $reqs;
+      }
 
-    $nav .= '<li>' . l($request_text, 'job/' . arg(1) . '/clients', array('attributes' => array('class' => array('')))) . '</li>';
+      $nav .= '<li>' . l($request_text, 'job/' . arg(1) . '/clients', array('attributes' => array('class' => array('')))) . '</li>';
+    }
 
     if ($nw->field_hb_assigned->value()) {
       $fbk_size = $nw->field_hb_client_size->value() ? '(' . $nw->field_hb_client_size->value() . ')' : FALSE;
@@ -168,8 +173,22 @@ function template_preprocess_my_nav(&$vars) {
     $nav_2  = '<ul class="pull-right nav-2">';
 
     // if (!$nw->field_hb_feedback_complete->value() && ($nw->field_hb_feedb_size->value() != $nw->field_hb_client_size->value()) ) {
-    if ($nw->field_hb_feedb_size->value() != $nw->field_hb_client_size->value() && $nw->field_hb_feedb_size->value()) {
-      if (!$nw->field_hb_completed->value()) {
+
+
+    if (!$nw->field_hb_completed->value()) {
+      if ($nw->field_hb_feedb_size->value()) {
+        if ($nw->field_hb_feedb_size->value() != $nw->field_hb_client_size->value()) {
+          if ($nw->status->value()) {
+            $nav_2 .= '<li>' . l(t('Pause'), '', array('fragment' => '#', 'attributes' => array('data-toggle' => array('modal'), 'data-target' => array('#job-pause-form-popup')))) . '</li>';
+          }
+          if (!$nw->field_hb_cancelled->value()) {
+            $nav_2 .= '<li>' . l(t('Cancel'), '', array('fragment' => '#', 'attributes' => array('data-toggle' => array('modal'), 'data-target' => array('#job-cancel-form-popup')))) . '</li>';
+          }
+        }
+        else {
+          $nav_2 .= '<li>' . l(t('Complete Job'), '', array('fragment' => '#', 'attributes' => array('data-toggle' => array('modal'), 'data-target' => array('#job-complete-form-popup')))) . '</li>';
+        }
+      } else {
         if ($nw->status->value()) {
           $nav_2 .= '<li>' . l(t('Pause'), '', array('fragment' => '#', 'attributes' => array('data-toggle' => array('modal'), 'data-target' => array('#job-pause-form-popup')))) . '</li>';
         }
@@ -177,9 +196,6 @@ function template_preprocess_my_nav(&$vars) {
           $nav_2 .= '<li>' . l(t('Cancel'), '', array('fragment' => '#', 'attributes' => array('data-toggle' => array('modal'), 'data-target' => array('#job-cancel-form-popup')))) . '</li>';
         }
       }
-    }
-    else {
-      $nav_2 .= '<li>' . l(t('Complete Job'), '', array('fragment' => '#', 'attributes' => array('data-toggle' => array('modal'), 'data-target' => array('#job-cancel-form-popup')))) . '</li>';
     }
 
     // if ($nw->field_hb_completed->value()) {

@@ -23,7 +23,7 @@ function models_forms_cancel_form($form, &$form_state){
 
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => t('Yes, cancel this job.'),
+    '#value' => t('Yes, cancel this job'),
     '#attributes' => array(
       'class' => array('btn-success'),
       'data-loading-text' => array("removing.."),
@@ -53,6 +53,7 @@ function models_forms_cancel_form_submit($form, &$form_state){
 
   // Set job to admin & cancel.
   $nw->field_hb_cancelled->set(1);
+  $nw->field_hb_status->set('Closed');
   $nw->field_hb_paused->set(0);
 
   // Set the author to admin so we can control it...
@@ -67,6 +68,11 @@ function models_forms_cancel_form_submit($form, &$form_state){
     $uw->save();
   }
 
-  drupal_set_message(t($nw->label() . ' has now been cancelled - any requestees have been notified.'), 'info', FALSE);
+  // Delete the scheduled complete flag action.
+  $task_identifier = 'flag_complete_' . $nw->getIdentifier() . '_' . $nw->author->getIdentifier();
+  rules_action('schedule_delete', array('component' => 'rules_schedule_complete_finished_job'))->executeByArgs(array('task' => $task_identifier,));
+
+
+  drupal_set_message(t($nw->label() . ' has now been cancelled - any client have been notified.'), 'info', FALSE);
   drupal_goto('user/' . $user->uid);
 }

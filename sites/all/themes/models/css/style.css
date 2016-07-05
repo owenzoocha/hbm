@@ -6133,6 +6133,8 @@ select.form-control {
         background: #6ECADC; }
       #hb-header .header-title .hdr-hb-type.hb-hair {
         background: #E01563; }
+      #hb-header .header-title .hdr-hb-type.hdr-hb-complete {
+        background-color: #3EB991; }
   #hb-header .header-author-pic {
     margin: 15px 0; }
     #hb-header .header-author-pic .my-image {

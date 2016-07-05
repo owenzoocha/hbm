@@ -133,6 +133,7 @@
       <?php if (isset($client_request_confirm_form)) : print $client_request_confirm_form; endif; ?>
       <?php if (isset($job_cancel_form)): print $job_cancel_form; endif;?>
       <?php if (isset($job_pause_form)): print $job_pause_form; endif;?>
+      <?php if (isset($job_complete_form)): print $job_complete_form; endif;?>
     </section>
   </div>
 </div>

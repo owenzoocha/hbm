@@ -11,7 +11,7 @@
  */
 function models_forms_create_form($form, &$form_state) {
   global $user;
-// dpm('g');
+
   if (arg(2) == 'edit') {
     if (is_numeric(arg(1))) {
       $nw = entity_metadata_wrapper('node', arg(1));
@@ -867,9 +867,7 @@ function models_forms_create_form_submit(&$form, &$form_state){
     }
     else {
       if (!empty($add)) {
-        dpm($add);
         $point = geocoder('google', $add, array('https' => TRUE));
-        dpm($point);
         if ($point) {
           $geo_array = array(
             'geom' => 'POINT ('. $point->coords[0] . ' ' . $point->coords[1] .')',
@@ -905,9 +903,10 @@ function models_forms_create_form_submit(&$form, &$form_state){
   //   drupal_set_message(t('Your Job: ' . $fs['title'] . ' has been updated '), 'success', FALSE);
   // }
   // dpm($form_state);
-
+  //
+  $nw = entity_metadata_wrapper('node', $node->nid);
   if (!empty($fs['field_hb_pics'])) {
-    $nw = entity_metadata_wrapper('node', $node->nid);
+    // $nw = entity_metadata_wrapper('node', $node->nid);
     $ew = entity_create('pics', array('type' => 'pics'));
     $title = 'pics_0_' . $nw->getIdentifier() . '_' . $nw->label();
     $ew->title = $title;
@@ -920,6 +919,13 @@ function models_forms_create_form_submit(&$form, &$form_state){
 
     $nw->field_hb_pics[] = $ew->id;
     $nw->save();
+  }
+
+  // Check if there's a last day - if so, schedule the complete flag.
+  if ($nw->field_hb_time->value()) {
+    $date_n = sizeof($nw->field_hb_time->value()) - 1;
+    $last_day = $nw->field_hb_time->value()[$date_n];
+    rules_invoke_component('rules_set_schedule_schedule_the_complete_job', $last_day, $nw->value());
   }
 
   drupal_goto('node/' . $node->nid);

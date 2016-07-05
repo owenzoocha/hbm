@@ -229,8 +229,15 @@ function models_preprocess_node(&$variables) {
     }
     else {
 
-      $variables['users_available'] = FALSE;
 
+      // Check if there's a last day - if so, schedule the complete flag.
+      // if ($nw->field_hb_time->value()) {
+      //   $date_n = sizeof($nw->field_hb_time->value()) - 1;
+      //   $last_day = $nw->field_hb_time->value()[$date_n];
+      //   rules_invoke_component('rules_set_schedule_schedule_the_complete_job', $last_day, $nw->value());
+      // }
+
+      $variables['users_available'] = FALSE;
       $variables['show_slick'] = $nw->field_hb_pics->value() ? TRUE : FALSE;
 
       if (!empty($variables['content']['field_hb_time'])) {
@@ -467,6 +474,7 @@ function models_preprocess_page(&$variables) {
     $variables['filter_blocks'] = drupal_render($block);
   }
 
+
   if (strpos(current_path(), 'job/create') !== FALSE) {
     if ($user->uid != 1) {
       if ($uw->field_flags_running_posts->value() >= 1) {
@@ -487,6 +495,17 @@ function models_preprocess_page(&$variables) {
 
     $nw = entity_metadata_wrapper('node', arg(1));
 
+    // Bounce people off the edit or manage clients page if the job is completed.
+    if ($nw->field_hb_completed->value()) {
+      if (strpos(current_path(), 'job/' . $nw->getIdentifier() . '/edit') !== FALSE || strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/clients') !== FALSE) {
+        // If person is admin or hbadmin...
+        // if ($user->uid != 1) {
+          drupal_set_message(t('Oops - this job has been completed - no more edits! :)'), 'info', FALSE);
+          drupal_goto('node/' . $nw->getIdentifier());
+        // }
+      }
+    }
+
     if ($nw->getBundle() == 'job') {
 
       // Pause a job button.
@@ -506,6 +525,21 @@ function models_preprocess_page(&$variables) {
         'body' => drupal_render($cancel_form),
       );
       $variables['job_cancel_form'] = theme('bootstrap_modal', $modal_options);
+
+      if ($nw->field_hb_feedb_size->value()) {
+        if ($nw->field_hb_feedb_size->value() == $nw->field_hb_client_size->value()) {
+          // Cancel a job button.
+          $complete_form = drupal_get_form('models_forms_complete_form');
+          $modal_options = array(
+            'attributes' => array('id' => 'job-complete-form-popup', 'class' => array('job-complete-form-popup-modal')),
+            'heading' => t('Job Completed:') . ' ' . $nw->label(),
+            'body' => drupal_render($complete_form),
+          );
+          $variables['job_complete_form'] = theme('bootstrap_modal', $modal_options);
+        }
+      }
+
+
 
       // if ( strpos(current_path(), 'job/') !== FALSE && is_numeric(arg(1)) ) {
         $variables['content_column_class'] = ' class="col-sm-pull-3 col-sm-9"';
@@ -577,6 +611,7 @@ function models_preprocess_page(&$variables) {
       $job_details .= '<div>';
       $job_details .= tweaks_get_hb_cost($nw);
       $job_details .= $nw->field_hb_type->value() != 'personal' ? '<span class="hdr-hb-type hb-' . strtolower($nw->field_hb_type->value()) . '">' . ucfirst($nw->field_hb_type->value()) . '</span>' : FALSE;
+      $job_details .= $nw->field_hb_completed->value() ? '<span class="hdr-hb-type hdr-hb-complete">' . t('This job has ended') . '</span>' : FALSE;
 
       // $location = FALSE;
       // if ($nw->field_hb_location->value()) {
@@ -935,15 +970,6 @@ function models_preprocess_views_view_fields(&$vars) {
     }
   }
 }
-
-    // background: #ffffff;
-    // background: rgba(255,255,255,0);
-    // background: -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0)), color-stop(50%, rgba(255,255,255,0.9)), color-stop(50%, rgba(255,255,255,0.9)), to(#fff));
-    // background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.9) 50%, #fff 100%);
-    // background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.9) 50%, #fff 100%);
-    // background: -o-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.9) 50%, #fff 100%);
-    // background: linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.9) 50%, #fff 100%);
-    // filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#ffffffff', GradientType=0);
 
 function models_preprocess_views_view(&$vars) {
   // if ($vars['name'] == 'related_jobs_by_terms') {
