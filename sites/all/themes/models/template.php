@@ -194,18 +194,36 @@ function models_preprocess_node(&$variables) {
             $variables['job_status'] = t('Running');
           }
 
+          // If there are requests OR offers.
           if ($nw->field_hb_users_eck->value()) {
+
+            // feedb size = Feedback size so far.
+            // Client Size = CONFIRMED clients to the job.
             if ($nw->field_hb_feedb_size->value() != $nw->field_hb_client_size->value()) {
+              // Feedback obvs not complete..
               if (!$nw->field_hb_assigned->value()) {
-                $variables['requestees'] = '<span class="interested"><i class="fa fa-user"></i>' . ' ' . l(sizeof($nw->field_hb_users_eck->value()) . ' ' . t('interested'), 'job/' . $nw->getIdentifier() . '/clients') . '</span>';
+                // If not assigned, then people are interested..
+                $interested_txt = $nw->field_hb_type->value() != 'personal' ? t('interested') : format_plural(sizeof($nw->field_hb_users_eck->value()), t('offer'), t('offers'));
+                $variables['requestees'] = '<span class="interested"><i class="material-icons">accessibility</i>' . ' ' . l(sizeof($nw->field_hb_users_eck->value()) . $interested_txt, 'job/' . $nw->getIdentifier() . '/clients') . '</span>';
               }
               else {
-                $variables['requestees'] = '<span class="interested"><i class="fa fa-user"></i>' . ' ' . l(sizeof($nw->field_hb_client_size->value()) . ' ' . t('feedback required'), 'job/' . $nw->getIdentifier() . '/feedback') . '</span>';
+                // If assigned, then you need to leave feedback.
+                $variables['requestees'] = '<span class="interested"><i class="material-icons">face</i>' . ' ' . l(sizeof($nw->field_hb_client_size->value()) . ' ' . t('feedback required'), 'job/' . $nw->getIdentifier() . '/feedback') . '</span>';
               }
             } else {
-              $variables['requestees'] = '<span class="interested"><i class="fa fa-user"></i>' . ' ' . l(' ' . t('feedback complete'), 'job/' . $nw->getIdentifier() . '/feedback') . '</span>';
+              if ($nw->field_hb_feedb_size->value()) {
+                // if there is feedback size and it = client size - then feedback is complete!
+                $variables['requestees'] = '<span class="interested"><i class="material-icons">done</i>' . ' ' . l(' ' . t('feedback complete'), 'job/' . $nw->getIdentifier() . '/feedback') . '</span>';
+              }
+              else {
+                // No feedback given yet.
+                // No feedback, hasn't been assigned.. //
+                $interested_txt = $nw->field_hb_type->value() != 'personal' ? t('interested') : format_plural(sizeof($nw->field_hb_users_eck->value()), t('offer'), t('offers'));
+                $variables['requestees'] = '<span class="interested"><i class="material-icons">accessibility</i>' . ' ' . l(sizeof($nw->field_hb_users_eck->value()) . $interested_txt, 'job/' . $nw->getIdentifier() . '/clients') . '</span>';
+              }
             }
           }
+
         }
       }
     }
@@ -223,21 +241,41 @@ function models_preprocess_node(&$variables) {
       if (!$nw->field_hb_assigned->value()) {
         if (!$nw->status->value()) {
 
-          // HACKY.
-          if ($nw->field_hb_cancelled->value()) {
-            $unpub_msg = '<div class="alert alert-block alert-danger messages info"><a class="close" data-dismiss="alert" href="#">×</a><h4 class="element-invisible">Informative message</h4>';
-            $unpub_msg .= t('This Job has been cancelled - and will be removed soon!');
-            $unpub_msg .= '</div>';
-          }
-          else if (!$nw->field_hb_paused->value()) {
-            $unpub_msg = '<div class="alert alert-block alert-info messages info"><a class="close" data-dismiss="alert" href="#">×</a><h4 class="element-invisible">Informative message</h4>';
-            $unpub_msg .= t('Hey !name, ' . $nw->label() . ' is currently unpublished.  Check out your job below - this is what it will look like to other users.  To publish your job, click <strong>Publish Job</strong> below.', array('!name' => $uw->field_first_name->value()));
-            $unpub_msg .= '</div>';
+          if ($nw->field_hb_type->value() != 'personal') {
+
+            // HACKY.
+            if ($nw->field_hb_cancelled->value()) {
+              $unpub_msg = '<div class="alert alert-block alert-danger messages info"><a class="close" data-dismiss="alert" href="#">×</a><h4 class="element-invisible">Informative message</h4>';
+              $unpub_msg .= t('This Job has been cancelled - and will be removed soon!');
+              $unpub_msg .= '</div>';
+            }
+            else if (!$nw->field_hb_paused->value()) {
+              $unpub_msg = '<div class="alert alert-block alert-info messages info"><a class="close" data-dismiss="alert" href="#">×</a><h4 class="element-invisible">Informative message</h4>';
+              $unpub_msg .= t('Hey !name, ' . $nw->label() . ' is currently unpublished.  Check out your job below - this is what it will look like to other users.  To publish your job, click <strong>Publish Job</strong> below.', array('!name' => $uw->field_first_name->value()));
+              $unpub_msg .= '</div>';
+            }
+            else {
+              $unpub_msg = '<div class="alert alert-block alert-success messages info"><a class="close" data-dismiss="alert" href="#">×</a><h4 class="element-invisible">Informative message</h4>';
+              $unpub_msg .= t('Hey !name, ' . $nw->label() . ' is currently <strong>paused</strong>. To resume, click <strong>Resume Job</strong> below.', array('!name' => $uw->field_first_name->value()));
+              $unpub_msg .= '</div>';
+            }
           }
           else {
-            $unpub_msg = '<div class="alert alert-block alert-success messages info"><a class="close" data-dismiss="alert" href="#">×</a><h4 class="element-invisible">Informative message</h4>';
-            $unpub_msg .= t('Hey !name, ' . $nw->label() . ' is currently <strong>paused</strong>. To resume, click <strong>Resume Job</strong> below.', array('!name' => $uw->field_first_name->value()));
-            $unpub_msg .= '</div>';
+            if ($nw->field_hb_cancelled->value()) {
+              $unpub_msg = '<div class="alert alert-block alert-danger messages info"><a class="close" data-dismiss="alert" href="#">×</a><h4 class="element-invisible">Informative message</h4>';
+              $unpub_msg .= t('This Job has been cancelled - and will be removed soon.');
+              $unpub_msg .= '</div>';
+            }
+            else if (!$nw->field_hb_paused->value()) {
+              $unpub_msg = '<div class="alert alert-block alert-info messages info"><a class="close" data-dismiss="alert" href="#">×</a><h4 class="element-invisible">Informative message</h4>';
+              $unpub_msg .= t('Hey !name, your job <em>' . $nw->label() . '</em> is currently inactive. To appear on <strong>HBM</strong> and start receiving <strong>Last Minute Model</strong> job offers - click <strong>Publish</strong> below.', array('!name' => $uw->field_first_name->value()));
+              $unpub_msg .= '</div>';
+            }
+            else {
+              $unpub_msg = '<div class="alert alert-block alert-success messages info"><a class="close" data-dismiss="alert" href="#">×</a><h4 class="element-invisible">Informative message</h4>';
+              $unpub_msg .= t('Hey !name, ' . $nw->label() . ' is currently <strong>paused</strong>. To resume, click <strong>Resume Job</strong> below.', array('!name' => $uw->field_first_name->value()));
+              $unpub_msg .= '</div>';
+            }
           }
 
           $variables['unpub_msg'] = $unpub_msg;
@@ -257,7 +295,7 @@ function models_preprocess_node(&$variables) {
           $variables['job_publish_button'] = ($nw->author->getIdentifier() != 000) ? '<div class="hb-job-button">' . $job_publish . '</div>' : FALSE;
         }
         else {
-          $btn_text = $nw->field_hb_type->value() != 'personal' ? t('Request Job') : t('Get in touch');
+          $btn_text = $nw->field_hb_type->value() != 'personal' ? t('Request Job') : t('Offer Service');
           $btn_class = 'btn-info';
           if ($nw->field_hb_users_eck->value()) {
             // if ($uw->getIdentifier() == $nw->author->getIdentifier()) {
@@ -265,21 +303,12 @@ function models_preprocess_node(&$variables) {
             // }
             foreach ($nw->field_hb_users_eck->getIterator() as $k => $u) {
               if ($u->field_feedb_user->getIdentifier() == $uw->getIdentifier()) {
-                $btn_text = $nw->field_hb_type->value() != 'personal' ? t('Remove Request') : t('Message Sent');
+                $btn_text = $nw->field_hb_type->value() != 'personal' ? t('Remove Request') : t('Remove Offer');
                 $btn_class = 'btn-danger';
                 break;
               }
             }
           }
-
-          // Pause a job button.
-          $pause_form = drupal_get_form('models_forms_pause_form');
-          $modal_options = array(
-            'attributes' => array('id' => 'job-pause-form-popup', 'class' => array('job-pause-form-popup-modal')),
-            'heading' => t('Pause Job:') . ' ' . $nw->label(),
-            'body' => drupal_render($pause_form),
-          );
-          $variables['job_pause_form'] = theme('bootstrap_modal', $modal_options);
 
           // Request a job button.
           $request_form = drupal_get_form('models_forms_request_form');
@@ -304,16 +333,6 @@ function models_preprocess_node(&$variables) {
         $variables['feedback_button'] = '<div class="hb-job-button">' . l(t('Leave Feedback'), 'job/' . $nw->getIdentifier() . '/feedback', array('attributes' => array('class' => array('btn btn-danger')))) . '</div>';
         $variables['job_button'] = '<p><strong>' . t('Sorry, this job has already been assigned!') . '</strong></p>';
       }
-
-      // Cancel a job button.
-      $cancel_form = drupal_get_form('models_forms_cancel_form');
-      $modal_options = array(
-        'attributes' => array('id' => 'job-cancel-form-popup', 'class' => array('job-cancel-form-popup-modal')),
-        'heading' => t('Cancel Job:') . ' ' . $nw->label(),
-        'body' => drupal_render($cancel_form),
-      );
-      $variables['job_cancel_form'] = theme('bootstrap_modal', $modal_options);
-
     }
   }
 }
@@ -467,7 +486,26 @@ function models_preprocess_page(&$variables) {
      ) {
 
     $nw = entity_metadata_wrapper('node', arg(1));
+
     if ($nw->getBundle() == 'job') {
+
+      // Pause a job button.
+      $pause_form = drupal_get_form('models_forms_pause_form');
+      $modal_options = array(
+        'attributes' => array('id' => 'job-pause-form-popup', 'class' => array('job-pause-form-popup-modal')),
+        'heading' => t('Pause Job:') . ' ' . $nw->label(),
+        'body' => drupal_render($pause_form),
+      );
+      $variables['job_pause_form'] = theme('bootstrap_modal', $modal_options);
+
+      // Cancel a job button.
+      $cancel_form = drupal_get_form('models_forms_cancel_form');
+      $modal_options = array(
+        'attributes' => array('id' => 'job-cancel-form-popup', 'class' => array('job-cancel-form-popup-modal')),
+        'heading' => t('Cancel Job:') . ' ' . $nw->label(),
+        'body' => drupal_render($cancel_form),
+      );
+      $variables['job_cancel_form'] = theme('bootstrap_modal', $modal_options);
 
       // if ( strpos(current_path(), 'job/') !== FALSE && is_numeric(arg(1)) ) {
         $variables['content_column_class'] = ' class="col-sm-pull-3 col-sm-9"';
@@ -922,18 +960,25 @@ function models_preprocess_views_view(&$vars) {
 
         // If job is NOT published..
         if (!$nw->status->value()) {
-          $job_publish_text = !$nw->field_hb_paused->value() ? t('Publish Job') : t('Resume Job');
+
+          if ($nw->field_hb_type->value() != 'personal') {
+            $job_publish_text = !$nw->field_hb_paused->value() ? t('Publish Job') : t('Resume Job');
+          }
+          else {
+            $job_publish_text = !$nw->field_hb_paused->value() ? t('Publish') : t('Resume!');
+          }
+
           $job_publish = l($job_publish_text, '#', array('attributes' => array('data-toggle' => array('modal'), 'data-target' => array('#job-publish-form-popup'), 'class' => array('btn btn-success btn-block'))));
           $vars['job_publish_button'] = ($nw->author->getIdentifier() != 000) ? '<div class="hb-rhs-job-button">' . $job_publish . '</div>' : FALSE;
         }
         // If job is published..
         else {
-          $btn_text = $nw->field_hb_type->value() != 'personal' ? t('Request Job') : t('Get in touch');
+          $btn_text = $nw->field_hb_type->value() != 'personal' ? t('Request Job') : t('Offer Service');
           $btn_class = 'btn-info';
           if ($nw->field_hb_users_eck->value()) {
             foreach ($nw->field_hb_users_eck->getIterator() as $k => $u) {
               if ($u->field_feedb_user->getIdentifier() == $uw->getIdentifier()) {
-                $btn_text = $nw->field_hb_type->value() != 'personal' ? t('Remove Request') : t('Message Sent');
+                $btn_text = $nw->field_hb_type->value() != 'personal' ? t('Remove Request') : t('Remove Offer');
                 $btn_class = 'btn-danger';
                 break;
               }

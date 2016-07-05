@@ -20,6 +20,4 @@
 </div>
   <?php if (isset($job_request_form)): print $job_request_form; endif;?>
   <?php if (isset($job_publish_form)): print $job_publish_form; endif;?>
-  <?php if (isset($job_cancel_form)): print $job_cancel_form; endif;?>
-  <?php if (isset($job_pause_form)): print $job_pause_form; endif;?>
 </article>

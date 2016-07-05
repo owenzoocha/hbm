@@ -5745,6 +5745,32 @@ body {
   body.no-scroll {
     overflow: hidden !important; }
 
+.view .view-header .btn-group {
+  visibility: hidden; }
+  .view .view-header .btn-group .btn-default {
+    border-color: #dfe1e3; }
+  .view .view-header .btn-group .btn,
+  .view .view-header .btn-group a {
+    font-size: 12px;
+    letter-spacing: 0px; }
+    .view .view-header .btn-group .btn.active,
+    .view .view-header .btn-group a.active {
+      background-color: #fff;
+      box-shadow: none;
+      position: relative; }
+      .view .view-header .btn-group .btn.active:after,
+      .view .view-header .btn-group a.active:after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background-color: #E01563;
+        bottom: 0;
+        left: 0; }
+
+.view.view-user-profile-jobs .views-exposed-form {
+  display: none; }
+
 .my-image img {
   background: #f4f4f4 !important; }
 
@@ -6433,6 +6459,16 @@ select.form-control {
     .page-my-jobs .view-content .views-field-rendered-entity .views-row-surrounder {
       padding: 15px;
       background-color: #EDEFF0; }
+      .page-search .view-content .views-field-rendered-entity .views-row-surrounder .material-icons,
+      .page-job-requests .view-content .views-field-rendered-entity .views-row-surrounder .material-icons,
+      .page-watchlist .view-content .views-field-rendered-entity .views-row-surrounder .material-icons,
+      .page-previous-jobs .view-content .views-field-rendered-entity .views-row-surrounder .material-icons,
+      #block-views-user-profile-jobs-block .view-content .views-field-rendered-entity .views-row-surrounder .material-icons,
+      #block-views-user-profile-jobs-block-1 .view-content .views-field-rendered-entity .views-row-surrounder .material-icons,
+      #block-views-user-profile-jobs-block-2 .view-content .views-field-rendered-entity .views-row-surrounder .material-icons,
+      .slick-me-up .view-content .views-field-rendered-entity .views-row-surrounder .material-icons,
+      .page-my-jobs .view-content .views-field-rendered-entity .views-row-surrounder .material-icons {
+        font-size: 13px; }
       .page-search .view-content .views-field-rendered-entity .views-row-surrounder .hb-imagery,
       .page-job-requests .view-content .views-field-rendered-entity .views-row-surrounder .hb-imagery,
       .page-watchlist .view-content .views-field-rendered-entity .views-row-surrounder .hb-imagery,
@@ -8289,6 +8325,9 @@ body.front .alert.alert-success {
 body.front .alert.alert-cya {
   opacity: 0;
   transition: all 0.7s ease; }
+
+.node-type-job .alert {
+  font-size: 14px; }
 
 .nav-tabs > li {
   margin-right: 5px; }

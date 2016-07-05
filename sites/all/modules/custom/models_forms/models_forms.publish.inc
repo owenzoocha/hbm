@@ -21,7 +21,7 @@ function models_forms_publish_form($form, &$form_state){
     }
   }
 
-  $desc = t('Let\'s get this job published! Hit <strong>publish now</strong> to continue.  Your job will now be searchable.');
+  $desc = $nw->field_hb_type->value() != 'personal' ? t('Let\'s get this job published! Hit <strong>publish now</strong> to continue.  Your job will now be searchable.') : t('Get this job published and start receiving job offers! Hit <strong>publish now</strong> to continue.  You will now appear in the <strong>Last Minute Model</strong> searches.');
 
   $form['form_description'] = array(
     '#markup' => '<p>'.$desc.'</p>',
@@ -44,5 +44,5 @@ function models_forms_publish_form_submit($form, &$form_state){
   $nw = entity_metadata_wrapper('node', $form_state['nid']);
   $nw->status->set(1);
   $nw->save();
-  drupal_set_message(t($nw->label() . ' is now published, keep an eye on your <strong>job requests</strong> to see who\'s interested.'), 'info', FALSE);
+  drupal_set_message(t($nw->label() . ' is now published, keep an eye on your <strong>client requests</strong> to see who\'s interested.'), 'info', FALSE);
 }

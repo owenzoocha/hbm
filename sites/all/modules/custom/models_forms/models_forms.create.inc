@@ -867,21 +867,28 @@ function models_forms_create_form_submit(&$form, &$form_state){
     }
     else {
       if (!empty($add)) {
+        dpm($add);
         $point = geocoder('google', $add, array('https' => TRUE));
-        $geo_array = array(
-          'geom' => 'POINT ('. $point->coords[0] . ' ' . $point->coords[1] .')',
-          'geo_type' => 'point',
-          // 'lat' => $point->coords[1],
-          // 'lon' => $point->coords[0],
-          // 'left' => $point->coords[0],
-          // 'top' => $point->coords[1],
-          // 'right' => $point->coords[0],
-          // 'bottom' => $point->coords[1],
-          // 'geohash' => ,
-        );
-        // dpm($geo_array, 'geo arrary new');
-        // models_cache_build_job_latlon_cache(md5($add), $node->nid);
-        $node->field_hb_geofield[LANGUAGE_NONE][0] = $geo_array;
+        dpm($point);
+        if ($point) {
+          $geo_array = array(
+            'geom' => 'POINT ('. $point->coords[0] . ' ' . $point->coords[1] .')',
+            'geo_type' => 'point',
+            // 'lat' => $point->coords[1],
+            // 'lon' => $point->coords[0],
+            // 'left' => $point->coords[0],
+            // 'top' => $point->coords[1],
+            // 'right' => $point->coords[0],
+            // 'bottom' => $point->coords[1],
+            // 'geohash' => ,
+          );
+          // dpm($geo_array, 'geo arrary new');
+          // models_cache_build_job_latlon_cache(md5($add), $node->nid);
+          $node->field_hb_geofield[LANGUAGE_NONE][0] = $geo_array;
+        }
+        else {
+          drupal_set_message(t('issue with lat long'), 'status', FALSE);
+        }
       }
     }
   }
@@ -908,7 +915,6 @@ function models_forms_create_form_submit(&$form, &$form_state){
     $ew->changed = strtotime('now');
 
     $file = file_load($fs['field_hb_pics']);
-    dpm($file);
     $ew->field_pics_img[LANGUAGE_NONE][0] = (array) $file;
     $ew->save();
 

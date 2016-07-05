@@ -37,7 +37,7 @@ function models_forms_request_form($form, &$form_state){
     $desc = !isset($requested) ? t('Hey !name, to show you\'re interested in this job, leave a message for the job owner below and hit <strong>sign me up</strong>!', array('!name' => $uw->field_first_name->value())) : t('To remove your request select <strong>remove request</strong> below - we\'ll let the job owner know.', array('!name' => $uw->field_first_name->value()));
   }
   else {
-    $desc = !isset($requested) ? t('Hey !name, if you\'re interested in this last minute model and want to offer a job, get in touch below and hit <strong>send</strong>!', array('!name' => $uw->field_first_name->value())) : t('Hey !name, your message has been sent, if you\'d like to remove your job offer select <strong>remove request</strong> - we\'ll let the job owner know.', array('!name' => $uw->field_first_name->value()));
+    $desc = !isset($requested) ? t('Hey !name, if you\'re interested in this <strong>Last Minute Model</strong> and would like to offer your services, get in touch below and hit <strong>send</strong>!', array('!name' => $uw->field_first_name->value())) : t('Hey !name, if you\'d like to remove your offer for service select <strong>remove offer</strong> - we\'ll let the job owner know.', array('!name' => $uw->field_first_name->value()));
   }
   $form['form_description'] = array(
     '#markup' => '<p>'.$desc.'</p>',
@@ -65,7 +65,7 @@ function models_forms_request_form($form, &$form_state){
   else {
     $form['submit'] = array(
       '#type' => 'submit',
-      '#value' => !isset($requested) ? t('send message') : t('remove job offer'),
+      '#value' => !isset($requested) ? t('send message') : t('remove offer'),
       '#attributes' => array(
         'class' => !isset($requested) ? array('btn-success') : array('btn-danger'),
         'data-loading-text' => array("Sending message.."),
@@ -153,14 +153,14 @@ function models_forms_request_form_submit($form, &$form_state){
     if($removed == 1){
       drupal_set_message(t('Hey !name, your job request has now been removed - we\'ve let the job owner know! Check out the <strong>!link</strong> for more hair and beauty options.', array('!name' => $uw->field_first_name->value(), '!link' => l(t('job listings'), 'job-search'))), 'info', FALSE);
     } else {
-      drupal_set_message(t('Hey !name, good news - your request has been sent! Keep an eye on your <strong>!link</strong> for updates - you will be contacted soon.', array('!name' => $uw->field_first_name->value(), '!link' => l(t('job requests'), 'job-requests'))), 'status', FALSE);
+      drupal_set_message(t('Hey !name, good news - your request has been sent! Keep an eye on your <strong>!link</strong> for updates - you will be contacted soon.', array('!name' => $uw->field_first_name->value(), '!link' => l(t('requests'), 'job-requests'))), 'status', FALSE);
     }
   }
   else {
     if($removed == 1){
-      drupal_set_message(t('Hey !name, your job offer has now been removed - we\'ve let the last minute model know! Check out the <strong>job board</strong> for more last minute models.', array('!name' => $uw->field_first_name->value())), 'info', FALSE);
+      drupal_set_message(t('Hey !name, your job offer has now been removed - we\'ve let the last minute model know! Check out the <strong>!link</strong> for more last minute models.', array('!name' => $uw->field_first_name->value(), '!link' => l('job board', 'search/type/personal'))), 'info', FALSE);
     } else {
-      drupal_set_message(t('Hey !name, your message has been sent! Keep an eye on your <strong>job requests</strong> for updates - you will be contacted soon.', array('!name' => $uw->field_first_name->value())), 'info', FALSE);
+      drupal_set_message(t('Hey !name, your message has been sent! Keep an eye on your <strong>!link</strong> for updates - you will be contacted soon.', array('!name' => $uw->field_first_name->value(), '!link' => l(t('requests'), 'job-requests'))), 'info', FALSE);
     }
   }
 }

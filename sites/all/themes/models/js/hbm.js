@@ -23,6 +23,7 @@
       hbm.expandFilters();
       hbm.mobileChecks();
       hbm.fadeOutAlertsOnHome();
+      hbm.hacks();
 
       $('table').addClass('table-bordered');
       $('.page-messages .btn-xs').removeClass('btn-xs');
@@ -103,6 +104,27 @@
       //     });
       //   });
       // }
+    },
+
+    hacks : function(){
+      if ($('.view-header .btn-group a').length) {
+        url = window.location.href;
+        var url = url.substr(url.indexOf('/my-jobs'), url.length);
+        console.log(url);
+        $('.view-header .btn-group a').removeClass('active');
+        $('.view-header .btn-group a').each(function(i, v){
+          if (url == '/my-jobs') {
+            $(this).addClass('active');
+            return false;
+          }
+          var thisUrl = $(this).attr('href');
+          if (url == thisUrl) {
+            $(this).addClass('active');
+            return false;
+          }
+        });
+        $('.view-header .btn-group').css('visibility', 'visible');
+      }
     },
 
     mobileChecks : function(){

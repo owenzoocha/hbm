@@ -130,7 +130,9 @@
         <?php print render($page['search_top']); ?>
       <?php endif; ?>
       <?php print render($page['content']); ?>
-      <?php  if (isset($client_request_confirm_form)) : print $client_request_confirm_form; endif; ?>
+      <?php if (isset($client_request_confirm_form)) : print $client_request_confirm_form; endif; ?>
+      <?php if (isset($job_cancel_form)): print $job_cancel_form; endif;?>
+      <?php if (isset($job_pause_form)): print $job_pause_form; endif;?>
     </section>
   </div>
 </div>

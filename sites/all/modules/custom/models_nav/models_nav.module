@@ -144,7 +144,13 @@ function template_preprocess_my_nav(&$vars) {
     $nav .= '<li>' . l(t('Edit'), 'job/' . arg(1) . '/edit', array('attributes' => array('class' => array('')))) . '</li>';
     $nav .= '<li>' . l(t('Photos'), 'job/' . arg(1) . '/photos', array('attributes' => array('class' => array('')))) . '</li>';
 
-    $request_text = $nw->field_hb_assigned->value() ? t('Manage Clients') : t('Client Requests') . ' ' . $reqs;
+    if ($nw->field_hb_type->value() != 'personal') {
+      $request_text = $nw->field_hb_assigned->value() ? t('Manage Clients') : t('Client Requests') . ' ' . $reqs;
+    }
+    else {
+      $request_text = $nw->field_hb_assigned->value() ? t('Manage Offers') : t('Job Offers') . ' ' . $reqs;
+    }
+
     $nav .= '<li>' . l($request_text, 'job/' . arg(1) . '/clients', array('attributes' => array('class' => array('')))) . '</li>';
 
     if ($nw->field_hb_assigned->value()) {
@@ -161,7 +167,8 @@ function template_preprocess_my_nav(&$vars) {
 
     $nav_2  = '<ul class="pull-right nav-2">';
 
-    if (!$nw->field_hb_feedback_complete->value()) {
+    // if (!$nw->field_hb_feedback_complete->value() && ($nw->field_hb_feedb_size->value() != $nw->field_hb_client_size->value()) ) {
+    if ($nw->field_hb_feedb_size->value() != $nw->field_hb_client_size->value() && $nw->field_hb_feedb_size->value()) {
       if (!$nw->field_hb_completed->value()) {
         if ($nw->status->value()) {
           $nav_2 .= '<li>' . l(t('Pause'), '', array('fragment' => '#', 'attributes' => array('data-toggle' => array('modal'), 'data-target' => array('#job-pause-form-popup')))) . '</li>';
@@ -170,6 +177,9 @@ function template_preprocess_my_nav(&$vars) {
           $nav_2 .= '<li>' . l(t('Cancel'), '', array('fragment' => '#', 'attributes' => array('data-toggle' => array('modal'), 'data-target' => array('#job-cancel-form-popup')))) . '</li>';
         }
       }
+    }
+    else {
+      $nav_2 .= '<li>' . l(t('Complete Job'), '', array('fragment' => '#', 'attributes' => array('data-toggle' => array('modal'), 'data-target' => array('#job-cancel-form-popup')))) . '</li>';
     }
 
     // if ($nw->field_hb_completed->value()) {
@@ -202,7 +212,7 @@ function template_preprocess_my_nav(&$vars) {
       $nav .= '<li>' . l(t('Photos'), 'user/photos', array('attributes' => array('class' => array('')))) . '</li>';
       $nav .= '<li>' . l(t('My Feedback'), 'user/' . $uw->getIdentifier() . '/feedback', array('attributes' => array('class' => array('')))) . '</li>';
       $nav .= '<li>' . l(t('My Jobs') . $my_jobs_count, 'my-jobs', array('html' => TRUE, 'attributes' => array('class' => array('')))) . '</li>';
-      $nav .= '<li>' . l(t('Job Requests') . $my_requests_count, 'job-requests', array('html' => TRUE, 'attributes' => array('class' => array('')))) . '</li>';
+      $nav .= '<li>' . l(t('My Requests') . $my_requests_count, 'job-requests', array('html' => TRUE, 'attributes' => array('class' => array('')))) . '</li>';
       $nav .= '<li>' . l(t('Watchlist'), 'watchlist', array('attributes' => array('class' => array('')))) . '</li>';
       $nav .= '<li>' . l(t('Previous Jobs'), 'previous-jobs', array('attributes' => array('class' => array('')))) . '</li>';
       $nav .= '<li class="last">' . l(t('Logout'), 'user/logout', array('attributes' => array('class' => array('')))) . '</li>';
@@ -332,7 +342,7 @@ function template_preprocess_custom_nav(&$vars) {
       ' . l(t('My Feedback'), 'user/' . $user->uid . '/feedback', array('html' => true)) . '
     </li>
     <li>
-      ' . l(t('Job Requests'), 'job-requests') . '
+      ' . l(t('My Requests'), 'job-requests') . '
     </li>
     <li>
       ' . l(t('Watchlist'), 'watchlist') . '

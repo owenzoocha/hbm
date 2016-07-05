@@ -474,13 +474,32 @@ function tweaks_field_formatter_view($entity_type, $entity, $field, $instance, $
     if (!empty($item['administrative_area'])) {
       $address_parts[] = $item['administrative_area'];
     }
-    $inline_address .= '<p><i class="material-icons">public</i> ' . implode(', ', $address_parts) . '</p>';
+    $inline_address .= '<p><i class="fa fa-map-marker"></i> ' . implode(', ', $address_parts) . '</p>';
     $inline_address .= '<p class="open-link">' . l(t('View Directions'), 'http://maps.google.com/', array('attributes' => array('target' => '_blank', 'rel' => 'nofollow'), 'query' => array('q' => implode(', ', $address_parts)))) . '</p>';
     $build[] = array('#markup' => $inline_address);
     $count++;
   }
 
   return $build;
+}
+
+function models_block_view_alter(&$data, $block) {
+  // Client Requests block - secondary sidebar - job/*/requests
+  if ($block->bid == 369) {
+    $nw = entity_metadata_wrapper('node', arg(1));
+    $block->title = $nw->field_hb_type->value() != 'personal' ? t('Client Requests') : t('Job Offers');
+  }
+}
+
+// Changing up the no-results messages.
+function tweaks_views_pre_render(&$view) {
+  if ($view->name == 'job_requests_block') {
+    $nw = entity_metadata_wrapper('node', arg(1));
+    $no_views_text = '<h3>' . t('Nothing yet!') . '</h3>';
+    $no_views_text .= $nw->field_hb_type->value() != 'personal' ? '<p>' .
+    t('There are no requests yet, keep an eye on your !jobs page and check back soon!', array('!jobs' => l('jobs', 'my-jobs', array('attributes' => array('class' => array('a-link')))))) . '</p>' : '<p>' . t('There have been no job offers yet, keep an eye on your !jobs page and check back soon!', array('!jobs' => l('jobs', 'my-jobs', array('attributes' => array('class' => array('a-link')))))) . '</p>';
+    $view->empty['area']->options['content'] = $no_views_text;
+  }
 }
 
 function tweaks_views_pre_view(&$view, &$display_id, &$args){
