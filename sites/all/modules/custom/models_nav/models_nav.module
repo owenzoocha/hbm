@@ -134,7 +134,7 @@ function template_preprocess_my_nav(&$vars) {
   if (!isset($vars['user_nav'])) {
     $nw = entity_metadata_wrapper('node', arg(1));
     if ($nw->field_hb_users_eck->value()) {
-      $reqs = '(' . sizeof($nw->field_hb_users_eck->value()) . ')';
+      $reqs = '<span class="badge">' . sizeof($nw->field_hb_users_eck->value()) . '</span>';
     }
     else {
       $reqs = FALSE;
@@ -155,11 +155,11 @@ function template_preprocess_my_nav(&$vars) {
         $request_text = $nw->field_hb_assigned->value() ? t('Manage Offers') : t('Job Offers') . ' ' . $reqs;
       }
 
-      $nav .= '<li>' . l($request_text, 'job/' . arg(1) . '/clients', array('attributes' => array('class' => array('')))) . '</li>';
+      $nav .= '<li>' . l($request_text, 'job/' . arg(1) . '/clients', array('html' => TRUE, 'attributes' => array('class' => array('')))) . '</li>';
     }
 
     if ($nw->field_hb_assigned->value()) {
-      $fbk_size = $nw->field_hb_client_size->value() ? '(' . $nw->field_hb_client_size->value() . ')' : FALSE;
+      $fbk_size = $nw->field_hb_client_size->value() ? '<span class="badge">' . $nw->field_hb_client_size->value() . '</span>' : FALSE;
 
       if ($nw->field_hb_feedback_complete->value()) {
         $reqs = t('(complete)');

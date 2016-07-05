@@ -495,18 +495,18 @@ function models_preprocess_page(&$variables) {
 
     $nw = entity_metadata_wrapper('node', arg(1));
 
-    // Bounce people off the edit or manage clients page if the job is completed.
-    if ($nw->field_hb_completed->value()) {
-      if (strpos(current_path(), 'job/' . $nw->getIdentifier() . '/edit') !== FALSE || strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/clients') !== FALSE) {
-        // If person is admin or hbadmin...
-        // if ($user->uid != 1) {
-          drupal_set_message(t('Oops - this job has been completed - no more edits! :)'), 'info', FALSE);
-          drupal_goto('node/' . $nw->getIdentifier());
-        // }
-      }
-    }
-
     if ($nw->getBundle() == 'job') {
+
+      // Bounce people off the edit or manage clients page if the job is completed.
+      if ($nw->field_hb_completed->value()) {
+        if (strpos(current_path(), 'job/' . $nw->getIdentifier() . '/edit') !== FALSE || strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/clients') !== FALSE) {
+          // If person is admin or hbadmin...
+          // if ($user->uid != 1) {
+            drupal_set_message(t('Oops - this job has been completed - no more edits! :)'), 'info', FALSE);
+            drupal_goto('node/' . $nw->getIdentifier());
+          // }
+        }
+      }
 
       // Pause a job button.
       $pause_form = drupal_get_form('models_forms_pause_form');

@@ -46,6 +46,13 @@ function models_forms_complete_form_submit($form, &$form_state){
   $nw->field_hb_completed->set(1);
   $nw->save();
 
+  // Calculate jobs running for user
+  if ($uw->field_flags_running_posts->value()) {
+    $posts = $uw->field_flags_running_posts->value() - 1;
+    $uw->field_flags_running_posts->set($posts);
+    $uw->save();
+  }
+
   // Delete the scheduled complete flag action - because we're doing it manually.
   $task_identifier = 'flag_complete_' . $nw->getIdentifier() . '_' . $nw->author->getIdentifier();
   rules_action('schedule_delete', array('component' => 'rules_schedule_complete_finished_job'))->executeByArgs(array('task' => $task_identifier,));

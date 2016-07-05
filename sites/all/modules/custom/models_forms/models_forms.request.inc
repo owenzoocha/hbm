@@ -29,8 +29,11 @@ function models_forms_request_form($form, &$form_state){
       ->entityCondition('bundle', 'feedback')
       ->propertyCondition('title', $title, 'like');
     $result = $query->execute();
-    $aid = reset($result['feedback'])->id;
-    $form_state['aid'] = $aid;
+    dpm($result);
+    if ($result) {
+      $aid = reset($result['feedback'])->id;
+      $form_state['aid'] = $aid;
+    }
   }
 
   if ($nw->field_hb_type->value() != 'personal') {

@@ -72,7 +72,6 @@ function models_forms_cancel_form_submit($form, &$form_state){
   $task_identifier = 'flag_complete_' . $nw->getIdentifier() . '_' . $nw->author->getIdentifier();
   rules_action('schedule_delete', array('component' => 'rules_schedule_complete_finished_job'))->executeByArgs(array('task' => $task_identifier,));
 
-
   drupal_set_message(t($nw->label() . ' has now been cancelled - any client have been notified.'), 'info', FALSE);
   drupal_goto('user/' . $user->uid);
 }
