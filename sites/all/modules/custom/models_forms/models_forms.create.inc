@@ -786,7 +786,6 @@ function models_forms_create_form_submit(&$form, &$form_state){
       $node->field_hb_link[LANGUAGE_NONE][0]['url'] = $url;
     }
     else {
-      dpm('not a url');
       $node->field_hb_link[LANGUAGE_NONE][0]['url'] = '';
     }
   }
@@ -907,7 +906,7 @@ function models_forms_create_form_submit(&$form, &$form_state){
   // else {
   //   drupal_set_message(t('Your Job: ' . $fs['title'] . ' has been updated '), 'success', FALSE);
   // }
-  dpm($form_state);
+  // dpm($form_state);
   //
   $nw = entity_metadata_wrapper('node', $node->nid);
   if (!empty($fs['field_hb_pics'])) {
