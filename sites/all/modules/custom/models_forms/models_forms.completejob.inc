@@ -41,7 +41,7 @@ function models_forms_complete_form_submit($form, &$form_state){
   $uw = entity_metadata_wrapper('user', $user->uid);
 
   // Set job to admin & cancel.
-  $nw->field_hb_status->set('Complete');
+  $nw->field_hb_status->set('Closed');
   $nw->field_hb_paused->set(0);
   $nw->field_hb_completed->set(1);
   $nw->save();
