@@ -640,6 +640,124 @@ function tweaks_views_pre_render(&$view) {
               }
             }
           }
+          if (!empty($view->result[0]->field_field_hb_bt_eyebrows)) {
+            foreach ($view->result[0]->field_field_hb_bt_eyebrows as $key => $value) {
+              switch ($value['raw']['value']) {
+                case 'Eyebrow extensions':
+                  $view->result[0]->field_field_hb_bt_eyebrows[$key]['rendered']['#markup'] = l('Eyebrow extensions', 'search/type/beauty/eyebrows/' . 'Eyebrow extensions');
+                break;
+                case 'Eyebrow shaping':
+                  $view->result[0]->field_field_hb_bt_eyebrows[$key]['rendered']['#markup'] = l('Eyebrow shaping', 'search/type/beauty/eyebrows/' . 'Eyebrow shaping');
+                break;
+                case 'Eyebrow tinting':
+                  $view->result[0]->field_field_hb_bt_eyebrows[$key]['rendered']['#markup'] = l('Eyebrow tinting', 'search/type/beauty/eyebrows/' . 'Eyebrow tinting');
+                break;
+              }
+            }
+          }
+
+          if (!empty($view->result[0]->field_field_hb_bt_eyelashes)) {
+            foreach ($view->result[0]->field_field_hb_bt_eyelashes as $key => $value) {
+              switch ($value['raw']['value']) {
+                case 'Eyelash extensions':
+                  $view->result[0]->field_field_hb_bt_eyelashes[$key]['rendered']['#markup'] = l('Eyelash extensions', 'search/type/beauty/eyelashes/' . 'Eyelash extensions');
+                break;
+                case 'Eyelash perm':
+                  $view->result[0]->field_field_hb_bt_eyelashes[$key]['rendered']['#markup'] = l('Eyelash perm', 'search/type/beauty/eyelashes/' . 'Eyelash perm');
+                break;
+                case 'Eyelash tinting':
+                  $view->result[0]->field_field_hb_bt_eyelashes[$key]['rendered']['#markup'] = l('Eyelash tinting', 'search/type/beauty/eyelashes/' . 'Eyelash tinting');
+                break;
+              }
+            }
+          }
+
+          if (!empty($view->result[0]->field_field_hb_bt_facials)) {
+            foreach ($view->result[0]->field_field_hb_bt_facials as $key => $value) {
+              switch ($value['raw']['value']) {
+                case 'Advanced':
+                  $view->result[0]->field_field_hb_bt_facials[$key]['rendered']['#markup'] = l('Advanced', 'search/type/beauty/facials/' . 'Advanced');
+                break;
+                case 'Basic':
+                  $view->result[0]->field_field_hb_bt_facials[$key]['rendered']['#markup'] = l('Basic', 'search/type/beauty/facials/' . 'Basic');
+                break;
+              }
+            }
+          }
+
+          if (!empty($view->result[0]->field_field_hb_bt_massage)) {
+            foreach ($view->result[0]->field_field_hb_bt_massage as $key => $value) {
+              switch ($value['raw']['value']) {
+                case 'Relaxation':
+                  $view->result[0]->field_field_hb_bt_massage[$key]['rendered']['#markup'] = l('Relaxation', 'search/type/beauty/massage/' . 'Relaxation');
+                break;
+                case 'Remedial':
+                  $view->result[0]->field_field_hb_bt_massage[$key]['rendered']['#markup'] = l('Remedial', 'search/type/beauty/massage/' . 'Remedial');
+                break;
+              }
+            }
+          }
+
+          if (!empty($view->result[0]->field_field_hb_bt_makeup)) {
+            foreach ($view->result[0]->field_field_hb_bt_makeup as $key => $value) {
+              switch ($value['raw']['value']) {
+                case 'Cosmetic tattooing':
+                  $view->result[0]->field_field_hb_bt_makeup[$key]['rendered']['#markup'] = l('Cosmetic tattooing', 'search/type/beauty/makeup/' . 'Cosmetic tattooing');
+                break;
+                case 'Make up application':
+                  $view->result[0]->field_field_hb_bt_makeup[$key]['rendered']['#markup'] = l('Make up application', 'search/type/beauty/makeup/' . 'Make up application');
+                break;
+              }
+            }
+          }
+
+          if (!empty($view->result[0]->field_field_hb_bt_nails)) {
+            foreach ($view->result[0]->field_field_hb_bt_nails as $key => $value) {
+              switch ($value['raw']['value']) {
+                case 'Acrylic':
+                  $view->result[0]->field_field_hb_bt_nails[$key]['rendered']['#markup'] = l('Acrylic', 'search/type/beauty/nails/' . 'Acrylic');
+                break;
+                case 'Gel':
+                  $view->result[0]->field_field_hb_bt_nails[$key]['rendered']['#markup'] = l('Gel', 'search/type/beauty/nails/' . 'Gel');
+                break;
+                case 'Manicure':
+                  $view->result[0]->field_field_hb_bt_nails[$key]['rendered']['#markup'] = l('Manicure', 'search/type/beauty/nails/' . 'Manicure');
+                break;
+                case 'Pedicure':
+                  $view->result[0]->field_field_hb_bt_nails[$key]['rendered']['#markup'] = l('Pedicure', 'search/type/beauty/nails/' . 'Pedicure');
+                break;
+                case 'Shallac':
+                  $view->result[0]->field_field_hb_bt_nails[$key]['rendered']['#markup'] = l('Shallac', 'search/type/beauty/nails/' . 'Shallac');
+                break;
+              }
+            }
+          }
+
+          if (!empty($view->result[0]->field_field_hb_bt_waxing)) {
+            foreach ($view->result[0]->field_field_hb_bt_waxing as $key => $value) {
+              switch ($value['raw']['value']) {
+                case 'Laser':
+                  $view->result[0]->field_field_hb_bt_waxing[$key]['rendered']['#markup'] = l('Laser', 'search/type/beauty/waxing/' . 'Laser');
+                break;
+                case 'Threading':
+                  $view->result[0]->field_field_hb_bt_waxing[$key]['rendered']['#markup'] = l('Threading', 'search/type/beauty/waxing/' . 'Threading');
+                break;
+                case 'Waxing':
+                  $view->result[0]->field_field_hb_bt_waxing[$key]['rendered']['#markup'] = l('Waxing', 'search/type/beauty/waxing/' . 'Waxing');
+                break;
+              }
+            }
+          }
+
+          if (!empty($view->result[0]->field_field_hb_bt_tanning)) {
+            foreach ($view->result[0]->field_field_hb_bt_tanning as $key => $value) {
+              switch ($value['raw']['value']) {
+                case 'Spray Tanning':
+                  $view->result[0]->field_field_hb_bt_tanning[$key]['rendered']['#markup'] = l('Spray Tanning', 'search/type/beauty/tanning/' . 'Spray Tanning');
+                break;
+              }
+            }
+          }
         }
 
         // dpm($view);
