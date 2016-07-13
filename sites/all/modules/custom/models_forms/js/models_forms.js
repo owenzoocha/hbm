@@ -35,6 +35,12 @@
           thousandsSeparator: ''
       });
 
+      $('#personal-add-date a').on('click', function(){
+        $('#date-wrapper-ajax').show();
+        $('#personal-add-date').hide();
+        return false;
+      });
+
       // var dateInput = $("#edit-date");
       // dateInput.parent().css("position", "relative");
 
@@ -92,21 +98,25 @@
       hbmf.nanobar.go(100);
       $('#hbf_field_hb_type').val(type);
       if (type == 'hair') {
-        var s = edit ? 'Edit your hair job below - time remaining: 1.30h.' : 'Hi there! You are posting a hair job - please fill in the form below to continue..';
+        var s = edit ? 'Edit your hair job below.' : 'Hi there! You are posting a hair job - please fill in the form below to continue..';
         $('#form-intro').removeClass('type-b type-p').addClass('type-h').html(s);
+        $('#personal-add-date').hide();
+        $('#date-wrapper-ajax').show();
         setTimeout(function(){
           $('#hbf-field_hb_ht').fadeIn();
         }, 500);
       }
       if (type == 'beauty') {
-        var s = edit ? 'Edit your beauty job below - time remaining: 1.30h.' : 'Hey! You are posting a beauty job - please fill in the form below to continue..';
+        var s = edit ? 'Edit your beauty job below.' : 'Hey! You are posting a beauty job - please fill in the form below to continue..';
         $('#form-intro').removeClass('type-h type-p').addClass('type-b').html(s);
+        $('#personal-add-date').hide();
+        $('#date-wrapper-ajax').show();
         setTimeout(function(){
           $('#hbf-field_hb_bt').fadeIn();
         }, 500);
       }
       if (type == 'personal') {
-        var s = edit ? 'Edit your personal job below - time remaining: 1.30h.' : 'Let\'s get started! You are posting about a personal job, fill in the form below to become a last minute model..';
+        var s = edit ? 'Edit your personal job below.' : 'Let\'s get started! You are posting about a personal job, fill in the form below to become a last minute model..';
 
         // // Labels..
         // 'Hair treatments I will model..'
@@ -114,10 +124,12 @@
         // 'Give us some information about what you\'re willing to model...'
         // 2. Description (What are you looking for)
         // 3. Cost and Dates (How much you're willing to pay / when are you free?)
-
-
+        if (!edit) {
+          $('#personal-add-date').show();
+          $('#date-wrapper-ajax').hide();
+        }
         $('#form-intro').removeClass('type-b type-h').addClass('type-p').html(s);
-        $('.form-item-field-hb-gender').hide();
+        $('.form-item-field-hb-gender').show();
         setTimeout(function(){
           $('#hbf-field_hb_ht, #hbf-field_hb_bt').fadeIn();
         }, 500);
@@ -181,6 +193,8 @@
     formSelectBeautyType : function() {
       $('#edit-hbf-field-hb-bt').change(function() {
         hbmf.nanobar.go(100);
+
+        // console.log();
 
         setTimeout(function(){
           $('#step-extra-btn').fadeIn();
@@ -266,11 +280,11 @@
       setInterval(function() {
         if ($('input#edit-location-thoroughfare').val() != '') {
           $('#after-location').fadeIn();
-          console.log('yee');
+          // console.log('yee');
         }
         else {
           $('#after-location').fadeOut();
-          console.log('noo');
+          // console.log('noo');
         }
       }, 100);
     },

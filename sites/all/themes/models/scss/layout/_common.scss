@@ -57,7 +57,8 @@ select.form-control {
 #block-views-jobs-rhs-block-1,
 #block-views-user-profile-rhs-block-1,
 #block-views-user-profile-rhs-block-3 {
-  @include tags();
+  // @include tags();
+  @include tags-and-link();
 }
 
 .block-blue {

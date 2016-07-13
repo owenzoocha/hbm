@@ -6067,15 +6067,28 @@ select.form-control {
   #block-views-user-profile-rhs-block-3 ul li {
     display: inline-block;
     min-width: 10px;
-    padding: 3px 7px;
     font-size: 12px;
-    color: #fff;
     line-height: 1;
     vertical-align: baseline;
     white-space: nowrap;
-    text-align: center;
-    background-color: #172A3A;
-    border-radius: 10px; }
+    text-align: center; }
+    #block-views-jobs-rhs-block-1 ul li a,
+    #block-views-user-profile-rhs-block-1 ul li a,
+    #block-views-user-profile-rhs-block-3 ul li a {
+      background-color: #172A3A;
+      color: #fff;
+      padding: 3px 7px;
+      border-radius: 10px;
+      display: block;
+      text-decoration: none;
+      transition: 0.2s ease all; }
+      #block-views-jobs-rhs-block-1 ul li a:hover,
+      #block-views-user-profile-rhs-block-1 ul li a:hover,
+      #block-views-user-profile-rhs-block-3 ul li a:hover {
+        background-color: #E01563;
+        -webkit-transform: scale(1.04);
+            -ms-transform: scale(1.04);
+                transform: scale(1.04); }
 
 .block-blue {
   background-color: #EAF7F9 !important;
@@ -8540,6 +8553,9 @@ div.addressfield-container-inline > div.form-item {
 
 #models-forms-create-form .help-block {
   font-size: 12px; }
+
+#models-forms-create-form #personal-add-date {
+  display: none; }
 
 #models-forms-create-form ul.help-points {
   font-size: 12px;

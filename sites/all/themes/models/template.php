@@ -434,9 +434,14 @@ function models_preprocess_page(&$variables) {
     }
   }
 
+
+  // Tweenmax
+  drupal_add_js('http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/TweenMax.min.js', array('type' => 'external'));
+
   // drupal_add_css('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.4.0/animate.min.css', array('type' => 'external'));
-  drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.30/skrollr.min.js', array('type' => 'external'));
+  // drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.30/skrollr.min.js', array('type' => 'external'));
   // drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/jquery-noty/2.3.8/packaged/jquery.noty.packaged.min.js', array('type' => 'external'));
+
   drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js', 'external');
   drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js', 'external');
   drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js', 'external');
@@ -477,7 +482,7 @@ function models_preprocess_page(&$variables) {
 
   if (strpos(current_path(), 'job/create') !== FALSE) {
     if ($user->uid != 1) {
-      if ($uw->field_flags_running_posts->value() >= 1) {
+      if ($uw->field_flags_running_posts->value() >= 5) {
         drupal_set_message(t('Hi !name, you currently have 5 jobs running. To post another, you must wait until one of your jobs has completed.', array('!name' => $uw->field_first_name->value() ? $uw->field_first_name->value() : $uw->label())), 'info', FALSE);
         drupal_goto('my-jobs');
       }

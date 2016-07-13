@@ -527,6 +527,10 @@ function models_forms_create_form($form, &$form_state) {
     ),
   );
 
+  $form['wrapper']['personal_add_date'] = array(
+    '#markup' => '<div id="personal-add-date" class="form-item"><a class="btn btn-success" href="#">Add a date</a><div class="help-block">Last Minute Model? Add your availability dates or leave this blank</div></div>',
+  );
+
   $form['wrapper']['date_wrapper'] = array(
     '#type' => 'fieldset',
     '#prefix' => '<div id="date-wrapper-ajax" class="form-group">',
@@ -806,15 +810,16 @@ function models_forms_create_form_submit(&$form, &$form_state){
   foreach ($fs as $key => $date_value) {
     if (preg_match('/^date_/', $key)) {
 
-      if ( date('Y', strtotime($date_value)) != '1970' ) {
-        $date = format_date(strtotime( str_replace('/', '-', $date_value)), 'custom', 'Y-m-d H:i:s', 'UTC');
-        $node->field_hb_time[LANGUAGE_NONE][$date_i]['value'] = $date;
-        $date_i++;
+      if ( strtotime($date_value) > strtotime('now') ) {
+        if ( date('Y', strtotime($date_value)) != '1970' ) {
+          $date = format_date(strtotime( str_replace('/', '-', $date_value)), 'custom', 'Y-m-d H:i:s', 'UTC');
+          $node->field_hb_time[LANGUAGE_NONE][$date_i]['value'] = $date;
+          $date_i++;
+        }
+        else {
+          unset($node->field_hb_time);
+        }
       }
-      else {
-        unset($node->field_hb_time);
-      }
-
     }
   }
 
@@ -902,7 +907,7 @@ function models_forms_create_form_submit(&$form, &$form_state){
   // else {
   //   drupal_set_message(t('Your Job: ' . $fs['title'] . ' has been updated '), 'success', FALSE);
   // }
-  // dpm($form_state);
+  dpm($form_state);
   //
   $nw = entity_metadata_wrapper('node', $node->nid);
   if (!empty($fs['field_hb_pics'])) {

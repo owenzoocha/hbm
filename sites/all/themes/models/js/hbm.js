@@ -199,10 +199,38 @@
     },
 
     skrollr : function(){
-      if ($(window).width() > 440) {
-        // $('body').prepend('<div id="skrollr-body"></div>');
-        var s = skrollr.init();
-      }
+      // if ($(window).width() > 440) {
+
+      //   var owen = document.getElementById('owen');
+
+      //   // init controller
+      //   var controller = new ScrollMagic.Controller();
+
+      //   // Create Animation for 0.5s
+      //   var myTimeline = new TimelineMax({
+      //     repeat: 0
+      //   });
+
+      //   myTimeline
+      //   .to('#page-header-bg', 1, {rotation: 360});
+
+      //   // Create the Scene and trigger when visible with ScrollMagic
+      //   var parallaxScene = new ScrollMagic.Scene({
+      //       triggerElement: '#gogo',
+      //       offset: 300, /* offset the trigger 150px below #scene's top */
+      //       duration: 300 /* offset the trigger 150px below #scene's top */
+      //   })
+      //   .setTween(myTimeline)
+      //   .addTo(controller);
+
+      //   parallaxScene.addIndicators();
+
+      //   // build scenes
+      //   new ScrollMagic.Scene({triggerElement: "#page-header-bg"})
+      //     .setTween("#page-header-bg", {y: "80%", ease: Linear.easeNone})
+      //     .addIndicators()
+      //     .addTo(controller);
+      // }
     },
 
     reorder : function(){

@@ -493,6 +493,225 @@ function models_block_view_alter(&$data, $block) {
 
 // Changing up the no-results messages.
 function tweaks_views_pre_render(&$view) {
+  if ($view->vid == 22) {
+    if ($view->build_info['title'] == 'Jobs tags rhs') {
+      $nw = entity_metadata_wrapper('node', arg(1));
+      if ($nw->field_hb_type->value()) {
+        if (!empty($view->result[0]->field_field_hb_gender)) {
+          foreach ($view->result[0]->field_field_hb_gender as $key => $value) {
+            switch ($value['raw']['value']) {
+              case 'Male':
+                $view->result[0]->field_field_hb_gender[$key]['rendered']['#markup'] = l('Male', 'search/type/' . $nw->field_hb_type->value() . '/gender/Male');
+              break;
+              case 'Female':
+                $view->result[0]->field_field_hb_gender[$key]['rendered']['#markup'] = l('Female', 'search/type/' . $nw->field_hb_type->value() . '/gender/Female');
+              break;
+            };
+          }
+        }
+        if (!empty($view->result[0]->field_field_hb_bt)) {
+          foreach ($view->result[0]->field_field_hb_bt as $key => $value) {
+            switch ($value['raw']['value']) {
+              case 'Make Up':
+                $view->result[0]->field_field_hb_bt[$key]['rendered']['#markup'] = l('Make Up', 'search/type/' . $nw->field_hb_type->value() . '/beauty-treatment/' . 'Make Up');
+              break;
+              case 'Eyelashes':
+                $view->result[0]->field_field_hb_bt[$key]['rendered']['#markup'] = l('Eyelashes', 'search/type/' . $nw->field_hb_type->value() . '/beauty-treatment/' . 'Eyelashes');
+              break;
+              case 'Eyebrows':
+                $view->result[0]->field_field_hb_bt[$key]['rendered']['#markup'] = l('Eyebrows', 'search/type/' . $nw->field_hb_type->value() . '/beauty-treatment/' . 'Eyebrows');
+              break;
+              case 'Nails':
+                $view->result[0]->field_field_hb_bt[$key]['rendered']['#markup'] = l('Nails', 'search/type/' . $nw->field_hb_type->value() . '/beauty-treatment/' . 'Nails');
+              break;
+              case 'Hair Removal':
+                $view->result[0]->field_field_hb_bt[$key]['rendered']['#markup'] = l('Hair Removal', 'search/type/' . $nw->field_hb_type->value() . '/beauty-treatment/' . 'Hair Removal');
+              break;
+              case 'Facial':
+                $view->result[0]->field_field_hb_bt[$key]['rendered']['#markup'] = l('Facial', 'search/type/' . $nw->field_hb_type->value() . '/beauty-treatment/' . 'Facial');
+              break;
+              case 'Massage':
+                $view->result[0]->field_field_hb_bt[$key]['rendered']['#markup'] = l('Massage', 'search/type/' . $nw->field_hb_type->value() . '/beauty-treatment/' . 'Massage');
+              break;
+              case 'Tanning':
+                $view->result[0]->field_field_hb_bt[$key]['rendered']['#markup'] = l('Tanning', 'search/type/' . $nw->field_hb_type->value() . '/beauty-treatment/' . 'Tanning');
+              break;
+            };
+          }
+        }
+        if (!empty($view->result[0]->field_field_hb_ht)) {
+          foreach ($view->result[0]->field_field_hb_ht as $key => $value) {
+            switch ($value['raw']['value']) {
+              case 'Cut':
+                $view->result[0]->field_field_hb_ht[$key]['rendered']['#markup'] = l('Cut', 'search/type/' . $nw->field_hb_type->value() . '/hair-treatment/' . 'Cut');
+              break;
+              case 'Colour':
+                $view->result[0]->field_field_hb_ht[$key]['rendered']['#markup'] = l('Colour', 'search/type/' . $nw->field_hb_type->value() . '/hair-treatment/' . 'Colour');
+              break;
+              case 'Blow dry':
+                $view->result[0]->field_field_hb_ht[$key]['rendered']['#markup'] = l('Blow Dry', 'search/type/' . $nw->field_hb_type->value() . '/hair-treatment/' . 'Blow dry');
+              break;
+              case 'Set':
+                $view->result[0]->field_field_hb_ht[$key]['rendered']['#markup'] = l('Set', 'search/type/' . $nw->field_hb_type->value() . '/hair-treatment/' . 'Set');
+              break;
+              case 'Hair Up Style':
+                $view->result[0]->field_field_hb_ht[$key]['rendered']['#markup'] = l('Hair Up Style', 'search/type/' . $nw->field_hb_type->value() . '/hair-treatment/' . 'Hair Up Style');
+              break;
+              case 'Perm':
+                $view->result[0]->field_field_hb_ht[$key]['rendered']['#markup'] = l('Perm', 'search/type/' . $nw->field_hb_type->value() . '/hair-treatment/' . 'Perm');
+              break;
+              case 'Permanent Straightening':
+                $view->result[0]->field_field_hb_ht[$key]['rendered']['#markup'] = l('Permanent Straightening', 'search/type/' . $nw->field_hb_type->value() . '/hair-treatment/' . 'Permanent Straightening');
+              break;
+              case 'Extensions':
+                $view->result[0]->field_field_hb_ht[$key]['rendered']['#markup'] = l('Extensions', 'search/type/' . $nw->field_hb_type->value() . '/hair-treatment/' . 'Extensions');
+              break;
+            };
+          }
+        }
+        if (!empty($view->result[0]->field_field_hb_ht_colour)) {
+          foreach ($view->result[0]->field_field_hb_ht_colour as $key => $value) {
+            switch ($value['raw']['value']) {
+              case 'Baylayage':
+                $view->result[0]->field_field_hb_ht_colour[$key]['rendered']['#markup'] = l('Baylayage', 'search/type/hair/colour/' . 'Baylayage');
+              break;
+              case 'Colour correction (dark to light)':
+                $view->result[0]->field_field_hb_ht_colour[$key]['rendered']['#markup'] = l('Colour correction (dark to light)', 'search/type/hair/colour/' . 'Colour correction (dark to light)');
+              break;
+              case 'Colour correction (light to dark)':
+                $view->result[0]->field_field_hb_ht_colour[$key]['rendered']['#markup'] = l('Colour correction (light to dark)', 'search/type/hair/colour/' . 'Colour correction (light to dark)');
+              break;
+              case 'Foils - full head':
+                $view->result[0]->field_field_hb_ht_colour[$key]['rendered']['#markup'] = l('Foils - full head', 'search/type/hair/colour/' . 'Foils - full head');
+              break;
+              case 'Foils - 3/4 head':
+                $view->result[0]->field_field_hb_ht_colour[$key]['rendered']['#markup'] = l('Foils - 3/4 head', 'search/type/hair/colour/' . 'Foils - 3/4 head');
+              break;
+              case 'Foils - 1/2 head':
+                $view->result[0]->field_field_hb_ht_colour[$key]['rendered']['#markup'] = l('Foils - 1/2 head', 'search/type/hair/colour/' . 'Foils - 1/2 head');
+              break;
+              case 'Foils - partial':
+                $view->result[0]->field_field_hb_ht_colour[$key]['rendered']['#markup'] = l('Foils - partial', 'search/type/hair/colour/' . 'Foils - partial');
+              break;
+              case 'Highlift tint regrowth':
+                $view->result[0]->field_field_hb_ht_colour[$key]['rendered']['#markup'] = l('Highlift tint regrowth', 'search/type/hair/colour/' . 'Highlift tint regrowth');
+              break;
+              case 'Highlift tint full head':
+                $view->result[0]->field_field_hb_ht_colour[$key]['rendered']['#markup'] = l('Highlift tint full head', 'search/type/hair/colour/' . 'Highlift tint full head');
+              break;
+              case 'Scalp bleach regrowth':
+                $view->result[0]->field_field_hb_ht_colour[$key]['rendered']['#markup'] = l('Scalp bleach regrowth', 'search/type/hair/colour/' . 'Scalp bleach regrowth');
+              break;
+              case 'Scalp bleach full head':
+                $view->result[0]->field_field_hb_ht_colour[$key]['rendered']['#markup'] = l('Scalp bleach full head', 'search/type/hair/colour/' . 'Scalp bleach full head');
+              break;
+              case 'Tint regrowth':
+                $view->result[0]->field_field_hb_ht_colour[$key]['rendered']['#markup'] = l('Tint regrowth', 'search/type/hair/colour/' . 'Tint regrowth');
+              break;
+              case 'Tint full head':
+                $view->result[0]->field_field_hb_ht_colour[$key]['rendered']['#markup'] = l('Tint full head', 'search/type/hair/colour/' . 'Tint full head');
+              break;
+              case 'Tint with foils':
+                $view->result[0]->field_field_hb_ht_colour[$key]['rendered']['#markup'] = l('Tint with foils', 'search/type/hair/colour/' . 'Tint with foils');
+              break;
+            }
+          }
+        }
+        if (!empty($view->result[0]->field_field_hb_ht_cut)) {
+          foreach ($view->result[0]->field_field_hb_ht_cut as $key => $value) {
+            switch ($value['raw']['value']) {
+              case 'Child':
+                $view->result[0]->field_field_hb_ht_cut[$key]['rendered']['#markup'] = l('Child', 'search/type/hair/cut/' . 'Child');
+              break;
+              case 'Long':
+                $view->result[0]->field_field_hb_ht_cut[$key]['rendered']['#markup'] = l('Long', 'search/type/hair/cut/' . 'Long');
+              break;
+              case 'Medium':
+                $view->result[0]->field_field_hb_ht_cut[$key]['rendered']['#markup'] = l('Medium', 'search/type/hair/cut/' . 'Medium');
+              break;
+              case 'Mens':
+                $view->result[0]->field_field_hb_ht_cut[$key]['rendered']['#markup'] = l('Mens', 'search/type/hair/cut/' . 'Mens');
+              break;
+              case 'Short':
+                $view->result[0]->field_field_hb_ht_cut[$key]['rendered']['#markup'] = l('Short', 'search/type/hair/cut/' . 'Short');
+              break;
+
+            }
+          }
+        }
+      }
+
+      // dpm($view);
+
+    }
+  }
+
+  // Interests on user profiles
+  if ($view->vid == 21) {
+    if ($view->build_info['title'] == 'Interests') {
+      if (!empty($view->result[0]->field_field_hb_bt)) {
+        foreach ($view->result[0]->field_field_hb_bt as $key => $value) {
+          switch ($value['raw']['value']) {
+            case 'Make Up':
+              $view->result[0]->field_field_hb_bt[$key]['rendered']['#markup'] = l('Make Up', 'search/type/beauty/beauty-treatment/' . 'Make Up');
+            break;
+            case 'Eyelashes':
+              $view->result[0]->field_field_hb_bt[$key]['rendered']['#markup'] = l('Eyelashes', 'search/type/beauty/beauty-treatment/' . 'Eyelashes');
+            break;
+            case 'Eyebrows':
+              $view->result[0]->field_field_hb_bt[$key]['rendered']['#markup'] = l('Eyebrows', 'search/type/beauty/beauty-treatment/' . 'Eyebrows');
+            break;
+            case 'Nails':
+              $view->result[0]->field_field_hb_bt[$key]['rendered']['#markup'] = l('Nails', 'search/type/beauty/beauty-treatment/' . 'Nails');
+            break;
+            case 'Hair Removal':
+              $view->result[0]->field_field_hb_bt[$key]['rendered']['#markup'] = l('Hair Removal', 'search/type/beauty/beauty-treatment/' . 'Hair Removal');
+            break;
+            case 'Facial':
+              $view->result[0]->field_field_hb_bt[$key]['rendered']['#markup'] = l('Facial', 'search/type/beauty/beauty-treatment/' . 'Facial');
+            break;
+            case 'Massage':
+              $view->result[0]->field_field_hb_bt[$key]['rendered']['#markup'] = l('Massage', 'search/type/beauty/beauty-treatment/' . 'Massage');
+            break;
+            case 'Tanning':
+              $view->result[0]->field_field_hb_bt[$key]['rendered']['#markup'] = l('Tanning', 'search/type/beauty/beauty-treatment/' . 'Tanning');
+            break;
+          };
+        }
+      }
+      if (!empty($view->result[0]->field_field_hb_ht)) {
+        foreach ($view->result[0]->field_field_hb_ht as $key => $value) {
+          switch ($value['raw']['value']) {
+            case 'Cut':
+              $view->result[0]->field_field_hb_ht[$key]['rendered']['#markup'] = l('Cut', 'search/type/hair/hair-treatment/' . 'Cut');
+            break;
+            case 'Colour':
+              $view->result[0]->field_field_hb_ht[$key]['rendered']['#markup'] = l('Colour', 'search/type/hair/hair-treatment/' . 'Colour');
+            break;
+            case 'Blow dry':
+              $view->result[0]->field_field_hb_ht[$key]['rendered']['#markup'] = l('Blow Dry', 'search/type/hair/hair-treatment/' . 'Blow dry');
+            break;
+            case 'Set':
+              $view->result[0]->field_field_hb_ht[$key]['rendered']['#markup'] = l('Set', 'search/type/hair/hair-treatment/' . 'Set');
+            break;
+            case 'Hair Up Style':
+              $view->result[0]->field_field_hb_ht[$key]['rendered']['#markup'] = l('Hair Up Style', 'search/type/hair/hair-treatment/' . 'Hair Up Style');
+            break;
+            case 'Perm':
+              $view->result[0]->field_field_hb_ht[$key]['rendered']['#markup'] = l('Perm', 'search/type/hair/hair-treatment/' . 'Perm');
+            break;
+            case 'Permanent Straightening':
+              $view->result[0]->field_field_hb_ht[$key]['rendered']['#markup'] = l('Permanent Straightening', 'search/type/hair/hair-treatment/' . 'Permanent Straightening');
+            break;
+            case 'Extensions':
+              $view->result[0]->field_field_hb_ht[$key]['rendered']['#markup'] = l('Extensions', 'search/type/hair/hair-treatment/' . 'Extensions');
+            break;
+          };
+        }
+      }
+    }
+  }
+
   if ($view->name == 'job_requests_block') {
     $nw = entity_metadata_wrapper('node', arg(1));
     $no_views_text = '<h3>' . t('Nothing yet!') . '</h3>';
@@ -507,7 +726,7 @@ function tweaks_views_pre_view(&$view, &$display_id, &$args){
     $nw = entity_metadata_wrapper('node', arg(1));
     $args[0] = FALSE;
     if ($nw->field_hb_location->value() && $nw->field_location_taxonomize_terms->value()) {
-      if (isset($nw->field_hb_location->value()['locality'])) {
+      if (!empty($nw->field_hb_location->value()['locality'])) {
         $t = taxonomy_get_term_by_name($nw->field_hb_location->value()['locality']);
         $tid = array_shift($t)->tid;
         $args[0] = $tid;
@@ -520,7 +739,7 @@ function tweaks_views_query_alter(&$view, &$query) {
   if ($view->name == 'related_jobs_by_terms') {
     $nw = entity_metadata_wrapper('node', arg(1));
     if ($nw->field_hb_location->value() && $nw->field_location_taxonomize_terms->value()) {
-      if (isset($nw->field_hb_location->value()['locality'])) {
+      if (!empty($nw->field_hb_location->value()['locality'])) {
         $t = taxonomy_get_term_by_name($nw->field_hb_location->value()['locality']);
         $locality = array_shift($t)->name;
         $view->build_info['title'] = t('Other !type Jobs around', array('!type' => $nw->field_hb_type->label())) . ' ' . $locality;
