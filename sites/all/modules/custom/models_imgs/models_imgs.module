@@ -45,7 +45,7 @@ function models_imgs_menu() {
 function models_imgs_block_info() {
   $blocks['job_slider'] = array(
     'info' => t('HBM - Job Page Slider'),
-    'cache' => DRUPAL_CACHE_GLOBAL,
+    'cache' => DRUPAL_NO_CACHE,
   );
   return $blocks;
 }
