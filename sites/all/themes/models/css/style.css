@@ -6282,6 +6282,14 @@ select.form-control {
     margin-bottom: 5px; }
   .node-type-job .col-sm-3 .region-sidebar-second .block#block-views-jobs-rhs-block ul {
     border-bottom: 1px solid #E7EAEB; }
+  .node-type-job .col-sm-3 .region-sidebar-second .block#block-tweaks-job-client-faces ul li {
+    float: left; }
+    .node-type-job .col-sm-3 .region-sidebar-second .block#block-tweaks-job-client-faces ul li a .my-image {
+      width: 40px;
+      margin: 2px 1px;
+      opacity: 0.6; }
+    .node-type-job .col-sm-3 .region-sidebar-second .block#block-tweaks-job-client-faces ul li a.active .my-image {
+      opacity: 1; }
   .node-type-job .col-sm-3 .region-sidebar-second .block p, .node-type-job .col-sm-3 .region-sidebar-second .block ul {
     font-size: 13px;
     margin-bottom: 5px;
@@ -6302,7 +6310,8 @@ select.form-control {
     .node-type-job .col-sm-3 .region-sidebar-second .block .views-field-field-my-name p a {
       color: #172A3A; }
 
-.node-type-job .col-sm-3 #block-views-jobs-rhs-block-1 {
+.node-type-job .col-sm-3 #block-views-jobs-rhs-block-1,
+.node-type-job .col-sm-3 #block-tweaks-job-client-faces {
   padding: 15px; }
 
 .node-type-job .node-job .job-content {

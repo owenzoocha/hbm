@@ -51,6 +51,10 @@ function tweaks_block_info() {
     'info' => t('HBM - User Details'),
     'cache' => DRUPAL_CACHE_GLOBAL,
   );
+  $blocks['job_client_faces'] = array(
+    'info' => t('HBM - Job Client Faces'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
   return $blocks;
 }
 
@@ -68,6 +72,10 @@ function tweaks_block_view($delta = '') {
       $block['subject'] = t('User Details');
       $block['content'] = theme('user_details');
     break;
+    case 'job_client_faces':
+      $block['subject'] = t('Clients');
+      $block['content'] = theme('job_client_faces');
+    break;
   }
   return $block;
 }
@@ -83,7 +91,26 @@ function tweaks_theme() {
     'user_details' => array(
       'template' => 'templates/user-details',
     ),
+    'job_client_faces' => array(
+      'template' => 'templates/job-client-faces',
+    ),
   );
+}
+
+/**
+ * Template preprocess for Contact Us Button.
+ */
+function template_preprocess_job_client_faces(&$vars) {
+  $nw = entity_metadata_wrapper('node', arg(1));
+  $clients = FALSE;
+  if ($nw->field_hb_users_eck->value()) {
+    $clients = '<ul>';
+    foreach ($nw->field_hb_users_eck->getIterator() as $key => $client) {
+      $clients .= '<li data-toggle="tooltip" data-placement="auto" title="' . $client->field_feedb_user->label() .'">' . l(tweaks_get_profile_picture($client->field_feedb_user->value()), 'job/' . arg(1) . '/clients', array('html' => TRUE, 'attributes' => array('class' => array($client->field_client_selected->value() ? 'active' : FALSE)))) . '</li>';
+    }
+    $clients .= '</ul>';
+  }
+  $vars['clients'] = $clients;
 }
 
 /**

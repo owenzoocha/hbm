@@ -434,7 +434,6 @@ function models_preprocess_page(&$variables) {
     }
   }
 
-
   // Tweenmax
   drupal_add_js('http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/TweenMax.min.js', array('type' => 'external'));
 

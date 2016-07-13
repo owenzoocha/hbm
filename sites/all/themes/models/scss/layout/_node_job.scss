@@ -15,6 +15,25 @@
             border-bottom: 1px solid #E7EAEB;
           }
         }
+        &#block-tweaks-job-client-faces {
+          ul {
+            li {
+              float: left;
+              a {
+                .my-image {
+                  width: 40px;
+                  margin: 2px 1px;
+                  opacity: 0.6;
+                }
+                &.active {
+                  .my-image {
+                    opacity: 1;
+                  }
+                }
+              }
+            }
+          }
+        }
         p, ul {
           font-size: 13px;
           margin-bottom: 5px;
@@ -47,7 +66,8 @@
         }
       }
     }
-    #block-views-jobs-rhs-block-1 {
+    #block-views-jobs-rhs-block-1,
+    #block-tweaks-job-client-faces {
       padding: 15px;
     }
   }
