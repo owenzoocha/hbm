@@ -495,8 +495,8 @@ function models_block_view_alter(&$data, $block) {
 function tweaks_views_pre_render(&$view) {
   if ($view->vid == 22) {
     if ($view->build_info['title'] == 'Jobs tags rhs') {
-      if (strrpos(current_path(), 'job') !== FALSE) {
-        $nw = entity_metadata_wrapper('node', arg(1));
+      $nw = entity_metadata_wrapper('node', arg(1));
+      if ($nw->getBundle() == 'job'){
         if ($nw->field_hb_type->value()) {
           if (!empty($view->result[0]->field_field_hb_gender)) {
             foreach ($view->result[0]->field_field_hb_gender as $key => $value) {
@@ -641,8 +641,9 @@ function tweaks_views_pre_render(&$view) {
             }
           }
         }
+
+        // dpm($view);
       }
-      // dpm($view);
     }
   }
 
