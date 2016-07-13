@@ -102,6 +102,10 @@
         $('#form-intro').removeClass('type-b type-p').addClass('type-h').html(s);
         $('#personal-add-date').hide();
         $('#date-wrapper-ajax').show();
+
+        hbmf.formSelectHairTypeOnEdit();
+        hbmf.formSelectHairType();
+
         setTimeout(function(){
           $('#hbf-field_hb_ht').fadeIn();
         }, 500);
@@ -111,6 +115,9 @@
         $('#form-intro').removeClass('type-h type-p').addClass('type-b').html(s);
         $('#personal-add-date').hide();
         $('#date-wrapper-ajax').show();
+        hbmf.formSelectBeautyTypeOnEdit();
+        hbmf.formSelectBeautyType();
+
         setTimeout(function(){
           $('#hbf-field_hb_bt').fadeIn();
         }, 500);
@@ -169,9 +176,11 @@
       $('#edit-hbf-field-hb-ht').change(function() {
         hbmf.nanobar.go(100);
 
-        setTimeout(function(){
-          $('#step-extra-btn').fadeIn();
-        }, 1000);
+        if (!Drupal.settings.form_type) {
+          setTimeout(function(){
+            $('#step-extra-btn').fadeIn();
+          }, 1000);
+        }
 
         $.each($(this).find('option:selected'), function(i, v){
           if ($(this).val() == 'Colour') {
@@ -190,15 +199,34 @@
       });
     },
 
+
+    formSelectHairTypeOnEdit : function() {
+      $.each($('#edit-hbf-field-hb-ht').find('option:selected'), function(i, v){
+        if ($(this).val() == 'Colour') {
+          $('.hide-me').hide();
+          setTimeout(function(){
+            $('#hbf-field_hb_ht_colour').fadeIn();
+          }, 500);
+        }
+        if ($(this).val() == 'Cut') {
+          $('.hide-me').hide();
+          setTimeout(function(){
+            $('#hbf-field_hb_ht_cut').fadeIn();
+          }, 500);
+        }
+      });
+    },
+
     formSelectBeautyType : function() {
       $('#edit-hbf-field-hb-bt').change(function() {
         hbmf.nanobar.go(100);
 
         // console.log();
-
-        setTimeout(function(){
-          $('#step-extra-btn').fadeIn();
-        }, 500);
+        if (!Drupal.settings.form_type) {
+          setTimeout(function(){
+            $('#step-extra-btn').fadeIn();
+          }, 500);
+        }
 
         $.each($(this).find('option:selected'), function(i, v){
           if ($(this).val() == 'Make Up') {
@@ -250,6 +278,59 @@
             }, 500);
           }
         });
+      });
+    },
+
+    formSelectBeautyTypeOnEdit : function() {
+      $.each($('#edit-hbf-field-hb-bt').find('option:selected'), function(i, v){
+        if ($(this).val() == 'Make Up') {
+          $('.hide-me').hide();
+          setTimeout(function(){
+            $('#hbf-field_hb_bt_makeup').fadeIn();
+          }, 500);
+        }
+        if ($(this).val() == 'Eyelashes') {
+          $('.hide-me').hide();
+          setTimeout(function(){
+            $('#hbf-field_hb_bt_eyelashes').fadeIn();
+          }, 500);
+        }
+        if ($(this).val() == 'Eyebrows') {
+          $('.hide-me').hide();
+          setTimeout(function(){
+            $('#hbf-field_hb_bt_eyebrows').fadeIn();
+          }, 500);
+        }
+        if ($(this).val() == 'Nails') {
+          $('.hide-me').hide();
+          setTimeout(function(){
+            $('#hbf-field_hb_bt_nails').fadeIn();
+          }, 500);
+        }
+        if ($(this).val() == 'Hair Removal') {
+          $('.hide-me').hide();
+          setTimeout(function(){
+            $('#hbf-field_hb_bt_waxing').fadeIn();
+          }, 500);
+        }
+        if ($(this).val() == 'Facial') {
+          $('.hide-me').hide();
+          setTimeout(function(){
+            $('#hbf-field_hb_bt_facials').fadeIn();
+          }, 500);
+        }
+        if ($(this).val() == 'Massage') {
+          $('.hide-me').hide();
+          setTimeout(function(){
+            $('#hbf-field_hb_bt_massage').fadeIn();
+          }, 500);
+        }
+        if ($(this).val() == 'Tanning') {
+          $('.hide-me').hide();
+          setTimeout(function(){
+            $('#hbf-field_hb_bt_tanning').fadeIn();
+          }, 500);
+        }
       });
     },
 

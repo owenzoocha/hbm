@@ -22,5 +22,5 @@ function models_forms_search_form($form, &$form_state){
 
 function models_forms_search_form_submit($form, &$form_state){
   $s = $form_state['values']['search'];
-  drupal_goto('task-search', array('query' => array('search' => $s)), 302);
+  drupal_goto('search', array('query' => array('search' => $s)), 302);
 }
