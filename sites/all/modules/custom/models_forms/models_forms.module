@@ -22,6 +22,10 @@ require_once 'models_forms.confirm_clients.inc';
 //   }
 // }
 
+function models_forms_init() {
+  module_load_include('inc', 'user', 'user.pages');
+}
+
 /**
 * Implements hook_menu().
 */

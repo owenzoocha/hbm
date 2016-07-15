@@ -7408,6 +7408,9 @@ select.form-control {
   .container {
     width: 970px; } }
 
+.page-my-jobs .my-jobs-info {
+  margin-top: 15px; }
+
 .page-user .edit-this {
   position: absolute;
   top: 2px;
@@ -7479,7 +7482,7 @@ select.form-control {
   padding-bottom: 5px;
   border-bottom: 1px solid #ccc; }
 
-.page-user-personal-information-settings .form-item label {
+.page-user-personal-information-settings .form-item:not(.form-type-checkbox) label {
   display: none; }
 
 .page-user-personal-information-settings .form-item-field-my-web-und-0-url {

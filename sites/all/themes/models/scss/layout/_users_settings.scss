@@ -30,7 +30,7 @@
     padding-bottom: 5px;
     border-bottom: 1px solid #ccc;
   }
-  .form-item {
+  .form-item:not(.form-type-checkbox) {
     label {
       display: none;
     }

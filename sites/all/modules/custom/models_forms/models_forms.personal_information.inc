@@ -47,37 +47,6 @@ function models_forms_personal_info() {
     '#suffix' => '<div class="map_canvas"></div><!--<p><a href="#" class="geocomplete-manual">' . t('+ add manual location') . '</a></p>-->',
   );
 
-  // $user_form['geocomplete_results'] = array(
-  //   '#markup' => '<div class="details sr-only">
-  //                   Latitude:     <input data-geo="lat" />
-  //                   Longitude:    <input data-geo="lng" />
-  //                   thoroughfare:      <input data-geo="thoroughfare" />
-  //                   "subpremise":      <input data-geo="subpremise" />
-  //                   "street_address":      <input data-geo="street_address" />
-  //                   "route":      <input data-geo="route" />
-
-  //                   state - new:      <input data-geo="administrative_area_level_1" />
-
-  //                   sublocality - new:      <input data-geo="sublocality" />
-  //                   neighborhood:      <input data-geo="neighborhood" />
-  //                   street_number - new:      <input data-geo="street_number" />
-  //                   floor - new:      <input data-geo="floor" />
-  //                   room - new:      <input data-geo="room" />
-  //                   vicinity - new:      <input data-geo="vicinity" />
-
-
-
-
-  //                   premise:      <input data-geo="premise" />
-  //                   locality:      <input data-geo="locality" />
-  //                   state:      <input data-geo="state" />
-  //                   postal_code:      <input data-geo="postal_code" />
-  //                   Address:      <input data-geo="formatted_address" />
-  //                   Country Code: <input data-geo="country_short" />
-  //                 </div>',
-  // );
-
-
   $user_form['picture']['picture_upload']['#description'] = t('Your profile picture');
   unset($user_form['account']);
   unset($user_form['field_first_name']);

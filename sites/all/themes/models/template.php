@@ -405,7 +405,7 @@ function models_preprocess_page(&$variables) {
   $variables['search_menu'] = $search_menu;
 
   if (!$uw->field_my_tcs->value() && $user->uid != 0) {
-    $tc_msg = t('Welcome to Hair & Beauty Models! To get started, please make sure you accept the') . ' ' . l('terms and conditions', 'terms-and-conditions') . ' ' . '<strong>' . l('here', 'user/personal-information/settings') . '</strong>.';
+    $tc_msg = t('Welcome to Hair & Beauty Models! To get started, please make sure you accept the') . ' ' . l('terms and conditions', 'terms') . ' ' . '<strong>' . l('here', 'user/personal-information/settings', array('fragment' => 'edit-field-my-tcs')) . '</strong>.';
     drupal_set_message($tc_msg, 'warning', FALSE);
   }
 
@@ -902,10 +902,6 @@ function models_facetapi_link_active($variables) {
   $variables['options']['html'] = TRUE;
   // Remove trailing text
   return theme_link($variables);
-}
-
-function models_forms_init() {
-  module_load_include('inc', 'user', 'user.pages');
 }
 
 /**
