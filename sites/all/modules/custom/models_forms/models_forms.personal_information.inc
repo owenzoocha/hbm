@@ -125,6 +125,7 @@ function models_forms_email_settings() {
   unset($user_form['timezone']);
   unset($user_form['picture']);
   unset($user_form['field_hb_type']);
+  unset($user_form['field_i_am_a_']);
   // unset($user_form['field_hb_ht']);
   // unset($user_form['field_hb_bt']);
   unset($user_form['field_hb_pics']);
@@ -171,6 +172,7 @@ function models_forms_interests() {
   unset($user_form['timezone']);
   unset($user_form['picture']);
   unset($user_form['field_hb_type']);
+  unset($user_form['field_i_am_a_']);
   unset($user_form['field_hb_pics']);
   unset($user_form['field_my_total_feedback']);
   unset($user_form['field_my_overall_rating']);
@@ -212,6 +214,8 @@ function models_forms_account_settings() {
   unset($user_form['timezone']);
   unset($user_form['picture']);
   unset($user_form['field_hb_type']);
+  unset($user_form['field_i_am_a_']);
+
   // unset($user_form['field_hb_ht']);
   // unset($user_form['field_hb_bt']);
   unset($user_form['field_hb_pics']);

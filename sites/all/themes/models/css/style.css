@@ -7724,6 +7724,10 @@ select.form-control {
     #block-webform-client-block-166 .webform-component-email {
       width: 74%; } }
 
+.page-user-register .field-name-field-my-college,
+.page-user-register .field-name-field-my-company {
+  display: none; }
+
 .search-surround {
   padding: 9px 15px;
   transition: 0.3s ease all; }

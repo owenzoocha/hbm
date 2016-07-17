@@ -17,6 +17,14 @@
 </div>
 <div class="row">
   <div class="col-sm-2">
+    <label class="control-label" for="edit-field-i-am-a-und">What I do: </label>
+  </div>
+  <div class="col-sm-10">
+    <?php print render($form['field_i_am_a_']); ?>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-2">
     <label class="control-label" for="edit-field-gender-und">Gender: </label>
   </div>
   <div class="col-sm-4">

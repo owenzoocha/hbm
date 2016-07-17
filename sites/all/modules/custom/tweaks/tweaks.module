@@ -297,6 +297,11 @@ function tweaks_form_alter(&$form, &$form_state, $form_id) {
     $form['actions']['submit']['#suffix'] = $signup_msg;
   }
   if ($form_id == 'user_register_form') {
+
+    $form['#attached']['js'] = array(
+      drupal_get_path('module', 'models_forms') . '/js/models_forms_register.js',
+    );
+
     $form['account']['name']['#description'] = t('Pick a username.');
     $form['account']['mail']['#description'] = t('A valid e-mail address, so we can keep you up to date.');
     $form['actions']['submit']['#attributes'] = array('class' => array('btn-success'));

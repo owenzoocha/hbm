@@ -379,8 +379,14 @@ function models_preprocess_page(&$variables) {
       if ($_COOKIE['Drupal_visitor_not_verified_logoff'] != 0 ) {
         // drupal_set_message(t('Oops - it looks like you haven\'t verified your account yet! Please check your email for the verification link - or request a new password'), 'status', FALSE);
 
-        drupal_set_message('Oops - it looks like you haven\'t verified your account yet! Please check your email for the verification link - or ' . l(t('resend validation e-mail'), 'revalidate-email/' . $_COOKIE['Drupal_visitor_not_verified_logoff']));
-        user_cookie_save(array('not_verified.logoff' => 0));
+        $logged_out_user = user_load($_COOKIE['Drupal_visitor_not_verified_logoff']);
+        if (in_array('unauthenticated user', $logged_out_user->roles)) {
+          drupal_set_message('Oops - it looks like you haven\'t verified your account yet! Please check your email for the verification link - or ' . l(t('resend validation e-mail'), 'revalidate-email/' . $_COOKIE['Drupal_visitor_not_verified_logoff']));
+          // user_cookie_save(array('not_verified.logoff' => 0));
+        }
+        else {
+          user_cookie_delete('not_verified.logoff');
+        }
       }
     }
   }
@@ -669,6 +675,11 @@ function models_preprocess_page(&$variables) {
        strpos(current_path(), 'job-requests') !== FALSE ||
        ( arg(0) == 'user' && !is_numeric(arg(1)) && arg(2) ))
     {
+
+      // Bump anons to the login page when looking at users..
+      if ($user->uid == 0) {
+        drupal_goto('user/login');
+      }
 
       if (in_array('unauthenticated user', $user->roles)) {
         require_once(drupal_get_path('module', 'user') . '/user.pages.inc');
