@@ -4,7 +4,6 @@
 @import url(https://fonts.googleapis.com/css?family=Josefin+Sans:400,600,300);
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,600,300,300italic,400italic);
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,600,300,300italic,400italic);
 @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css);
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 /**
@@ -7529,6 +7528,9 @@ select.form-control {
 .page-user #block-system-main .profile {
   display: none; }
 
+.front .page-node-165 {
+  background-color: #EDEFF0; }
+
 .front #navbar {
   background: none;
   position: absolute;
@@ -7602,6 +7604,20 @@ select.form-control {
 #main #what-is-it {
   text-align: center; }
   #main #what-is-it .what-block {
+    margin: 15px 0; }
+  #main #what-is-it h2 {
+    font-size: 38px; }
+  #main #what-is-it p {
+    font-size: 18px;
+    text-align: left; }
+  #main #what-is-it .info-surround {
+    /* box-shadow: 0 2px 0 rgba(0, 0, 0, 0.03); */
+    background-color: white;
+    /* border: 1px solid #e7eaeb; */
+    border-bottom-color: #ccd1d4;
+    /* border-radius: 4px; */
+    margin-bottom: 20px;
+    padding: 15px;
     margin: 15px 0; }
 
 /**

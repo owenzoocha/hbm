@@ -54,7 +54,7 @@ function geocoder_yandex_field($field, $field_item) {
   }
   if ($field['type'] == 'location') {
     $address = geocoder_widget_parse_locationfield($field_item);
-    return geocoder_google($address);
+    return geocoder_yandex($address);
   }
   if ($field['type'] == 'taxonomy_term_reference') {
     $term = taxonomy_term_load($field_item['tid']);

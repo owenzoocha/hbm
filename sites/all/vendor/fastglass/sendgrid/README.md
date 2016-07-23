@@ -2,9 +2,27 @@
 
 **This is a forked version of SendGrid-PHP which uses Guzzle 6.x**
 
+[![BuildStatus](https://travis-ci.org/taz77/sendgrid-php-ng.svg?branch=master)](https://travis-ci.org/taz77/sendgrid-php-ng)
+
 This library allows you to quickly and easily send emails through SendGrid using PHP with the help of Guzzle 6.x. This development was to support the new PSR messaging standard in PHP that is implemented in Guzzle 6.x
 
-This module inherits the updates from the official Sendgrid library that were introduced in version 3.x
+This module inherits the updates from the official Sendgrid library that were introduced in version 3.x of the official API.
+
+This API is maintained in support of the [Drupal Sendgrid Integration Module](https://www.drupal.org/project/sendgrid_integration) that I also maintain. Drupal 8 ships with Guzzle 6.x in the core of the software and Guzzle 6.x supports the standardization of PSR messages. The official Sendgrid PHP API supports only the deprecated Guzzle 3.x as they are maintaining support for PHP 5.3.
+
+Interfacing with this library is exactly the same as interfacing with the official library with the exception of the API Key requirement. This Sendgrid library will not function with a username/password. API keys are Sendgrid's recommended way to use the API for all future code. The API calls are the same, just the dependencies and the internal processing of the data has been altered for Guzzle 6.x.
+
+To install this library it is best to use composer. I have published a package through Packagist for this library. Use the following in your composer.json:
+
+``` php
+"require": {
+    "fastglass/sendgrid": ">=1.0.5"
+  }
+```
+
+## Example Code
+
+If you would like to look at some example code for using this library, clone [this](https://github.com/Fastglass-LLC/sendgrid-php-example) repository.
 
 ## Notes from Sendgrid official library
 
@@ -14,7 +32,7 @@ WARNING: This module was recently upgraded from [2.2.x](https://github.com/sendg
 
 **TLDR: If you upgrade and don't change your code appropriately, things *WILL* break.**
 
-One of the most notable changes is how `addTo()` behaves. We are now using our Web API parameters instead of the X-SMTPAPI header. What this means is that if you call `addTo()` multiple times for an email, **ONE** email will be sent with each email address visible to everyone. To utilize the original behavior of having an individual personalized email sent to each recipient you must now use `addSmtpapiTo()`. **This will break substitutions if there is more than one To address added unless you update to use `addSmtpapiTo()`.** 
+One of the most notable changes is how `addTo()` behaves. We are now using our Web API parameters instead of the X-SMTPAPI header. What this means is that if you call `addTo()` multiple times for an email, **ONE** email will be sent with each email address visible to everyone. To utilize the original behavior of having an individual personalized email sent to each recipient you must now use `addSmtpapiTo()`. **This will break substitutions if there is more than one To address added unless you update to use `addSmtpapiTo()`.**
 
 Smtpapi addressing methods cannot be mixed with non Smtpapi addressing methods. Meaning you cannot currently use Cc and Bcc with `addSmtpapiTo()`.
 
@@ -23,8 +41,6 @@ The `send()` method now raises a `\SendGrid\Exception` by default if the respons
 ---
 
 Important: This library requires PHP 5.5 or higher.
-
-[![BuildStatus](https://travis-ci.org/taz77/sendgrid-php.svg?branch=master)](https://travis-ci.org/taz77/sendgrid-php.svg?branch=master)
 
 
 ```php
@@ -54,10 +70,10 @@ try {
 
 ## Installation
 
-Add SendGrid to your `composer.json` file. If you are not using [Composer](http://getcomposer.org), you should be. It's an excellent way to manage dependencies in your PHP application. 
+Add SendGrid to your `composer.json` file. If you are not using [Composer](http://getcomposer.org), you should be. It's an excellent way to manage dependencies in your PHP application.
 
 ```json
-{  
+{
   "require": {
     "fastglass/sendgrid": "~1.0"
   }
@@ -72,17 +88,16 @@ require 'vendor/autoload.php';
 
 #### Alternative: Install from zip
 
-If you are not using Composer, simply download and install the **[latest packaged release of the library as a zip](https://sendgrid-open-source.s3.amazonaws.com/sendgrid-php/sendgrid-php.zip)**. 
+If you are not using Composer, simply download and install the **[latest packaged release of the library as a zip](https://github.com/taz77/sendgrid-php-ng/archive/master.zip)**.
 
-[**⬇︎ Download Packaged Library ⬇︎**](https://sendgrid-open-source.s3.amazonaws.com/sendgrid-php/sendgrid-php.zip)
+[**⬇︎ Download Packaged Library ⬇︎**]https://github.com/taz77/sendgrid-php-ng/archive/master.zip)
 
 Then require the library from package:
 
 ```php
-require("path/to/sendgrid-php/sendgrid-php.php");
+require("path/to/sendgrid-php-ng/sendgrid-php.php");
 ```
 
-Previous versions of the library can be found in the [version index](https://sendgrid-open-source.s3.amazonaws.com/index.html).
 
 ## Example App
 
@@ -110,7 +125,7 @@ $email
 ;
 ```
 
-Send it. 
+Send it.
 
 ```php
 $sendgrid->send($email);
@@ -147,12 +162,12 @@ You may change the URL sendgrid-php uses to send email by supplying various para
 
 ```php
 $sendgrid = new SendGrid(
-    'YOUR_SENDGRID_APIKEY', 
+    'YOUR_SENDGRID_APIKEY',
     array(
-        'protocol' => 'http', 
-        'host' => 'sendgrid.org', 
-        'endpoint' => '/send', 
-        'port' => '80' 
+        'protocol' => 'http',
+        'host' => 'sendgrid.org',
+        'endpoint' => '/send',
+        'port' => '80'
     )
 );
 ```
@@ -161,7 +176,7 @@ A full URL may also be provided:
 
 ```php
 $sendgrid = new SendGrid(
-    'YOUR_SENDGRID_APIKEY', 
+    'YOUR_SENDGRID_APIKEY',
     array( 'url' => 'http://sendgrid.org:80/send')
 );
 ```
@@ -172,7 +187,7 @@ You can optionally ignore verification of SSL certificate when using the Web API
 
 ```php
 $sendgrid = new SendGrid(
-    'YOUR_SENDGRID_APIKEY', 
+    'YOUR_SENDGRID_APIKEY',
     array("turn_off_ssl_verification" => true)
 );
 ```
@@ -661,7 +676,7 @@ $email
     ->addSmtpapiTo(array('john@somewhere.com', 'harry@somewhere.com', 'bob@somewhere.com'))
     ->setSubject('%subject%')
     ->setSubstitutions(array(
-        '%name%' => array('John', 'Harry', 'Bob'), 
+        '%name%' => array('John', 'Harry', 'Bob'),
         '%subject%' => array('Subject to John', 'Subject to Harry', 'Subject to Bob')
     ))
     ...
@@ -747,8 +762,8 @@ $email
     ->addFilter("footer", "enable", 1)
     ->addFilter("footer", "text/plain", "Here is a plain text footer")
     ->addFilter(
-        "footer", 
-        "text/html", 
+        "footer",
+        "text/html",
         "<p style='color:red;'>Here is an HTML footer</p>"
     )
 ;
@@ -855,8 +870,8 @@ $sendgrid = new SendGrid('YOUR_SENDGRID_APIKEY');
 $email = new SendGrid\Email();
 
 $recipients = array(
-    "alpha@mailinator.com", 
-    "beta@mailinator.com", 
+    "alpha@mailinator.com",
+    "beta@mailinator.com",
     "zeta@mailinator.com"
 );
 $names = array("Alpha", "Beta", "Zeta");
@@ -896,20 +911,4 @@ or if you already have PHPUnit installed globally.
 ```bash
 cd test
 phpunit
-```
-
-## Releasing
-
-To release a new version of this library, update the version in all locations, tag the version, and then push the tag up. Packagist.org takes care of the rest.
-
-#### Testing uploading to Amazon S3
-
-If you want to test uploading the zipped file to Amazon S3 (SendGrid employees only), do the following.
-
-```
-export S3_SIGNATURE="secret_signature"
-export S3_POLICY="secret_policy"
-export S3_BUCKET="sendgrid-open-source"
-export S3_ACCESS_KEY="secret_access_key"
-./scripts/s3upload.sh
 ```

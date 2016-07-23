@@ -1,0 +1,4 @@
+name = eq nav
+description = eventQ module for the custom event nav structure..
+package = eventQ
+core = 7.x

@@ -1,4 +1,7 @@
 .front {
+  .page-node-165 {
+    background-color: $light-grey;
+  }
   #navbar {
     background: none;
     position: absolute;
@@ -105,6 +108,28 @@
       // @include blocks();
       margin: 15px 0;
       // height: 370px;
+    }
+    h2 {
+        font-size: 38px;
+        // padding-top: 15px;
+      }
+      p {
+        font-size: 18px;
+        text-align: left;
+      }
+    .info-surround {
+      // border-left: 4px solid $hb-blue;
+      // background: #fff;
+      // padding: 15px;
+      /* box-shadow: 0 2px 0 rgba(0, 0, 0, 0.03); */
+      background-color: white;
+      /* border: 1px solid #e7eaeb; */
+      border-bottom-color: #ccd1d4;
+      /* border-radius: 4px; */
+      margin-bottom: 20px;
+      padding: 15px;
+      margin: 15px 0;
+
     }
   }
 }

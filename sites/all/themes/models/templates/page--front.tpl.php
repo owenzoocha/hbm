@@ -66,28 +66,78 @@
   </div>
 
   <div id="what-is-it" class="container">
-    <div class="col-md-4">
-      <div class="what-block">
-        <h3>Search hair & beauty jobs or last minute models</h3>
-       <!--  <div class="search-img">
-          <img class="img-responsive" src="/sites/all/themes/models/images/search-example.png" alt="Search for jobs" title="Search for jobs"/>
-        </div> -->
+    <div class="col-md-12">
+      <div class="info-surround">
+        <h2>Why Hair and Beauty Models?</h2>
+        <p>Hair and Beauty Models <strong>#HBM</strong> is here to help hair dressers and beauticians, trainees or professionals connect with reliable last minute models for assessments, client work or offers. Interested in joining? <a href="/user/register" class="a-link">Sign up</a> now! It's <strong>free!</strong></p>
+      </div>
+      <div class="info-surround">
+        <h2>But I'm not a hair dresser or beautician?</h2>
+        <p>We've got you covered! <a href="/user/register" class="a-link">Sign up</a> as a Last Minute Model, search the available jobs and request a treatment. Nothing you fancy, but looking for a job? Post a <strong>last minute model</strong> job and let the professionals come to you!</p>
+      </div>
+      <div class="info-surround">
+        <h2>No more no shows!</h2>
+        <p>At HBM we understand your frustration when a client doesn't show up.  With HBM you can <strong>leave feedback</strong> and <strong>give a 5 star rating</strong> against the client and owner, to enable more informed selections on future jobs.</p>
+      </div>
+      <div class="info-surround">
+        <h2>What about my business?</h2>
+        <p>It's <strong>free</strong> to sign up - so create your profile and link to your website for more traffic. Have a special offer coming up? Post a quick job and get your business out there!</p>
       </div>
     </div>
-    <div class="col-md-4">
-      <div class="what-block">
-        <h3>Manage your clients, improve your profile</h3>
-        <!-- <div class="manage-img">
-          <img class="img-responsive" src="/sites/all/themes/models/images/manage-clients-example.png" alt="Manage clients" title="Manage clients"/>
-        </div> -->
+    <div class="col-md-12">
+      <h2>What we offer..</h2>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="what-block">
+          <h3>Create up to 5 HBM active jobs</h3>
+         <!--  <div class="search-img">
+            <img class="img-responsive" src="/sites/all/themes/models/images/search-example.png" alt="Search for jobs" title="Search for jobs"/>
+          </div> -->
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="what-block">
+          <h3>Use our search to find clients and jobs</h3>
+          <!-- <div class="manage-img">
+            <img class="img-responsive" src="/sites/all/themes/models/images/manage-clients-example.png" alt="Manage clients" title="Manage clients"/>
+          </div> -->
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="what-block">
+          <h3>Manage your clients and job offers</h3>
+          <!-- <div class="manage-img">
+            <img class="img-responsive" src="/sites/all/themes/models/images/feedback-example.png" alt="Leave feedback and ratings" title="Leave feedback and ratings"/>
+          </div> -->
+        </div>
       </div>
     </div>
-    <div class="col-md-4">
-      <div class="what-block">
-        <h3>Leave, receive feedback and give ratings!</h3>
-        <!-- <div class="manage-img">
-          <img class="img-responsive" src="/sites/all/themes/models/images/feedback-example.png" alt="Leave feedback and ratings" title="Leave feedback and ratings"/>
-        </div> -->
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="what-block">
+          <h3>Create a profile and link to your business</h3>
+         <!--  <div class="search-img">
+            <img class="img-responsive" src="/sites/all/themes/models/images/search-example.png" alt="Search for jobs" title="Search for jobs"/>
+          </div> -->
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="what-block">
+          <h3>Feeling inspired? Write a blog post for us too</h3>
+          <!-- <div class="manage-img">
+            <img class="img-responsive" src="/sites/all/themes/models/images/manage-clients-example.png" alt="Manage clients" title="Manage clients"/>
+          </div> -->
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="what-block">
+          <h3>More coming soon...</h3>
+          <!-- <div class="manage-img">
+            <img class="img-responsive" src="/sites/all/themes/models/images/feedback-example.png" alt="Leave feedback and ratings" title="Leave feedback and ratings"/>
+          </div> -->
+        </div>
       </div>
     </div>
   </div>

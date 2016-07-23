@@ -441,7 +441,7 @@ function models_preprocess_page(&$variables) {
   }
 
   // Tweenmax
-  drupal_add_js('http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/TweenMax.min.js', array('type' => 'external'));
+  // drupal_add_js('http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/TweenMax.min.js', array('type' => 'external'));
 
   // drupal_add_css('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.4.0/animate.min.css', array('type' => 'external'));
   // drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.30/skrollr.min.js', array('type' => 'external'));
@@ -449,7 +449,7 @@ function models_preprocess_page(&$variables) {
 
   drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js', 'external');
   drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js', 'external');
-  drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js', 'external');
+  // drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js', 'external');
   drupal_add_js(libraries_get_path('raty-fa-0.1.1') . '/' . 'lib/jquery.raty-fa.js');
 
   // dpm(drupal_is_front_page());

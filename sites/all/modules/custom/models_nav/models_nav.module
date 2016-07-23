@@ -56,6 +56,7 @@ function social_nav_footer_block() {
   $login[] = l('<span class="fa fa-2x fa-instagram"></span> <span class="sr-only">' . t('Instagram') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
   $login[] = l('<span class="fa fa-2x fa-pinterest"></span> <span class="sr-only">' . t('Pinterest') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
   $login[] = l('<span class="fa fa-2x fa-google"></span> <span class="sr-only">' . t('Google') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
+  $login[] = l(t('#HBM'), 'user/login');
   $login[] = $user->uid == 0 ? l(t('Sign Up / Sign In'), 'user/login') : FALSE;
   $content = '<ul class="footer-social">';
   foreach ($login as $key => $link) {

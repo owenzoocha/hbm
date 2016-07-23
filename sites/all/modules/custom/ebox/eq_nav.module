@@ -1,0 +1,60 @@
+<?php
+ /**
+  * @file eq_nav.module.
+  */
+
+/**
+ * Implements hook_block_info().
+ */
+function eq_nav_block_info() {
+  $blocks['event_nav'] = array(
+    'info' => t('NAV: left hand side in event menu'),
+    'cache' => DRUPAL_NO_CACHE
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function eq_nav_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'event_nav':
+      $block['subject'] = t('Event Nav');
+      $block['content'] = theme('block_event_nav');
+    break;
+  }
+  return $block;
+}
+
+/**
+ * Implements of hook_theme().
+ */
+function eq_nav_theme() {
+  return array (
+    'block_event_nav' => array(
+      'template' => 'templates/block-event-nav',
+    ),
+  );
+}
+
+/**
+ * Template preprocess for Event Nav.
+ */
+function template_preprocess_block_event_nav(&$vars) {
+  drupal_add_js(drupal_get_path('module', 'eq_nav') . '/js/eq_nav.js');
+  $nid = 90;
+  $agenda = l(t('Agenda Builder'), 'agenda/' . $nid . '/create');
+  $vars['links'] = '<li>' . $agenda . '<span class="triangle"></span></a></li>
+    <li><a href="#">link item one<span class="triangle"></span></a></li>
+    <li><a href="#">link item one<span class="triangle"></span></a></li>
+    <li><a href="#">link item one<span class="triangle"></span></a></li>
+    <li><a href="#">link item one<span class="triangle"></span></a></li>';
+
+  $vars['links'] = '<li>' . $agenda . '</a></li>
+    <li><a href="#">link item one</a></li>
+    <li><a href="#">link item one</a></li>
+    <li><a href="#">link item one</a></li>
+    <li><a href="#">link item one</a></li>';
+}
