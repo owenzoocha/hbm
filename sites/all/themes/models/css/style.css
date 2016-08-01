@@ -7541,6 +7541,9 @@ select.form-control {
     width: 105px;
     margin: 10px 0 0 15px; }
 
+#main .hd-pink {
+  color: #E01563; }
+
 #main #hero {
   background-color: #172A3A;
   background: url("../images/hero-img1.png") center 0 no-repeat;
@@ -7606,9 +7609,10 @@ select.form-control {
   #main #what-is-it .what-block {
     margin: 15px 0; }
   #main #what-is-it h2 {
-    font-size: 38px; }
+    font-size: 20px;
+    margin-top: 0; }
   #main #what-is-it p {
-    font-size: 18px;
+    font-size: 14px;
     text-align: left; }
   #main #what-is-it .info-surround {
     /* box-shadow: 0 2px 0 rgba(0, 0, 0, 0.03); */
@@ -7618,7 +7622,27 @@ select.form-control {
     /* border-radius: 4px; */
     margin-bottom: 20px;
     padding: 15px;
-    margin: 15px 0; }
+    margin: 15px 0;
+    margin-top: 0; }
+  #main #what-is-it .info-img {
+    margin-top: 15px; }
+
+#main #look-and-feel {
+  margin: 30px 0; }
+  #main #look-and-feel .lhs {
+    padding: 30px; }
+  #main #look-and-feel .lhs,
+  #main #look-and-feel .rhs {
+    width: 50%; }
+  #main #look-and-feel .rhs {
+    background-color: #6ECADC; }
+    #main #look-and-feel .rhs .mobile {
+      background: url("../images/Apple-iPhone-5s-Silver.png") 0 0 no-repeat;
+      width: 320px;
+      background-size: contain;
+      height: 680px;
+      margin: 30px auto;
+      padding: 95px 23px; }
 
 /**
  * RESPONSIVE stuffs
@@ -7733,6 +7757,11 @@ select.form-control {
       width: 300px; }
     #main #hero .hero-content .hero h1 {
       font-size: 35px; }
+  #look-and-feel .lhs,
+  #look-and-feel .rhs {
+    width: 100% !important; }
+  #look-and-feel .rhs .mobile {
+    width: 100% !important; }
   #block-webform-client-block-132,
   #block-webform-client-block-166 {
     width: auto; }

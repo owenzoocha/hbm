@@ -373,6 +373,7 @@ function models_preprocess_page(&$variables) {
   $variables['home_nav'] = $user->uid == 0 ? theme('home_nav') : FALSE;
 
   if (drupal_is_front_page()) {
+    drupal_add_css('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.4.0/animate.min.css', array('type' => 'external'));
     unset($variables['page']['content']);
     $variables['logo'] = drupal_get_path('theme', 'models') . '/' . 'white-logo.png';
     if (isset($_COOKIE['Drupal_visitor_not_verified_logoff'])) {
@@ -441,18 +442,16 @@ function models_preprocess_page(&$variables) {
   }
 
   // Tweenmax
-  // drupal_add_js('http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/TweenMax.min.js', array('type' => 'external'));
+  drupal_add_js('http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/TweenMax.min.js', array('type' => 'external'));
 
-  // drupal_add_css('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.4.0/animate.min.css', array('type' => 'external'));
   // drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.30/skrollr.min.js', array('type' => 'external'));
   // drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/jquery-noty/2.3.8/packaged/jquery.noty.packaged.min.js', array('type' => 'external'));
 
   drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js', 'external');
   drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js', 'external');
-  // drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js', 'external');
+  drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js', 'external');
   drupal_add_js(libraries_get_path('raty-fa-0.1.1') . '/' . 'lib/jquery.raty-fa.js');
 
-  // dpm(drupal_is_front_page());
   // dpm(current_path());
   // dpm_once($_SERVER['REQUEST_URI']);
 

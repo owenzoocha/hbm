@@ -21,6 +21,10 @@
 #main {
   // height: 100%;
 
+  .hd-pink {
+    color: $hb-pink;
+  }
+
   #hero {
     background-color: $hb-dark;
     background: url("../images/hero-img1.png") center 0 no-repeat;
@@ -110,11 +114,12 @@
       // height: 370px;
     }
     h2 {
-        font-size: 38px;
+        font-size: 20px;
+        margin-top: 0;
         // padding-top: 15px;
       }
       p {
-        font-size: 18px;
+        font-size: 14px;
         text-align: left;
       }
     .info-surround {
@@ -129,7 +134,32 @@
       margin-bottom: 20px;
       padding: 15px;
       margin: 15px 0;
+      margin-top: 0;
+    }
+    .info-img {
+      margin-top: 15px;
+    }
+  }
 
+  #look-and-feel {
+    margin: 30px 0;
+    .lhs {
+      padding: 30px;
+    }
+    .lhs,
+    .rhs {
+      width: 50%;
+    }
+    .rhs {
+      background-color: $hb-blue;
+      .mobile {
+        background: url('../images/Apple-iPhone-5s-Silver.png') 0 0 no-repeat;
+        width: 320px;
+        background-size: contain;
+        height: 680px;
+        margin: 30px auto;
+        padding: 95px 23px;
+      }
     }
   }
 }
@@ -357,6 +387,18 @@
             font-size: 35px;
           }
         }
+      }
+    }
+  }
+
+  #look-and-feel {
+    .lhs,
+    .rhs {
+      width: 100%!important;
+    }
+    .rhs {
+      .mobile {
+        width: 100%!important;
       }
     }
   }
