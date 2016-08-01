@@ -7541,6 +7541,12 @@ select.form-control {
     width: 105px;
     margin: 10px 0 0 15px; }
 
+.front .footer {
+  margin-top: 0; }
+
+.front .main-container {
+  display: none; }
+
 #main .hd-pink {
   color: #E01563; }
 
@@ -7628,7 +7634,7 @@ select.form-control {
     margin-top: 15px; }
 
 #main #look-and-feel {
-  margin: 30px 0; }
+  margin: 30px 0 0; }
   #main #look-and-feel .lhs {
     padding: 30px; }
   #main #look-and-feel .lhs,
