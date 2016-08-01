@@ -274,6 +274,21 @@
     // color: yellow!important;
   }
 
+  #look-and-feel {
+    .lhs,
+    .rhs {
+      width: 100%!important;
+    }
+    .rhs {
+      .mobile {
+        width: 250px!important;
+        height: 520px!important;
+        padding: 74px 18px!important;
+      }
+    }
+  }
+
+
   #navbar {
     .container,
     .container-fluid {
@@ -396,19 +411,6 @@
       }
     }
   }
-
-  #look-and-feel {
-    .lhs,
-    .rhs {
-      width: 100%!important;
-    }
-    .rhs {
-      .mobile {
-        width: 100%!important;
-      }
-    }
-  }
-
 
   #block-webform-client-block-132,
   #block-webform-client-block-166 {

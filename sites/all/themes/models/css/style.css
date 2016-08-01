@@ -7692,6 +7692,13 @@ select.form-control {
       display: none; } }
 
 @media (max-width: 768px) {
+  #look-and-feel .lhs,
+  #look-and-feel .rhs {
+    width: 100% !important; }
+  #look-and-feel .rhs .mobile {
+    width: 250px !important;
+    height: 520px !important;
+    padding: 74px 18px !important; }
   #navbar .container > .navbar-header,
   #navbar .container > .navbar-collapse,
   #navbar .container-fluid > .navbar-header,
@@ -7763,11 +7770,6 @@ select.form-control {
       width: 300px; }
     #main #hero .hero-content .hero h1 {
       font-size: 35px; }
-  #look-and-feel .lhs,
-  #look-and-feel .rhs {
-    width: 100% !important; }
-  #look-and-feel .rhs .mobile {
-    width: 100% !important; }
   #block-webform-client-block-132,
   #block-webform-client-block-166 {
     width: auto; }
