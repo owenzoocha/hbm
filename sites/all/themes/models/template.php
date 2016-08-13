@@ -17,23 +17,35 @@
  */
 function models_preprocess_node(&$variables) {
   global $user;
-  if($variables['view_mode'] == 'teaser') {
+  if ($variables['view_mode'] == 'teaser') {
     $variables['theme_hook_suggestions'][] = 'node__' . $variables['node']->type . '__teaser';
     $variables['theme_hook_suggestions'][] = 'node__' . $variables['node']->nid . '__teaser';
   }
 
-  if($variables['type'] == 'job'){
+  if ($variables['type'] == 'job') {
     $nw = entity_metadata_wrapper('node', $variables['nid']);
     $uw = entity_metadata_wrapper('user', $user->uid);
 
-    if($variables['view_mode'] == 'teaser') {
+    if ($variables['view_mode'] == 'teaser') {
       $mypic = $nw->author->value()->picture;
-      if($mypic){
-        $pic = '<div class="my-image img-circle">'.theme('image_style', array('style_name' => 'profile', 'path'=>$nw->author->value()->picture->uri, 'attributes' => array('class'=>array('img-circle')))).'</div>';
-      } else {
-        $pic = '<div class="my-image img-circle">'.theme('image_style', array('style_name' => 'profile', 'path'=>'public://pictures/picture-default.png', 'attributes' => array('class'=>array('img-circle')))).'</div>';
+      if ($mypic) {
+        $pic = '<div class="my-image img-circle">' . theme('image_style', array(
+            'style_name' => 'profile',
+            'path' => $nw->author->value()->picture->uri,
+            'attributes' => array('class' => array('img-circle'))
+          )) . '</div>';
       }
-      $variables['author_pic'] = l($pic, 'user/' . $nw->author->getIdentifier(), array('html' => true, 'attributes' => array('class' => array('author-pic'))));
+      else {
+        $pic = '<div class="my-image img-circle">' . theme('image_style', array(
+            'style_name' => 'profile',
+            'path' => 'public://pictures/picture-default.png',
+            'attributes' => array('class' => array('img-circle'))
+          )) . '</div>';
+      }
+      $variables['author_pic'] = l($pic, 'user/' . $nw->author->getIdentifier(), array(
+        'html' => TRUE,
+        'attributes' => array('class' => array('author-pic'))
+      ));
 
       $image = FALSE;
       $location = FALSE;
@@ -50,7 +62,7 @@ function models_preprocess_node(&$variables) {
         $sz = sizeof($nw->field_hb_time->value());
         $ts = date('d/m/y H:ia', $nw->field_hb_time->value()[0]);
         $time = $sz . ' ' . format_plural($sz, 'appointment', 'appointments') . ' from </br>' . $ts;
-        $starting = '<span class="hb-starting"><i class="fa fa-clock-o"></i> ' . $time  . '</span>';
+        $starting = '<span class="hb-starting"><i class="fa fa-clock-o"></i> ' . $time . '</span>';
       }
       else {
         $starting = FALSE;
@@ -59,7 +71,10 @@ function models_preprocess_node(&$variables) {
       if ($nw->field_hb_type->value() != 'personal') {
         if ($nw->field_hb_pics->value()) {
           $promoted_img_uri = models_cache_get_promoimg_cache($nw->getIdentifier());
-          $image = l(theme('image_style', array('style_name' => 'profile', 'path' => $promoted_img_uri)), 'node/' . $nw->getIdentifier(), array('html' => TRUE));
+          $image = l(theme('image_style', array(
+            'style_name' => 'profile',
+            'path' => $promoted_img_uri
+          )), 'node/' . $nw->getIdentifier(), array('html' => TRUE));
         }
         else {
           if ($nw->field_hb_type->value() == 'hair') {
@@ -72,11 +87,17 @@ function models_preprocess_node(&$variables) {
       }
       else {
         if (!$nw->field_hb_pics->value()) {
-          $image = l(theme('image_style', array('style_name' => 'profile', 'path' => $nw->author->value()->picture->uri)), 'node/' . $nw->getIdentifier(), array('html' => TRUE));
+          $image = l(theme('image_style', array(
+            'style_name' => 'profile',
+            'path' => $nw->author->value()->picture->uri
+          )), 'node/' . $nw->getIdentifier(), array('html' => TRUE));
         }
         else {
           $promoted_img_uri = models_cache_get_promoimg_cache($nw->getIdentifier());
-          $image = l(theme('image_style', array('style_name' => 'profile', 'path' => $promoted_img_uri)), 'node/' . $nw->getIdentifier(), array('html' => TRUE));
+          $image = l(theme('image_style', array(
+            'style_name' => 'profile',
+            'path' => $promoted_img_uri
+          )), 'node/' . $nw->getIdentifier(), array('html' => TRUE));
         }
       }
 
@@ -85,7 +106,8 @@ function models_preprocess_node(&$variables) {
       if ($nw->field_hb_type->value() != 'personal') {
         if ($nw->field_hb_price->value()) {
           $cost = '<i class="fa fa-dollar"></i> ' . $nw->field_hb_price->value();
-        } else {
+        }
+        else {
           $cost = '<i class="fa fa-dollar"></i> 19.55';
         }
       }
@@ -98,7 +120,7 @@ function models_preprocess_node(&$variables) {
             $cost_class = 'cost-free';
             $cost = FALSE;
             break;
-           case 'approx':
+          case 'approx':
             $pt = ' <small>Approx.</small>';
             break;
           case 'fixed':
@@ -108,7 +130,8 @@ function models_preprocess_node(&$variables) {
             $pt = FALSE;
             break;
         }
-      } else {
+      }
+      else {
         $pt = FALSE;
       }
 
@@ -124,7 +147,7 @@ function models_preprocess_node(&$variables) {
       if ($nw->field_hb_type->value()) {
         $tooltip_h = $tooltip_b = '';
         if ($nw->field_hb_type->value() == 'hair' || $nw->field_hb_type->value() == 'personal') {
-          if (sizeof($nw->field_hb_ht->value()) ) {
+          if (sizeof($nw->field_hb_ht->value())) {
             $tooltip_h .= t('Hair &raquo ');
             foreach ($nw->field_hb_ht->getIterator() as $key => $ht) {
               $tooltip_h .= $ht->label() . ', ';
@@ -133,7 +156,7 @@ function models_preprocess_node(&$variables) {
           }
         }
         if ($nw->field_hb_type->value() == 'beauty' || $nw->field_hb_type->value() == 'personal') {
-          if (sizeof($nw->field_hb_bt->value()) ) {
+          if (sizeof($nw->field_hb_bt->value())) {
             $tooltip_b .= t('Beauty &raquo ');
             foreach ($nw->field_hb_bt->getIterator() as $key => $bt) {
               $tooltip_b .= $bt->label() . ', ';
@@ -175,23 +198,35 @@ function models_preprocess_node(&$variables) {
           if ($nw->field_hb_cancelled->value()) {
             $variables['job_status'] = t('Cancelled');
           }
-          else if ($nw->field_hb_paused->value()) {
-            $variables['job_status'] = t('Paused');
-          }
-          else if ($nw->field_hb_assigned->value()) {
-            $variables['job_status'] = $nw->field_hb_feedb_size->value() != $nw->field_hb_client_size->value() ? t('Leave Feedback') : t('Feedback Complete');
-          }
-          else if ($nw->field_hb_feedback_complete->value()) {
-            $variables['job_status'] = t('Complete');
-          }
-          else if ($nw->field_hb_completed->value()) {
-            $variables['job_status'] = t('Complete');
-          }
-          else if (!$nw->status->value()) {
-            $variables['job_status'] = t('Unpublished');
-          }
-          else if ($nw->status->value()) {
-            $variables['job_status'] = t('Running');
+          else {
+            if ($nw->field_hb_paused->value()) {
+              $variables['job_status'] = t('Paused');
+            }
+            else {
+              if ($nw->field_hb_assigned->value()) {
+                $variables['job_status'] = $nw->field_hb_feedb_size->value() != $nw->field_hb_client_size->value() ? t('Leave Feedback') : t('Feedback Complete');
+              }
+              else {
+                if ($nw->field_hb_feedback_complete->value()) {
+                  $variables['job_status'] = t('Complete');
+                }
+                else {
+                  if ($nw->field_hb_completed->value()) {
+                    $variables['job_status'] = t('Complete');
+                  }
+                  else {
+                    if (!$nw->status->value()) {
+                      $variables['job_status'] = t('Unpublished');
+                    }
+                    else {
+                      if ($nw->status->value()) {
+                        $variables['job_status'] = t('Running');
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
 
           // If there are requests OR offers.
@@ -210,7 +245,8 @@ function models_preprocess_node(&$variables) {
                 // If assigned, then you need to leave feedback.
                 $variables['requestees'] = '<span class="interested"><i class="material-icons">face</i>' . ' ' . l(sizeof($nw->field_hb_client_size->value()) . ' ' . t('feedback required'), 'job/' . $nw->getIdentifier() . '/feedback') . '</span>';
               }
-            } else {
+            }
+            else {
               if ($nw->field_hb_feedb_size->value()) {
                 // if there is feedback size and it = client size - then feedback is complete!
                 $variables['requestees'] = '<span class="interested"><i class="material-icons">done</i>' . ' ' . l(' ' . t('feedback complete'), 'job/' . $nw->getIdentifier() . '/feedback') . '</span>';
@@ -256,15 +292,17 @@ function models_preprocess_node(&$variables) {
               $unpub_msg .= t('This Job has been cancelled - and will be removed soon!');
               $unpub_msg .= '</div>';
             }
-            else if (!$nw->field_hb_paused->value()) {
-              $unpub_msg = '<div class="alert alert-block alert-info messages info"><a class="close" data-dismiss="alert" href="#">×</a><h4 class="element-invisible">Informative message</h4>';
-              $unpub_msg .= t('Hey !name, ' . $nw->label() . ' is currently unpublished.  Check out your job below - this is what it will look like to other users.  To publish your job, click <strong>Publish Job</strong> below.', array('!name' => $uw->field_first_name->value()));
-              $unpub_msg .= '</div>';
-            }
             else {
-              $unpub_msg = '<div class="alert alert-block alert-success messages info"><a class="close" data-dismiss="alert" href="#">×</a><h4 class="element-invisible">Informative message</h4>';
-              $unpub_msg .= t('Hey !name, ' . $nw->label() . ' is currently <strong>paused</strong>. To resume, click <strong>Resume Job</strong> below.', array('!name' => $uw->field_first_name->value()));
-              $unpub_msg .= '</div>';
+              if (!$nw->field_hb_paused->value()) {
+                $unpub_msg = '<div class="alert alert-block alert-info messages info"><a class="close" data-dismiss="alert" href="#">×</a><h4 class="element-invisible">Informative message</h4>';
+                $unpub_msg .= t('Hey !name, ' . $nw->label() . ' is currently unpublished.  Check out your job below - this is what it will look like to other users.  To publish your job, click <strong>Publish Job</strong> below.', array('!name' => $uw->field_first_name->value()));
+                $unpub_msg .= '</div>';
+              }
+              else {
+                $unpub_msg = '<div class="alert alert-block alert-success messages info"><a class="close" data-dismiss="alert" href="#">×</a><h4 class="element-invisible">Informative message</h4>';
+                $unpub_msg .= t('Hey !name, ' . $nw->label() . ' is currently <strong>paused</strong>. To resume, click <strong>Resume Job</strong> below.', array('!name' => $uw->field_first_name->value()));
+                $unpub_msg .= '</div>';
+              }
             }
           }
           else {
@@ -273,15 +311,17 @@ function models_preprocess_node(&$variables) {
               $unpub_msg .= t('This Job has been cancelled - and will be removed soon.');
               $unpub_msg .= '</div>';
             }
-            else if (!$nw->field_hb_paused->value()) {
-              $unpub_msg = '<div class="alert alert-block alert-info messages info"><a class="close" data-dismiss="alert" href="#">×</a><h4 class="element-invisible">Informative message</h4>';
-              $unpub_msg .= t('Hey !name, your job <em>' . $nw->label() . '</em> is currently inactive. To appear on <strong>HBM</strong> and start receiving <strong>Last Minute Model</strong> job offers - click <strong>Publish</strong> below.', array('!name' => $uw->field_first_name->value()));
-              $unpub_msg .= '</div>';
-            }
             else {
-              $unpub_msg = '<div class="alert alert-block alert-success messages info"><a class="close" data-dismiss="alert" href="#">×</a><h4 class="element-invisible">Informative message</h4>';
-              $unpub_msg .= t('Hey !name, ' . $nw->label() . ' is currently <strong>paused</strong>. To resume, click <strong>Resume Job</strong> below.', array('!name' => $uw->field_first_name->value()));
-              $unpub_msg .= '</div>';
+              if (!$nw->field_hb_paused->value()) {
+                $unpub_msg = '<div class="alert alert-block alert-info messages info"><a class="close" data-dismiss="alert" href="#">×</a><h4 class="element-invisible">Informative message</h4>';
+                $unpub_msg .= t('Hey !name, your job <em>' . $nw->label() . '</em> is currently inactive. To appear on <strong>HBM</strong> and start receiving <strong>Last Minute Model</strong> job offers - click <strong>Publish</strong> below.', array('!name' => $uw->field_first_name->value()));
+                $unpub_msg .= '</div>';
+              }
+              else {
+                $unpub_msg = '<div class="alert alert-block alert-success messages info"><a class="close" data-dismiss="alert" href="#">×</a><h4 class="element-invisible">Informative message</h4>';
+                $unpub_msg .= t('Hey !name, ' . $nw->label() . ' is currently <strong>paused</strong>. To resume, click <strong>Resume Job</strong> below.', array('!name' => $uw->field_first_name->value()));
+                $unpub_msg .= '</div>';
+              }
             }
           }
 
@@ -290,7 +330,10 @@ function models_preprocess_node(&$variables) {
           // Publish a job button.
           $publish_form = drupal_get_form('models_forms_publish_form');
           $modal_options = array(
-            'attributes' => array('id' => 'job-publish-form-popup', 'class' => array('job-publish-form-popup-modal')),
+            'attributes' => array(
+              'id' => 'job-publish-form-popup',
+              'class' => array('job-publish-form-popup-modal')
+            ),
             'heading' => t('Publish Job:') . ' ' . $nw->label(),
             'body' => drupal_render($publish_form),
           );
@@ -298,7 +341,13 @@ function models_preprocess_node(&$variables) {
 
           $job_publish_text = !$nw->field_hb_paused->value() ? t('Publish Job') : t('Resume Job');
 
-          $job_publish = l($job_publish_text, '#', array('attributes' => array('data-toggle' => array('modal'), 'data-target' => array('#job-publish-form-popup'), 'class' => array('btn btn-success'))));
+          $job_publish = l($job_publish_text, '#', array(
+            'attributes' => array(
+              'data-toggle' => array('modal'),
+              'data-target' => array('#job-publish-form-popup'),
+              'class' => array('btn btn-success')
+            )
+          ));
           $variables['job_publish_button'] = ($nw->author->getIdentifier() != 000) ? '<div class="hb-job-button">' . $job_publish . '</div>' : FALSE;
         }
         else {
@@ -320,14 +369,23 @@ function models_preprocess_node(&$variables) {
           // Request a job button.
           $request_form = drupal_get_form('models_forms_request_form');
           $modal_options = array(
-            'attributes' => array('id' => 'job-request-form-popup', 'class' => array('job-request-form-popup-modal')),
+            'attributes' => array(
+              'id' => 'job-request-form-popup',
+              'class' => array('job-request-form-popup-modal')
+            ),
             'heading' => $nw->field_hb_type->value() != 'personal' ? t('Request job:') . ' ' . $nw->label() : t('Get in touch with') . ' ' . $nw->author->field_first_name->value(),
             'body' => drupal_render($request_form),
           );
           $variables['job_request_form'] = theme('bootstrap_modal', $modal_options);
 
           if ($user->uid != 0) {
-            $job_details = l($btn_text, '#', array('attributes' => array('data-toggle' => array('modal'), 'data-target' => array('#job-request-form-popup'), 'class' => array('btn ' . $btn_class))));
+            $job_details = l($btn_text, '#', array(
+              'attributes' => array(
+                'data-toggle' => array('modal'),
+                'data-target' => array('#job-request-form-popup'),
+                'class' => array('btn ' . $btn_class)
+              )
+            ));
           }
           else {
             $job_details = l($btn_text, 'user/login', array('attributes' => array('class' => array('btn ' . $btn_class))));
@@ -352,7 +410,7 @@ function models_preprocess_page(&$variables) {
   $uw = entity_metadata_wrapper('user', $user);
 
   // Save the first name part.
-  if (!$uw->field_first_name->value()){
+  if (!$uw->field_first_name->value()) {
     if ($uw->field_my_name->value()) {
       $fname = explode(' ', $uw->field_my_name->value());
       $uw->field_first_name->set($fname[0]);
@@ -361,7 +419,7 @@ function models_preprocess_page(&$variables) {
   }
 
   // Save the whole my name part.
-  if ($uw->field_first_name->value()){
+  if ($uw->field_first_name->value()) {
     $update_name = $uw->field_first_name->value();
     if ($uw->field_surname->value()) {
       $update_name .= ' ' . $uw->field_surname->value();
@@ -377,7 +435,7 @@ function models_preprocess_page(&$variables) {
     unset($variables['page']['content']);
     $variables['logo'] = drupal_get_path('theme', 'models') . '/' . 'white-logo.png';
     if (isset($_COOKIE['Drupal_visitor_not_verified_logoff'])) {
-      if ($_COOKIE['Drupal_visitor_not_verified_logoff'] != 0 ) {
+      if ($_COOKIE['Drupal_visitor_not_verified_logoff'] != 0) {
         // drupal_set_message(t('Oops - it looks like you haven\'t verified your account yet! Please check your email for the verification link - or request a new password'), 'status', FALSE);
 
         $logged_out_user = user_load($_COOKIE['Drupal_visitor_not_verified_logoff']);
@@ -421,7 +479,7 @@ function models_preprocess_page(&$variables) {
     unset($variables['tabs']);
   }
 
-  if ( (arg(0) == 'user' && is_numeric(arg(1)) && !arg(2) || strrpos(current_path(), '/settings') !== FALSE) && strpos(current_path(), 'user/reset') === FALSE) {
+  if ((arg(0) == 'user' && is_numeric(arg(1)) && !arg(2) || strrpos(current_path(), '/settings') !== FALSE) && strpos(current_path(), 'user/reset') === FALSE) {
     $variables['content_column_class'] = ' class="col-sm-pull-3 col-sm-9"';
   }
 
@@ -460,11 +518,11 @@ function models_preprocess_page(&$variables) {
   $variables['navbar_classes_array'][1] = 'container-fluid';
 
   if (strrpos(current_path(), 'search') !== FALSE && strrpos(current_path(), 'ts/') === FALSE && strrpos(current_path(), 'messages/') === FALSE ||
-     strpos(current_path(), 'previous-jobs') !== FALSE ||
-     strpos(current_path(), 'my-jobs') !== FALSE ||
-     strpos(current_path(), 'watchlist') !== FALSE ||
-     strpos(current_path(), 'job-requests') !== FALSE )
-  {
+    strpos(current_path(), 'previous-jobs') !== FALSE ||
+    strpos(current_path(), 'my-jobs') !== FALSE ||
+    strpos(current_path(), 'watchlist') !== FALSE ||
+    strpos(current_path(), 'job-requests') !== FALSE
+  ) {
     drupal_add_js('https://npmcdn.com/imagesloaded@4.1/imagesloaded.pkgd.min.js', 'external');
     drupal_add_js('https://npmcdn.com/masonry-layout@4.0.0/dist/masonry.pkgd.min.js', 'external');
     drupal_add_js(drupal_get_path('theme', 'models') . '/' . 'js/hbm_user_jobs.js');
@@ -495,12 +553,12 @@ function models_preprocess_page(&$variables) {
   }
 
   // Alllll stuffs for the author pic and top nav stuff.
-  if (  (strpos(current_path(), 'node') !== FALSE) ||
-        (strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/edit') !== FALSE) ||
-        (strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/feedback') !== FALSE) ||
-        (strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/clients') !== FALSE) ||
-        (strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/photos') !== FALSE)
-     ) {
+  if ((strpos(current_path(), 'node') !== FALSE) ||
+    (strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/edit') !== FALSE) ||
+    (strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/feedback') !== FALSE) ||
+    (strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/clients') !== FALSE) ||
+    (strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/photos') !== FALSE)
+  ) {
 
     $nw = entity_metadata_wrapper('node', arg(1));
 
@@ -511,8 +569,8 @@ function models_preprocess_page(&$variables) {
         if (strpos(current_path(), 'job/' . $nw->getIdentifier() . '/edit') !== FALSE || strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/clients') !== FALSE) {
           // If person is admin or hbadmin...
           // if ($user->uid != 1) {
-            drupal_set_message(t('Oops - this job has been completed - no more edits! :)'), 'info', FALSE);
-            drupal_goto('node/' . $nw->getIdentifier());
+          drupal_set_message(t('Oops - this job has been completed - no more edits! :)'), 'info', FALSE);
+          drupal_goto('node/' . $nw->getIdentifier());
           // }
         }
       }
@@ -520,7 +578,10 @@ function models_preprocess_page(&$variables) {
       // Pause a job button.
       $pause_form = drupal_get_form('models_forms_pause_form');
       $modal_options = array(
-        'attributes' => array('id' => 'job-pause-form-popup', 'class' => array('job-pause-form-popup-modal')),
+        'attributes' => array(
+          'id' => 'job-pause-form-popup',
+          'class' => array('job-pause-form-popup-modal')
+        ),
         'heading' => t('Pause Job:') . ' ' . $nw->label(),
         'body' => drupal_render($pause_form),
       );
@@ -529,7 +590,10 @@ function models_preprocess_page(&$variables) {
       // Cancel a job button.
       $cancel_form = drupal_get_form('models_forms_cancel_form');
       $modal_options = array(
-        'attributes' => array('id' => 'job-cancel-form-popup', 'class' => array('job-cancel-form-popup-modal')),
+        'attributes' => array(
+          'id' => 'job-cancel-form-popup',
+          'class' => array('job-cancel-form-popup-modal')
+        ),
         'heading' => t('Cancel Job:') . ' ' . $nw->label(),
         'body' => drupal_render($cancel_form),
       );
@@ -540,7 +604,10 @@ function models_preprocess_page(&$variables) {
           // Cancel a job button.
           $complete_form = drupal_get_form('models_forms_complete_form');
           $modal_options = array(
-            'attributes' => array('id' => 'job-complete-form-popup', 'class' => array('job-complete-form-popup-modal')),
+            'attributes' => array(
+              'id' => 'job-complete-form-popup',
+              'class' => array('job-complete-form-popup-modal')
+            ),
             'heading' => t('Job Completed:') . ' ' . $nw->label(),
             'body' => drupal_render($complete_form),
           );
@@ -549,9 +616,8 @@ function models_preprocess_page(&$variables) {
       }
 
 
-
       // if ( strpos(current_path(), 'job/') !== FALSE && is_numeric(arg(1)) ) {
-        $variables['content_column_class'] = ' class="col-sm-pull-3 col-sm-9"';
+      $variables['content_column_class'] = ' class="col-sm-pull-3 col-sm-9"';
       // }
 
       drupal_add_js(libraries_get_path('slick') . '/' . 'slick/slick.min.js');
@@ -594,27 +660,39 @@ function models_preprocess_page(&$variables) {
       $variables['hb_header_class'] = 'header-title pull-left';
 
       $mypic = $nw->author->value()->picture;
-      if($mypic){
-        $pic = '<div class="my-image img-circle">' . theme('image_style', array('style_name' => 'profile', 'path' => $nw->author->value()->picture->uri, 'attributes' => array('class' => array('img-circle')))).'</div>';
-      } else {
-        $pic = '<div class="my-image img-circle">' . theme('image_style', array('style_name' => 'profile', 'path' => 'public://pictures/picture-default.png', 'attributes' => array('class' => array('img-circle')))).'</div>';
+      if ($mypic) {
+        $pic = '<div class="my-image img-circle">' . theme('image_style', array(
+            'style_name' => 'profile',
+            'path' => $nw->author->value()->picture->uri,
+            'attributes' => array('class' => array('img-circle'))
+          )) . '</div>';
       }
-      $variables['author_pic'] = l($pic, 'user/' . $nw->author->getIdentifier(), array('html' => true, 'attributes' => array('class' => array('author-pic'))));
+      else {
+        $pic = '<div class="my-image img-circle">' . theme('image_style', array(
+            'style_name' => 'profile',
+            'path' => 'public://pictures/picture-default.png',
+            'attributes' => array('class' => array('img-circle'))
+          )) . '</div>';
+      }
+      $variables['author_pic'] = l($pic, 'user/' . $nw->author->getIdentifier(), array(
+        'html' => TRUE,
+        'attributes' => array('class' => array('author-pic'))
+      ));
 
       $stars = $nw->author->field_my_overall_rating->value() ? $nw->author->field_my_overall_rating->value() : 0;
 
       $variables['author_rating'] = '<div class="hb-rating raty raty-readonly" data-rating="' . $stars . '"></div>';
 
-      if (1==1) {
+      if (1 == 1) {
         $fbk = $nw->author->field_my_total_feedback->value() ? $nw->author->field_my_total_feedback->value() : 0;
-        $variables['author_feedback_amount'] = '<div class="hb-feedback-score">'. l($fbk . ' ' . t('feedback'), 'user/' . $nw->author->getIdentifier() . '/feedback') . ' | ' .  l(t('send message'), 'messages/new/' . $nw->author->getIdentifier(), array('query' => array('destination' => 'node/' . $nw->getIdentifier()))) . '</div>';
+        $variables['author_feedback_amount'] = '<div class="hb-feedback-score">' . l($fbk . ' ' . t('feedback'), 'user/' . $nw->author->getIdentifier() . '/feedback') . ' | ' . l(t('send message'), 'messages/new/' . $nw->author->getIdentifier(), array('query' => array('destination' => 'node/' . $nw->getIdentifier()))) . '</div>';
       }
       else {
         $variables['author_feedback_amount'] = '<div class="hb-feedback-score">' . t('- no feedback -') . '</div>';
       }
 
-      $job_details  = '<div class="hb-time">';
-      $job_details .= '<span>' . t('Posted by') . ' ' . l($nw->author->label(), 'user/'.$nw->author->getIdentifier()) . '</span>, ';
+      $job_details = '<div class="hb-time">';
+      $job_details .= '<span>' . t('Posted by') . ' ' . l($nw->author->label(), 'user/' . $nw->author->getIdentifier()) . '</span>, ';
       $job_details .= '<span>' . format_date($nw->created->value(), 'timeago', 'Y-m-d H:i:s', 'UTC') . '</span>';
       $job_details .= '</div>';
       $job_details .= '<div>';
@@ -647,7 +725,10 @@ function models_preprocess_page(&$variables) {
         // Client request accept / remove
         $client_request_form = drupal_get_form('models_forms_confirm_clients_form');
         $modal_options = array(
-          'attributes' => array('id' => 'job-publish-form-popup', 'class' => array('job-publish-form-popup-modal')),
+          'attributes' => array(
+            'id' => 'job-publish-form-popup',
+            'class' => array('job-publish-form-popup-modal')
+          ),
           'heading' => t('Confirm Clients'),
           'body' => drupal_render($client_request_form),
         );
@@ -666,14 +747,14 @@ function models_preprocess_page(&$variables) {
 
     // Build up the users home page top bar..
     if (arg(0) == 'user' && is_numeric(arg(1)) && !arg(2) ||
-       strpos(current_path(), 'previous-jobs') !== FALSE ||
-       strpos(current_path(), 'user/') !== FALSE && strpos(current_path(), '/feedback') !== FALSE ||
-       strpos(current_path(), 'user/') !== FALSE && strpos(current_path(), '/photos') !== FALSE ||
-       strpos(current_path(), 'my-jobs') !== FALSE ||
-       strpos(current_path(), 'watchlist') !== FALSE ||
-       strpos(current_path(), 'job-requests') !== FALSE ||
-       ( arg(0) == 'user' && !is_numeric(arg(1)) && arg(2) ))
-    {
+      strpos(current_path(), 'previous-jobs') !== FALSE ||
+      strpos(current_path(), 'user/') !== FALSE && strpos(current_path(), '/feedback') !== FALSE ||
+      strpos(current_path(), 'user/') !== FALSE && strpos(current_path(), '/photos') !== FALSE ||
+      strpos(current_path(), 'my-jobs') !== FALSE ||
+      strpos(current_path(), 'watchlist') !== FALSE ||
+      strpos(current_path(), 'job-requests') !== FALSE ||
+      (arg(0) == 'user' && !is_numeric(arg(1)) && arg(2))
+    ) {
 
       // Bump anons to the login page when looking at users..
       if ($user->uid == 0) {
@@ -688,7 +769,7 @@ function models_preprocess_page(&$variables) {
       }
 
       // Delete the 'just registered' set_variable.
-      if ( variable_get('just_registered_' . $user->uid) ) {
+      if (variable_get('just_registered_' . $user->uid)) {
         variable_del('just_registered_' . $user->uid);
       }
 
@@ -732,27 +813,30 @@ function models_preprocess_page(&$variables) {
       $variables['author_feedback_amount'] = $author_feedback_amount;
       $variables['job_details'] = $job_details;
 
-     // Initiate custom job navigation if logged in user = author.
+      // Initiate custom job navigation if logged in user = author.
       if (arg(1) == $uw->getIdentifier() ||
-         strpos(current_path(), 'previous-jobs') !== FALSE ||
-         strpos(current_path(), 'my-jobs') !== FALSE ||
-         strpos(current_path(), 'user/') !== FALSE && strpos(current_path(), '/photos') !== FALSE ||
-         strpos(current_path(), 'job-requests') !== FALSE ||
-         strpos(current_path(), 'watchlist') !== FALSE ||
-         (arg(0) == 'user' && !is_numeric(arg(1)) && arg(2)))
-      {
+        strpos(current_path(), 'previous-jobs') !== FALSE ||
+        strpos(current_path(), 'my-jobs') !== FALSE ||
+        strpos(current_path(), 'user/') !== FALSE && strpos(current_path(), '/photos') !== FALSE ||
+        strpos(current_path(), 'job-requests') !== FALSE ||
+        strpos(current_path(), 'watchlist') !== FALSE ||
+        (arg(0) == 'user' && !is_numeric(arg(1)) && arg(2))
+      ) {
         $variables['my_nav'] = theme('my_nav', array('user_nav' => $uw->getIdentifier()));
       }
       else {
-        $variables['my_nav'] = theme('my_nav', array('user_nav' => $uw->getIdentifier(), 'someone_else' => TRUE));
+        $variables['my_nav'] = theme('my_nav', array(
+          'user_nav' => $uw->getIdentifier(),
+          'someone_else' => TRUE
+        ));
       }
     }
   }
 
-  if ( strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/photos') !== FALSE || strpos(current_path(), 'user/photos') !== FALSE ) {
+  if (strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/photos') !== FALSE || strpos(current_path(), 'user/photos') !== FALSE) {
     drupal_add_css(libraries_get_path('dropzone') . '/' . 'dist/min/basic.min.css');
     drupal_add_css(libraries_get_path('dropzone') . '/' . 'dist/min/dropzone.min.css');
-    drupal_add_js( libraries_get_path('dropzone') . '/' . 'dist/min/dropzone.min.js');
+    drupal_add_js(libraries_get_path('dropzone') . '/' . 'dist/min/dropzone.min.js');
   }
 }
 
@@ -760,9 +844,9 @@ function models_preprocess_page(&$variables) {
  * Implements hook_preprocess_html().
  */
 function models_preprocess_html(&$variables) {
-  if ( (strpos(current_path(), 'node') !== FALSE) ||
-       (strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/clients') !== FALSE)
-     ) {
+  if ((strpos(current_path(), 'node') !== FALSE) ||
+    (strpos(current_path(), 'job/') !== FALSE && strpos(current_path(), '/clients') !== FALSE)
+  ) {
     $variables['classes_array'][] = 'event-mode';
   }
 }
@@ -935,7 +1019,7 @@ function models_facetapi_deactivate_widget($variables) {
  * Implements hook_preprocess_entity.
  */
 function models_preprocess_entity(&$variables) {
-  if($variables['entity_type'] == 'feedback'){
+  if ($variables['entity_type'] == 'feedback') {
     $ew = entity_metadata_wrapper('feedback', $variables['elements']['#entity']->id);
     $nw = entity_metadata_wrapper('node', $variables['field_feedb_nid'][0]['nid']);
 
@@ -954,10 +1038,19 @@ function models_preprocess_entity(&$variables) {
       $author = l($nw->author->label(), 'user/' . $nw->author->getIdentifier(), array('attributes' => array('class' => array('uname'))));
       $stars = $nw->author->field_my_overall_rating->value() ? $nw->author->field_my_overall_rating->value() : 0;
     }
-    if($mypic){
-      $pic = '<div class="my-image img-circle">' . l(theme('image_style', array('style_name' => 'profile', 'path' => $mypic->uri, 'attributes' => array('class' => array('img-circle')))), 'user/' . $u_id, array('html' => TRUE)) . '</div>';
-    } else {
-      $pic = '<div class="my-image img-circle">' . l(theme('image_style', array('style_name' => 'profile', 'path' => 'public://pictures/picture-default.png', 'attributes' => array('class' => array('img-circle')))), 'user/' . $u_id, array('html' => TRUE)) . '</div>';
+    if ($mypic) {
+      $pic = '<div class="my-image img-circle">' . l(theme('image_style', array(
+          'style_name' => 'profile',
+          'path' => $mypic->uri,
+          'attributes' => array('class' => array('img-circle'))
+        )), 'user/' . $u_id, array('html' => TRUE)) . '</div>';
+    }
+    else {
+      $pic = '<div class="my-image img-circle">' . l(theme('image_style', array(
+          'style_name' => 'profile',
+          'path' => 'public://pictures/picture-default.png',
+          'attributes' => array('class' => array('img-circle'))
+        )), 'user/' . $u_id, array('html' => TRUE)) . '</div>';
     }
 
     $variables['pic'] = $pic;
@@ -1004,7 +1097,13 @@ function models_preprocess_views_view(&$vars) {
             $job_publish_text = !$nw->field_hb_paused->value() ? t('Publish') : t('Resume!');
           }
 
-          $job_publish = l($job_publish_text, '#', array('attributes' => array('data-toggle' => array('modal'), 'data-target' => array('#job-publish-form-popup'), 'class' => array('btn btn-success btn-block'))));
+          $job_publish = l($job_publish_text, '#', array(
+            'attributes' => array(
+              'data-toggle' => array('modal'),
+              'data-target' => array('#job-publish-form-popup'),
+              'class' => array('btn btn-success btn-block')
+            )
+          ));
           $vars['job_publish_button'] = ($nw->author->getIdentifier() != 000) ? '<div class="hb-rhs-job-button">' . $job_publish . '</div>' : FALSE;
         }
         // If job is published..
@@ -1023,7 +1122,13 @@ function models_preprocess_views_view(&$vars) {
 
           if ($nw->author->getIdentifier() != $uw->getIdentifier()) {
             if ($user->uid != 0) {
-              $job_details = l($btn_text, '#', array('attributes' => array('data-toggle' => array('modal'), 'data-target' => array('#job-request-form-popup'), 'class' => array('btn btn-block ' . $btn_class))));
+              $job_details = l($btn_text, '#', array(
+                'attributes' => array(
+                  'data-toggle' => array('modal'),
+                  'data-target' => array('#job-request-form-popup'),
+                  'class' => array('btn btn-block ' . $btn_class)
+                )
+              ));
             }
             else {
               $job_details = l($btn_text, 'user/login', array('attributes' => array('class' => array('btn btn-block ' . $btn_class))));
@@ -1040,7 +1145,7 @@ function models_preprocess_views_view(&$vars) {
         if ($uw->getIdentifier() == $nw->author->getIdentifier()) {
           $fb_completed = $nw->field_hb_feedb_size->value() == $nw->field_hb_client_size->value() ? TRUE : FALSE;
           $fbk_desc = $fb_completed ? t('Feedback is complete - click below to view') : t('Your job has been assigned - to leave feedback click below');
-          $fbk_btn_text = $fb_completed ?  t('View Feedback') : t('Leave Feedback');
+          $fbk_btn_text = $fb_completed ? t('View Feedback') : t('Leave Feedback');
         }
         else {
           // Allow feedback if this user is an active client of the job.
@@ -1055,7 +1160,7 @@ function models_preprocess_views_view(&$vars) {
 
           if (sizeof($result)) {
             // Now to check that the client has completed their feedback to the owner.
-            $title = '%_aid_' . $nw->author->getIdentifier() . '_uid_' . $uw->getIdentifier()  . '_nid_' . $nw->getIdentifier() . '%';
+            $title = '%_aid_' . $nw->author->getIdentifier() . '_uid_' . $uw->getIdentifier() . '_nid_' . $nw->getIdentifier() . '%';
             $query = new EntityFieldQuery();
             $query->entityCondition('entity_type', 'feedback')
               ->entityCondition('bundle', 'feedback')

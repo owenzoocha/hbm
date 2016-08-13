@@ -50,6 +50,14 @@ function geocoder_admin_settings($form, &$form_state) {
     '#required' => FALSE,
   );
 
+  $form['geocoder_apikey_mapquest'] = array(
+    '#type' => 'textfield',
+    '#title' => t('MapQuest API Key'),
+    '#description' => t('You can obtain a MapQuest API Key at ') . 'https://developer.mapquest.com/plan_purchase/steps/business_edition/business_edition_free/register',
+    '#default_value' => empty($geocoder_settings['geocoder_apikey_mapquest']) ? '' : $geocoder_settings['geocoder_apikey_mapquest'],
+    '#required' => FALSE,
+  );
+
   $form['geocoder_google_auth_method'] = array(
     '#type'          => 'select',
     '#title'         => t('Google API Authorization Method'),
@@ -157,5 +165,6 @@ function geocoder_admin_settings_submit($form, &$form_state) {
   $geocoder_settings['geocoder_apikey_mapzen'] = trim($form_state['values']['geocoder_apikey_mapzen']);
   $geocoder_settings['geocoder_apikey_mapbox'] = trim($form_state['values']['geocoder_apikey_mapbox']);
   $geocoder_settings['geocoder_apikey_google'] = trim($form_state['values']['geocoder_apikey_google']);
+  $geocoder_settings['geocoder_apikey_mapquest'] = trim($form_state['values']['geocoder_apikey_mapquest']);
   variable_set("geocoder_settings", $geocoder_settings);
 }

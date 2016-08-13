@@ -84,7 +84,7 @@
                   <tbody>
                     <tr>
                     <td style="text-align:center;padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;font-size:11px;letter-spacing:1px;" >
-                     Follow us: <a href="" style="color:#3C5A9A;text-decoration:underline;" >Facebook</a> | <a href="" style="color:#21BAF3;text-decoration:underline;" >Twitter</a> | <a href="" style="color:#000000;text-decoration:underline;" >Instagram</a> | <a href="" style="color:#BC0D14;text-decoration:underline;" >Pinterest</a> | <a href="" style="color:#DE4931;text-decoration:underline;" >Google</a>
+                     Follow us: <a href="https://www.facebook.com/hairandbeautymodelsaustralia/" style="color:#3C5A9A;text-decoration:underline;" >Facebook</a> | <a href="https://twitter.com/hbm_australia" style="color:#21BAF3;text-decoration:underline;" >Twitter</a> | <a href="http://instagram.com/hairandbeautymodels" style="color:#000000;text-decoration:underline;" >Instagram</a> | <a href="" style="color:#BC0D14;text-decoration:underline;" >Pinterest</a> | <a href="" style="color:#DE4931;text-decoration:underline;" >Google</a>
                     </td>
                   </tr>
                 </tbody></table>

@@ -50,10 +50,10 @@ function models_nav_block_view($delta = '') {
 function social_nav_footer_block() {
   global $user;
   $login = array();
-  $login[] = l('<span class="fa fa-2x fa-envelope"></span> <span class="sr-only">' . t('Contact') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
-  $login[] = l('<span class="fa fa-2x fa-facebook"></span> <span class="sr-only">' . t('Facebook') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
-  $login[] = l('<span class="fa fa-2x fa-twitter"></span> <span class="sr-only">' . t('Twitter') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
-  $login[] = l('<span class="fa fa-2x fa-instagram"></span> <span class="sr-only">' . t('Instagram') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
+  $login[] = l('<span class="fa fa-2x fa-envelope"></span> <span class="sr-only">' . t('Contact') . '</span>', 'mailto:', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
+  $login[] = l('<span class="fa fa-2x fa-facebook"></span> <span class="sr-only">' . t('Facebook') . '</span>', 'https://www.facebook.com/hairandbeautymodelsaustralia/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
+  $login[] = l('<span class="fa fa-2x fa-twitter"></span> <span class="sr-only">' . t('Twitter') . '</span>', 'https://twitter.com/hbm_australia', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
+  $login[] = l('<span class="fa fa-2x fa-instagram"></span> <span class="sr-only">' . t('Instagram') . '</span>', 'http://instagram.com/hairandbeautymodels', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
   $login[] = l('<span class="fa fa-2x fa-pinterest"></span> <span class="sr-only">' . t('Pinterest') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
   $login[] = l('<span class="fa fa-2x fa-google"></span> <span class="sr-only">' . t('Google') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
   $login[] = l(t('#HBM'), 'user/login');
@@ -268,9 +268,9 @@ function template_preprocess_social_nav(&$vars) {
 
   $login = array();
   $login[] = l('<span class="fa fa-envelope"></span> <span class="sr-only">' . t('Contact') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
-  $login[] = l('<span class="fa fa-facebook"></span> <span class="sr-only">' . t('Facebook') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
-  $login[] = l('<span class="fa fa-twitter"></span> <span class="sr-only">' . t('Twitter') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
-  $login[] = l('<span class="fa fa-instagram"></span> <span class="sr-only">' . t('Instagram') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
+  $login[] = l('<span class="fa fa-facebook"></span> <span class="sr-only">' . t('Facebook') . '</span>', 'https://www.facebook.com/hairandbeautymodelsaustralia/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
+  $login[] = l('<span class="fa fa-twitter"></span> <span class="sr-only">' . t('Twitter') . '</span>', 'https://twitter.com/hbm_australia', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
+  $login[] = l('<span class="fa fa-instagram"></span> <span class="sr-only">' . t('Instagram') . '</span>', 'http://instagram.com/hairandbeautymodels', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
   $login[] = l('<span class="fa fa-pinterest"></span> <span class="sr-only">' . t('Pinterest') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
   $login[] = l('<span class="fa fa-google"></span> <span class="sr-only">' . t('Google') . '</span>', '/', array('html' => TRUE, 'attributes' => array('class' => array('social-icon'))));
   // $login[] = $user->uid == 0 ? l(t('Sign Up / Sign In'), 'user/login') : FALSE;

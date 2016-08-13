@@ -53,7 +53,7 @@
       <div class="hero left animated fadeInUp">
         <h1>Welcome to</br>Hair and Beauty Models</h1>
         <h2>Training as a hair dresser or beautician? Looking for last minute models? Or just looking for a cheap cut!</h2>
-        <p><strong>Coming Soon!</strong> Sign up to receive the latest news</p>
+        <p><strong style="font-size: 27px;">Coming Soon!</strong> Sign up to receive the latest news</p>
       </div>
       <div class="hero right">
         <?php
@@ -66,7 +66,7 @@
   </div>
 
   <div id="what-is-it" class="container">
-    <h3 class="text-center hd-pink">Why HBM?</h3>
+    <h3 class="text-center hd-pink">Why #HBM?</h3>
     <div class="col-md-3">
       <div class="info-img">
         <img src="/sites/all/themes/models/images/whyhbm.jpg" class="img-responsive" title="Why HBM info image"/>

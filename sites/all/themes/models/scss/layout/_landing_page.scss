@@ -29,6 +29,8 @@
 
   .hd-pink {
     color: $hb-pink;
+    font-size: 30px;
+    font-weight: 500;
   }
 
   #hero {
@@ -71,12 +73,12 @@
             border-bottom: 2px solid $light-grey;
             padding: 12px;
             font-size: 18px;
-            outline: none!important;
+            outline: none !important;
             background: rgba(22, 39, 54, 0.36);
             font-weight: 300;
             height: 52px;
             &:focus {
-              outline: none!important;
+              outline: none !important;
             }
           }
           button.btn {
@@ -120,14 +122,14 @@
       // height: 370px;
     }
     h2 {
-        font-size: 20px;
-        margin-top: 0;
-        // padding-top: 15px;
-      }
-      p {
-        font-size: 14px;
-        text-align: left;
-      }
+      font-size: 20px;
+      margin-top: 0;
+      // padding-top: 15px;
+    }
+    p {
+      font-size: 14px;
+      text-align: left;
+    }
     .info-surround {
       // border-left: 4px solid $hb-blue;
       // background: #fff;
@@ -170,16 +172,14 @@
   }
 }
 
-
 /**
  * RESPONSIVE stuffs
  */
-@media (min-width: $screen-lg-desktop){
+@media (min-width: $screen-lg-desktop) {
   body {
     // color: red!important;
   }
 }
-
 
 // Screen Desktop and UP UP UP!
 @media (min-width: $screen-tablet) {
@@ -220,20 +220,20 @@
 }
 
 // Hack for the main nav...
-@media (min-width: 767px) and (max-width: 930px){
+@media (min-width: 767px) and (max-width: 930px) {
   #navbar {
     .navbar-nav > li > a {
-      padding: 0 10px!important;
+      padding: 0 10px !important;
     }
 
     .search-surround #models-forms-search-form #edit-search {
-      width: 110px!important;
+      width: 110px !important;
     }
   }
 }
 
 // Screen Desktop and BELOW!!
-@media (max-width: $screen-desktop){
+@media (max-width: $screen-desktop) {
   body {
     // color: blue!important;
   }
@@ -244,7 +244,7 @@
     }
 
     .search-surround #models-forms-search-form #edit-search {
-      width: 200px!important;
+      width: 200px !important;
     }
   }
 
@@ -269,7 +269,7 @@
 
 }
 
-@media (max-width: $screen-tablet){
+@media (max-width: $screen-tablet) {
   body {
     // color: yellow!important;
   }
@@ -277,17 +277,16 @@
   #look-and-feel {
     .lhs,
     .rhs {
-      width: 100%!important;
+      width: 100% !important;
     }
     .rhs {
       .mobile {
-        width: 250px!important;
-        height: 520px!important;
-        padding: 74px 18px!important;
+        width: 250px !important;
+        height: 520px !important;
+        padding: 74px 18px !important;
       }
     }
   }
-
 
   #navbar {
     .container,
@@ -295,19 +294,19 @@
       > .navbar-header,
       > .navbar-collapse {
         margin-right: 0;
-        margin-left:  0;
+        margin-left: 0;
       }
 
       .navbar-collapse {
         position: absolute;
         width: 100%;
         .my-menu-dd, .a-dd .fa {
-          display: none!important;
+          display: none !important;
         }
       }
 
       .search-surround {
-       @include clearfix;
+        @include clearfix;
         background-color: rgba(0, 0, 0, 0.64);
         &:hover,
         &:focus,
@@ -322,7 +321,7 @@
     }
 
     .navbar-nav {
-      float: none!important;
+      float: none !important;
       margin: 0;
       li {
         a {
@@ -364,13 +363,13 @@
 
 }
 
-@media (min-width: 360px){
+@media (min-width: 360px) {
   #navbar-top-top {
     display: block;
   }
 }
 
-@media (max-width: 360px){
+@media (max-width: 360px) {
   #navbar-top-top {
     // display: none;
     white-space: nowrap;
@@ -379,12 +378,12 @@
     -ms-overflow-style: -ms-autohiding-scrollbar;
     overflow: scroll;
     .social-icons-nav.pull-right {
-      float: none!important;
+      float: none !important;
     }
   }
 }
 
-@media (max-width: $screen-phone){
+@media (max-width: $screen-phone) {
   body {
     // color: green!important;
   }

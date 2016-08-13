@@ -7548,7 +7548,9 @@ select.form-control {
   display: none; }
 
 #main .hd-pink {
-  color: #E01563; }
+  color: #E01563;
+  font-size: 30px;
+  font-weight: 500; }
 
 #main #hero {
   background-color: #172A3A;
