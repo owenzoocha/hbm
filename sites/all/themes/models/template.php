@@ -523,8 +523,8 @@ function models_preprocess_page(&$variables) {
     strpos(current_path(), 'watchlist') !== FALSE ||
     strpos(current_path(), 'job-requests') !== FALSE
   ) {
-    drupal_add_js('https://npmcdn.com/imagesloaded@4.1/imagesloaded.pkgd.min.js', 'external');
-    drupal_add_js('https://npmcdn.com/masonry-layout@4.0.0/dist/masonry.pkgd.min.js', 'external');
+    drupal_add_js('https://unpkg.com/imagesloaded@4.1/imagesloaded.pkgd.min.js', 'external');
+    drupal_add_js('https://unpkg.com/masonry-layout@4.0.0/dist/masonry.pkgd.min.js', 'external');
     drupal_add_js(drupal_get_path('theme', 'models') . '/' . 'js/hbm_user_jobs.js');
   }
 
