@@ -4,7 +4,71 @@
   }
 }
 
+.page-user- {
+  #hb-header {
+    height: 320px;
+    margin-top: 15px;
+    background-color: $light-grey;
+    .header-title {
+      //margin-left: 190px;
+      h1 {
+        padding: 150px 0 20px;
+        text-shadow: 1px 1px 1px #172A3A;
+        color: #EDEFF0;
+        font-size: 35px;
+        font-weight: 400;
+      }
+    }
+
+    .header-author-pic {
+      .my-image {
+        width: 150px;
+        margin: 62px 0 0;
+        img {
+          //border-radius: 50%;
+          border: 3px solid $white;
+        }
+      }
+    }
+    .yoga-intro {
+      color: $hb-dark;
+      text-shadow: none;
+      font-weight: 300;
+      font-size: 14px;
+      span {
+        padding: 3px 0;
+        display: inline-block;
+      }
+      a {
+        display: inline-block;
+        margin-right: 3px;
+      }
+      .btn {
+        font-size: 12px;
+        letter-spacing: 0;
+      }
+    }
+    #page-header-bg {
+      height: 340px;
+      width: 1000px;
+      left: 50%;
+      border-radius: 15px 15px 0 0;
+      transform: translate(-50%, 0);
+
+      .text-bg {
+        position: absolute;
+        width: 100%;
+        background: rgba(255,255,255,0.80);
+        height: 100px;
+        bottom: 0;
+        left: 0;
+      }
+    }
+  }
+}
+
 .page-user {
+
   .edit-this {
     position: absolute;
     top: 2px;
@@ -40,7 +104,7 @@
 
     span,
     .material-icons {
-      font-size:  14px;
+      font-size: 14px;
     }
     .views-field-name {
       span {

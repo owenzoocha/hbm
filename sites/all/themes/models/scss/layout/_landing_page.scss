@@ -20,7 +20,32 @@
     margin-top: 0;
   }
   .main-container {
-    display: none;
+    // display: none;
+  }
+}
+
+#models-searcher-form {
+  input {
+    color: $white;
+  }
+  .form-item {
+    position: relative;
+    .typeahead {
+      width: 100%;
+      border-radius: 0;
+      border: none;
+      li {
+        &.active {
+          a {
+            background-color: $hb-pink;
+          }
+        }
+        a {
+          font-weight: 400;
+          font-size: 18px;
+        }
+      }
+    }
   }
 }
 
@@ -66,9 +91,11 @@
           letter-spacing: 0.5px;
         }
 
-        #block-webform-client-block-166 {
+        #block-webform-client-block-166,
+        #block-models-searcher-main-searcher {
           text-align: left;
-          .email {
+          .email,
+          #search-lookup {
             border: none;
             border-bottom: 2px solid $light-grey;
             padding: 12px;
@@ -412,6 +439,7 @@
   }
 
   #block-webform-client-block-132,
+  #block-models-searcher-main-searcher,
   #block-webform-client-block-166 {
     width: auto;
     .webform-component-email {

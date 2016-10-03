@@ -434,12 +434,14 @@ function tweaks_get_profile_url($pic, $uid) {
  * Generate user profile introduction.
  */
 function tweaks_get_profile_intro($user_entity) {
-  $job_details  = '<div class="hb-time">';
+  $job_details = '<div class="yoga-intro">';
+  $job_details .= '<div class="hb-time">';
   $job_details .= '<span>(' . l($user_entity->label(), 'user/' . $user_entity->getIdentifier()) . ')</span>';
   $job_details .= '</div>';
   $job_details .= '<div>';
   // $job_details .= '<span>' . t('member since ') . format_date($user_entity->created->value(), 'timeago', 'Y-m-d H:i:s', 'UTC') . '</span>';
   $job_details .= '<span>' . t('joined ') . format_date($user_entity->created->value(), 'custom', 'M, Y', 'UTC') . '</span>';
+  $job_details .= '</div>';
   $job_details .= '</div>';
   return $job_details;
 }
@@ -932,3 +934,34 @@ function tweaks_preprocess_htmlmail(&$variables) {
     break;
    }
  }
+
+/**
+ * Custom Geocode jobby for yoga nodes.
+ */
+function tweaks_grab_geocode($add, $node) {
+  if ($add) {
+    $point = geocoder('google', $add, array('https' => TRUE));
+    $geo_array = array(
+      'geom' => 'POINT (' . $point->coords[0] . ' ' . $point->coords[1] . ')',
+      'geo_type' => 'point',
+      'lat' => $point->coords[1],
+      'lon' => $point->coords[0],
+      'left' => $point->coords[0],
+      'top' => $point->coords[1],
+      'right' => $point->coords[0],
+      'bottom' => $point->coords[1],
+      // 'geohash' => ,
+    );
+    if ($point->coords[1]) {
+//    $node->field_hb_geofield[LANGUAGE_NONE][0] = $geo_array;
+      watchdog('models_forms_create', 'LAT LNG GENERATED FOR JOB NODE ' . $node->title);
+      return $geo_array;
+    }
+    else {
+      return FALSE;
+    }
+  }
+  else {
+    return FALSE;
+  }
+}

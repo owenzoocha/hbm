@@ -6,14 +6,14 @@
 
     init: function(context) {
       if ($('.page-search').length) {
-        hbm.scrollAnimations();
+        // hbm.scrollAnimations();
         // var h2 = $('.main-container').outerHeight(true) + $('#hb-header').outerHeight(true);
         // $('.page-search .col-sm-3 .well').height(h2);
       } else {
-        hbm.scrollAnimationsMenu();
+        // hbm.scrollAnimationsMenu();
       }
       hbm.searchHighlight();
-      hbm.skrollr();
+      // hbm.skrollr();
       hbm.hbRaty();
       hbm.loginFormHacks();
       hbm.hbmMenu();
@@ -24,6 +24,7 @@
       hbm.mobileChecks();
       hbm.fadeOutAlertsOnHome();
       hbm.hacks();
+      hbm.moreInformation();
 
       $('table').addClass('table-bordered');
       $('.page-messages .btn-xs').removeClass('btn-xs');
@@ -104,6 +105,21 @@
       //     });
       //   });
       // }
+    },
+
+    // Location stuff....
+    moreInformation: function () {
+      $('.quick-view').on('click', function () {
+        var nid = $(this).data('nid');
+        $('#node-' + nid).closest('.views-field-rendered-entity').toggleClass('active');
+        if ($('#node-' + nid).closest('.views-field-rendered-entity').hasClass('active')) {
+          $(this).find('.fa').removeClass('fa-caret-down').addClass('fa-times');
+        }
+        else {
+          $(this).find('.fa').removeClass('fa-times').addClass('fa-caret-down');
+        }
+        return false;
+      });
     },
 
     hacks : function(){
@@ -204,7 +220,7 @@
         var owen = document.getElementById('owen');
 
         // init controller
-        var controller = new ScrollMagic.Controller();
+        // var controller = new ScrollMagic.Controller();
 
         // Create Animation for 0.5s
         var myTimeline = new TimelineMax({

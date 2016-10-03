@@ -3,10 +3,71 @@
 }
 
 .node-type-job {
+
+  #hb-header {
+    //margin-bottom: 15px;
+    //background-color: $hb-dark;
+    .header-title {
+      h1 {
+        color: $hb-dark;
+        text-shadow: none;
+      }
+    }
+    .header-author-pic {
+      .my-image {
+        width: 100px;
+        img {
+          border-color: $hb-dark;
+        }
+        //margin: 40px 0 0;
+      }
+    }
+    //  .yoga-intro {
+    //    color: $hb-dark;
+    //    text-shadow: none;
+    //    font-weight: 300;
+    //    span {
+    //      padding: 3px 0;
+    //      display: inline-block;
+    //    }
+    //    a {
+    //      display: inline-block;
+    //      margin-right: 3px;
+    //    }
+    //    .btn {
+    //      font-size: 12px;
+    //      letter-spacing: 0;
+    //    }
+    //  }
+  }
+  //#page-header-bg {
+  //  height: 320px;
+  //  width: 1000px;
+  //  left: 50%;
+  //  border-radius: 15px 15px 0 0;
+  //  transform: translate(-50%, 0);
+  //
+  //  .text-bg {
+  //    position: absolute;
+  //    width: 100%;
+  //    background: white;
+  //    height: 140px;
+  //    bottom: 0;
+  //    left: 0;
+  //  }
+  //}
+
   .col-sm-3 {
     .region-sidebar-second {
+      .material-icons {
+        font-size: 16px;
+        vertical-align: middle;
+      }
       .block {
         padding: 5px;
+        h2 {
+          padding: 0 5px;
+        }
         .views-field-field-hb-geofield {
           margin-bottom: 5px;
         }
@@ -15,34 +76,15 @@
             border-bottom: 1px solid #E7EAEB;
           }
         }
-        &#block-tweaks-job-client-faces {
-          ul {
-            li {
-              float: left;
-              a {
-                .my-image {
-                  width: 40px;
-                  margin: 2px 1px;
-                  opacity: 0.6;
-                }
-                &.active {
-                  .my-image {
-                    opacity: 1;
-                  }
-                }
-              }
-            }
-          }
-        }
         p, ul {
-          font-size: 13px;
+          font-size: 14px;
           margin-bottom: 5px;
           margin-bottom: 5px;
           padding: 5px;
           // &.open-link {
-            a {
-              color: $hb-pink;
-            }
+          a {
+            color: $hb-pink;
+          }
           // }
         }
         p {
@@ -56,22 +98,103 @@
         li {
           list-style: none;
         }
-        .views-field-field-my-name {
+        .views-field-field-yoga-link {
           p {
             border-bottom: none;
             a {
-              color: $hb-dark;
+              //color: $hb-dark;
+            }
+          }
+        }
+        .views-field-title {
+          font-size: 18px;
+        }
+      }
+    }
+    #block-views-jobs-rhs-block-3 {
+      font-weight: 300;
+      margin-top: 40px;
+      .views-label {
+        font-size: 12px;
+      }
+      .views-field-field-my-name {
+        margin-top: 65px;
+        font-size: 16px;
+      }
+    }
+    .views-field-field-hb-time {
+      li {
+        span {
+          font-size: 12px;
+        }
+      }
+    }
+    #block-views-jobs-rhs-block-1,
+    #block-views-jobs-rhs-block-3,
+    #block-tweaks-job-client-faces {
+      //padding: 15px;
+      box-shadow: none;
+      border: none;
+      background: none;
+      .views-field-field-yoga-style {
+        clear: left;
+      }
+      .raty {
+        text-align: left;
+      }
+      .views-field-name {
+        padding: 15px 0;
+        a {
+          font-weight: 300;
+        }
+      }
+      .views-field-picture {
+        width: 70px;
+        /* float: left; */
+        margin: -55px auto;
+        clear: both;
+        img {
+          border-radius: 50%;
+          border: 3px solid $white;
+          background-color: $light-grey;
+        }
+      }
+
+    }
+    #block-block-10 {
+      ul {
+        li {
+          a {
+            padding: 5px 10px;
+            position: relative;
+            display: block;
+            margin-bottom: 1px;
+            text-decoration: none;
+            color: $dark;
+            background-color: rgba(111, 115, 210, 0.08);
+            transition: 0.2s ease all;
+            i {
+              //display: none;
+              vertical-align: middle;
+            }
+            &:hover {
+              padding-left: 13px;
+              &:after {
+                transition: 0.2s ease all;
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                height: 100%;
+                width: 2px;
+                background-color: $hb-pink;
+              }
             }
           }
         }
       }
     }
-    #block-views-jobs-rhs-block-1,
-    #block-tweaks-job-client-faces {
-      padding: 15px;
-    }
   }
-
   .node-job {
     .job-content {
       @include blocks();
@@ -82,14 +205,10 @@
   }
 
   .job-lhs {
-    padding-bottom: 60px!important;
+    padding-bottom: 60px !important;
   }
 
-  #hb-header {
-    background-color: $hb-light-grey;
-  }
-
-  @media (min-width: $screen-lg-desktop){
+  @media (min-width: $screen-lg-desktop) {
     .container {
       width: 970px;
     }
@@ -115,7 +234,7 @@
   .hb-rhs-job-button {
     padding-top: 5px;
     // margin-top: px;
-    border-top: 1px solid #e7eaeb;
+    //border-top: 1px solid #e7eaeb;
     a {
       // @include big-btn();
       // display: block;
@@ -231,10 +350,10 @@
 
 #block-facebook-comments-block-fb-comments {
   .fb-comments, .fb-comments iframe[style], .fb-comments span {
-     width: 100% !important;
+    width: 100% !important;
   }
   .fb-page, .fb-page iframe[style], .fb-page span {
-      width: 100% !important;
+    width: 100% !important;
   }
 }
 

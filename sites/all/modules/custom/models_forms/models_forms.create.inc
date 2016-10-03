@@ -22,7 +22,7 @@ function models_forms_create_form($form, &$form_state) {
         $title = $nw->label();
         $notes = $nw->body->value() ? $nw->body->value()['value'] : FALSE;
         $form_state['hb_type'] = $nw->field_hb_type->value() ? $nw->field_hb_type->value() : FALSE;
-        $hb_cost = $nw->field_hb_price->value() ? $nw->field_hb_price->value() : FALSE;
+        $hb_cost = $nw->field_hb_price_text->value() ? $nw->field_hb_price_text->value() : FALSE;
 
         $form_state['job_update'] = $nw->getIdentifier();
         drupal_add_js(array('form_type' => $form_state['hb_type']), 'setting');
@@ -520,11 +520,13 @@ function models_forms_create_form($form, &$form_state) {
   $form['wrapper']['cost'] = array(
     '#type' => 'textfield',
     '#title' => t('($) Costing'),
-    '#default_value' => isset($hb_cost) ? $hb_cost : 0,
-    '#description' => t('How much will the job cost? If free, leave as $0.00 - If personal, how much are you willing to pay?'),
+    '#default_value' => isset($hb_cost) ? $hb_cost : '',
+    '#description' => t('How much will the job cost? Is it free or at discount? If personal, how much are you willing to pay?'),
     '#attributes' => array(
       'id' => array('hb-costing'),
     ),
+    '#maxlength' => 150,
+    '#maxlength_js' => TRUE,
   );
 
   $form['wrapper']['personal_add_date'] = array(
@@ -794,14 +796,16 @@ function models_forms_create_form_submit(&$form, &$form_state){
     $node->field_hb_company[LANGUAGE_NONE][]['value'] = $fs['company'];
   }
 
-  if ( !empty($fs['cost']) && ltrim($fs['cost'], '$') != 0.00 ){
-    $node->field_hb_price[LANGUAGE_NONE][0]['value'] = ltrim($fs['cost'], '$');
-    $node->field_hb_price_type[LANGUAGE_NONE][0]['value'] = 'fixed';
-  }
-  else {
-    $node->field_hb_price[LANGUAGE_NONE][0]['value'] = 0.00;
-    $node->field_hb_price_type[LANGUAGE_NONE][0]['value'] = 'free';
-  }
+  $node->field_hb_price_text[LANGUAGE_NONE][0]['value'] = $fs['cost'];
+
+//  if ( !empty($fs['cost']) && ltrim($fs['cost'], '$') != 0.00 ){
+//    $node->field_hb_price[LANGUAGE_NONE][0]['value'] = ltrim($fs['cost'], '$');
+//    $node->field_hb_price_type[LANGUAGE_NONE][0]['value'] = 'fixed';
+//  }
+//  else {
+//    $node->field_hb_price[LANGUAGE_NONE][0]['value'] = 0.00;
+//    $node->field_hb_price_type[LANGUAGE_NONE][0]['value'] = 'free';
+//  }
 
   // Date.
   unset($node->field_hb_time);
@@ -822,82 +826,14 @@ function models_forms_create_form_submit(&$form, &$form_state){
     }
   }
 
-  // Location.
-  if(!empty($fs['location']['thoroughfare'])){
-    $node->field_hb_location[LANGUAGE_NONE][0]['thoroughfare'] = $fs['location']['thoroughfare'] ? $fs['location']['thoroughfare'] : FALSE;
-    $node->field_hb_location[LANGUAGE_NONE][0]['premise'] = $fs['location']['premise'] ? $fs['location']['premise'] : FALSE;
-    $node->field_hb_location[LANGUAGE_NONE][0]['dependent_locality'] = $fs['location']['dependent_locality'] ? $fs['location']['dependent_locality'] : FALSE;
-    $node->field_hb_location[LANGUAGE_NONE][0]['locality'] = $fs['location']['locality'] ? $fs['location']['locality'] : FALSE;
-    $node->field_hb_location[LANGUAGE_NONE][0]['administrative_area'] = $fs['location']['administrative_area'] ? $fs['location']['administrative_area'] : FALSE;
-    $node->field_hb_location[LANGUAGE_NONE][0]['postal_code'] = $fs['location']['postal_code'] ? $fs['location']['postal_code'] : FALSE;
-    $node->field_hb_location[LANGUAGE_NONE][0]['country'] = $fs['location']['country'] ? $fs['location']['country'] : FALSE;
+  $node->field_hb_location[LANGUAGE_NONE][0]['thoroughfare'] = $fs['location']['thoroughfare'] ? $fs['location']['thoroughfare'] : FALSE;
+  $node->field_hb_location[LANGUAGE_NONE][0]['premise'] = $fs['location']['premise'] ? $fs['location']['premise'] : FALSE;
+  $node->field_hb_location[LANGUAGE_NONE][0]['dependent_locality'] = $fs['location']['dependent_locality'] ? $fs['location']['dependent_locality'] : FALSE;
+  $node->field_hb_location[LANGUAGE_NONE][0]['locality'] = $fs['location']['locality'] ? $fs['location']['locality'] : FALSE;
+  $node->field_hb_location[LANGUAGE_NONE][0]['administrative_area'] = $fs['location']['administrative_area'] ? $fs['location']['administrative_area'] : FALSE;
+  $node->field_hb_location[LANGUAGE_NONE][0]['postal_code'] = $fs['location']['postal_code'] ? $fs['location']['postal_code'] : FALSE;
+  $node->field_hb_location[LANGUAGE_NONE][0]['country'] = $fs['location']['country'] ? $fs['location']['country'] : FALSE;
 
-    $add = '';
-    $add .= isset($fs['location']['thoroughfare']) ? $fs['location']['thoroughfare'] . ' ' : FALSE;
-    $add .= isset($fs['location']['premise']) ? $fs['location']['premise'] . ', ' : FALSE;
-    $add .= isset($fs['location']['locality']) ? $fs['location']['locality'] . ', ' : FALSE;
-    $add .= isset($fs['location']['dependent_locality']) ? $fs['location']['dependent_locality'] . ', ' : FALSE;
-    $add .= isset($fs['location']['administrative_locality']) ? $fs['location']['administrative_locality'] . ', ' : FALSE;
-    $add .= isset($fs['location']['postal_code']) ? $fs['location']['postal_code'] : FALSE;
-    $add = str_replace(' , ', ', ', $add);
-    $add = str_replace(',,', ',', $add);
-
-    if (isset($form_state['job_update'])) {
-      $original_add = models_cache_get_job_latlon_cache($node->nid);
-      if (!$original_add) {
-        $nw = entity_metadata_wrapper('node', $node->nid);
-        $point = geocoder('google', $add, array('https' => TRUE));
-        $geo_array = array(
-          'geo_type' => 'point',
-          'lat' => $point->coords[1],
-          'lon' => $point->coords[0],
-        );
-        $nw->field_hb_geofield->set($geo_array);
-        models_cache_build_job_latlon_cache(md5($add), $node->nid);
-      }
-      else {
-        if (md5($add) != $original_add) {
-          $nw = entity_metadata_wrapper('node', $node->nid);
-          $point = geocoder('google', $add, array('https' => TRUE));
-          $geo_array = array(
-            'geo_type' => 'point',
-            'lat' => $point->coords[1],
-            'lon' => $point->coords[0],
-          );
-          $nw->field_hb_geofield->set($geo_array);
-          models_cache_build_job_latlon_cache(md5($add), $node->nid);
-        }
-      }
-    }
-    else {
-      if (!empty($add)) {
-        $point = geocoder('google', $add, array('https' => TRUE));
-        if ($point) {
-          $geo_array = array(
-            'geom' => 'POINT ('. $point->coords[0] . ' ' . $point->coords[1] .')',
-            'geo_type' => 'point',
-            // 'lat' => $point->coords[1],
-            // 'lon' => $point->coords[0],
-            // 'left' => $point->coords[0],
-            // 'top' => $point->coords[1],
-            // 'right' => $point->coords[0],
-            // 'bottom' => $point->coords[1],
-            // 'geohash' => ,
-          );
-          // dpm($geo_array, 'geo arrary new');
-          // models_cache_build_job_latlon_cache(md5($add), $node->nid);
-          $node->field_hb_geofield[LANGUAGE_NONE][0] = $geo_array;
-        }
-        else {
-          drupal_set_message(t('issue with lat long'), 'status', FALSE);
-        }
-      }
-    }
-  }
-  else {
-    $node->field_hb_location[LANGUAGE_NONE][0]['country'] = $fs['location']['country'] ? $fs['location']['country'] : FALSE;
-  }
-  // dpm($node);
   node_save($node);
 
   // if (!isset($form_state['job_update'])) {

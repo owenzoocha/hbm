@@ -1,0 +1,4 @@
+name = models searcher
+description = HBM module for home page search..
+package = MHB
+core = 7.x

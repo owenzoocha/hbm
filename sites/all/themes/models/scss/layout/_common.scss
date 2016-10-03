@@ -1,14 +1,15 @@
 // Cost
 .hb-cost {
-  background-color: $hb-dark;
-  color: $white!important;
-  padding: 2px 5px;
+  background-color: rgba(62, 185, 145, 0.13);
+  color: $hb-green !important;
+  padding: 1px 3px;
   @include letter-and-font();
-  font-size: 13px;
+  font-weight: 600;
+  font-size: 12px;
   display: inline-block;
   &.cost-free {
-    background-color: $hb-green!important;
-    text-transform: uppercase;
+    background-color: $hb-green !important;
+    //text-transform: uppercase;
   }
 }
 
@@ -40,16 +41,17 @@ select.form-control {
   font-size: 13px;
 }
 
-
-.col-sm-3 {
-  .region-sidebar-second {
-    padding: 0;
-    border: none;
-    background: none;
-    box-shadow: none;
-    .block {
-      @include blocks();
-      position: relative;
+body:not(.page-search) {
+  .col-sm-3 {
+    .region-sidebar-second {
+      padding: 0;
+      border: none;
+      background: none;
+      box-shadow: none;
+      .block {
+        @include blocks();
+        position: relative;
+      }
     }
   }
 }
@@ -62,8 +64,8 @@ select.form-control {
 }
 
 .block-blue {
-  background-color: #EAF7F9!important;
-  border-color: #D8EDF1!important;
+  background-color: #EAF7F9 !important;
+  border: 1px solid #D8EDF1 !important;
   .views-row {
     border-bottom: 1px solid $light-grey;
     padding: 5px 0;

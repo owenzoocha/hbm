@@ -1,0 +1,103 @@
+<?php
+/**
+ * @file
+ * Models caching module
+ *
+ * Provide all caching availability throughout
+ * @author: Owen Williams http://drupal.org/user/??
+ */
+
+/**
+ * Implements hook_block_info().
+ */
+function models_searcher_block_info() {
+  $blocks['main_searcher'] = array(
+    'info' => t('HBM - Main searcher on home page'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function models_searcher_block_view($delta = '') {
+  $search_form = drupal_get_form('models_searcher_form');
+  $block = array();
+  switch ($delta) {
+    case 'main_searcher':
+      $block['subject'] = t('Search');
+      $block['content'] = drupal_render($search_form);
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Implements hook_form().
+ */
+function models_searcher_form($form, &$form_state) {
+  $geos = models_searcher_go();
+  $form['#attached']['js'] = array(
+    'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js' => array(
+      'type' => 'external',
+    ),
+    drupal_get_path('module', 'models_searcher') . '/js/searcher.js',
+    array(
+      'data' => array('geos' => $geos),
+      'type' => 'setting',
+    ),
+  );
+
+
+  $form['searcher'] = array(
+    '#type' => 'textfield',
+    '#attributes' => array(
+      'id' => 'search-lookup',
+//      'class' => array('typeahead'),
+      'placeholder' => t('Enter a location or postcode'),
+    ),
+  );
+  return $form;
+}
+
+/**
+ * Implements hook_init().
+ */
+function models_searcher_go() {
+  $grab_cache = models_searcher_get_searcher_cache();
+  if (!$grab_cache) {
+    return $grab_cache;
+  }
+  else {
+    $geocodes = db_query('SELECT * FROM postcodes_geo WHERE longitude != 0');
+    $result = $geocodes->fetchAll();
+    $search_data = array();
+    $i = 0;
+    foreach ($result as $key => $value) {
+      $search_data[$i] = $value;
+      $search_data[$i]->name = $value->suburb . ', ' . $value->postcode;
+      $i++;
+    }
+    $res = json_encode($search_data);
+    models_searcher_set_searcher_cache($res);
+    return $res;
+  }
+
+}
+
+/**
+ * Getter and setter for latlon cache.
+ */
+function models_searcher_set_searcher_cache($data) {
+  cache_set("postcodes_geo", $data, 'cache_postcodes_geo');
+}
+
+function models_searcher_get_searcher_cache() {
+  if ($data = cache_get("postcodes_geo", 'cache_postcodes_geo')) {
+    return $data->data;
+  }
+  else {
+    return FALSE;
+  }
+}

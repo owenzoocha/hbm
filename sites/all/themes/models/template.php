@@ -51,18 +51,18 @@ function models_preprocess_node(&$variables) {
       $location = FALSE;
       if ($nw->field_hb_location->value()) {
         if ($nw->field_hb_location->value()['locality']) {
-          $location = '<span class="hb-location"><i class="fa fa-map-marker"></i> ' . $nw->field_hb_location->value()['locality'] . '</span>';
+          $location = '<div class="hb-location"><i class="fa fa-map-marker"></i> ' . $nw->field_hb_location->value()['locality'] . '</div>';
         }
         else {
-          $location = '<span class="hb-location"><i class="fa fa-map-marker"></i> ' . $nw->field_hb_location->value()['premise'] . '</span>';
+          $location = '<div class="hb-location"><i class="fa fa-map-marker"></i> ' . $nw->field_hb_location->value()['premise'] . '</div>';
         }
       }
 
       if ($nw->field_hb_time->value()) {
         $sz = sizeof($nw->field_hb_time->value());
         $ts = date('d/m/y H:ia', $nw->field_hb_time->value()[0]);
-        $time = $sz . ' ' . format_plural($sz, 'appointment', 'appointments') . ' from </br>' . $ts;
-        $starting = '<span class="hb-starting"><i class="fa fa-clock-o"></i> ' . $time . '</span>';
+        $time = $sz . ' ' . format_plural($sz, 'appointment', 'appointments') . ' from ' . $ts;
+        $starting = '<div class="hb-starting"><i class="fa fa-clock-o"></i> ' . $time . '</div>';
       }
       else {
         $starting = FALSE;
@@ -103,39 +103,43 @@ function models_preprocess_node(&$variables) {
 
 
       $cost_class = FALSE;
-      if ($nw->field_hb_type->value() != 'personal') {
-        if ($nw->field_hb_price->value()) {
-          $cost = '<i class="fa fa-dollar"></i> ' . $nw->field_hb_price->value();
-        }
-        else {
-          $cost = '<i class="fa fa-dollar"></i> 19.55';
-        }
-      }
+      $cost = $nw->field_hb_price_text->value() ? '<div class="hb-cost"><i class="fa fa-dollar"></i> ' . $nw->field_hb_price_text->value() . '</div>' : FALSE;
+      $variables['costs'] = $cost;
 
 
-      if ($nw->field_hb_price_type->value()) {
-        switch ($nw->field_hb_price_type->value()) {
-          case 'free':
-            $pt = '<i class="fa fa-dollar"></i> Free';
-            $cost_class = 'cost-free';
-            $cost = FALSE;
-            break;
-          case 'approx':
-            $pt = ' <small>Approx.</small>';
-            break;
-          case 'fixed':
-            $pt = FALSE;
-            break;
-          default:
-            $pt = FALSE;
-            break;
-        }
-      }
-      else {
-        $pt = FALSE;
-      }
+//      if ($nw->field_hb_type->value() != 'personal') {
+//        if ($nw->field_hb_price_text->value()) {
+//          $cost = $nw->field_hb_price_text->value();
+//        }
+//        else {
+//          $cost = '19.55';
+//        }
+//      }
 
-      $image_and_type = '<div class="hb-imagery">';
+//
+//      if ($nw->field_hb_price_type->value()) {
+//        switch ($nw->field_hb_price_type->value()) {
+//          case 'free':
+//            $pt = 'Free';
+//            $cost_class = 'cost-free';
+//            $cost = FALSE;
+//            break;
+//          case 'approx':
+//            $pt = ' <small>Approx.</small>';
+//            break;
+//          case 'fixed':
+//            $pt = FALSE;
+//            break;
+//          default:
+//            $pt = FALSE;
+//            break;
+//        }
+//      }
+//      else {
+//        $pt = FALSE;
+//      }
+
+      $image_and_type = '<div class="hb-imagery pull-left">';
       $image_and_type .= '<span>' . $image . '</span>';
 
       $liked = FALSE;
@@ -172,18 +176,42 @@ function models_preprocess_node(&$variables) {
       }
 
       $image_and_type .= '<span data-jid="' . $nw->getIdentifier() . '" class="hb-like ' . $liked . ' fa fa-star"></span>';
-      $image_and_type .= '<span class="hb-type hb-type-' . strtolower($nw->field_hb_type->label()) . '">' . $nw->field_hb_type->label() . '</span>';
-      if ($nw->field_hb_type->value() != 'personal') {
-        $image_and_type .= '<span class="hb-cost ' . $cost_class . '">' . $cost . $pt . '</span>';
-      }
-      $image_and_type .= $more_info;
+//      $image_and_type .= $more_info;
       $image_and_type .= '</div>';
 
-      $variables['image_and_type'] = $image_and_type;
+      $variables['the_image'] = $image_and_type;
+      $variables['more_info'] = l('<i class="fa fa-caret-down"></i> Quick Info', 'search', array(
+        'html' => TRUE,
+        'attributes' => array(
+          'class' => array('quick-view'),
+          'data-nid' => array($nw->getIdentifier())
+        )
+      ));
+      $variables['view_link'] = l('View Job', 'node/' . $nw->getIdentifier(), array(
+        'html' => TRUE,
+        'attributes' => array('class' => array('a-link'))
+      ));
+      $variables['more_info_list'] = $tooltip;
+
+      $alter = array(
+        'max_length' => 250,
+        'ellipsis' => TRUE,
+        'word_boundary' => TRUE,
+        'html' => TRUE,
+      );
+      $variables['description'] = $nw->body->value() ? views_trim_text($alter, drupal_html_to_text($nw->body->value()['value'], array(
+        'p',
+        'a'
+      ))) : FALSE;
+
+//      if ($nw->field_hb_type->value() != 'personal') {
+//      }
+
+      $variables['the_type'] = '<span class="hb-type hb-type-' . strtolower($nw->field_hb_type->label()) . '">' . $nw->field_hb_type->label() . '</span>';;
       $variables['location'] = $location;
       $variables['starting'] = $starting;
 
-      $variables['posted_by'] = '<div class="hb-author"> ' . $nw->author->label() . '<span class="hb-timeago"> - ' . format_date($nw->created->value(), 'timeago', 'Y-m-d H:i:s', 'UTC') . '</span></div>';
+      $variables['posted_by'] = '<div class="hb-author"><small>Posted by: </small>' . $nw->author->label() . ', <span class="hb-timeago">' . format_date($nw->created->value(), 'timeago', 'Y-m-d H:i:s', 'UTC') . '</span></div>';
 
       $stars = $nw->author->field_my_overall_rating->value() ? $nw->author->field_my_overall_rating->value() : 0;
       $variables['stars'] = '<div class="hb-rating raty raty-readonly" data-rating="' . $stars . '"></div>';
@@ -408,6 +436,13 @@ function models_preprocess_node(&$variables) {
 function models_preprocess_page(&$variables) {
   global $user;
   $uw = entity_metadata_wrapper('user', $user);
+  if ( strpos(drupal_get_path_alias(), 'users/') !== FALSE
+    || (arg(0) == 'user' && is_numeric(arg(1)) && arg(2) == 'feedback')) {
+    $variables['this_is_user'] = TRUE;
+  }
+  else {
+    $variables['this_is_user'] = FALSE;
+  }
 
   // Save the first name part.
   if (!$uw->field_first_name->value()) {
@@ -500,14 +535,14 @@ function models_preprocess_page(&$variables) {
   }
 
   // Tweenmax
-  drupal_add_js('http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/TweenMax.min.js', array('type' => 'external'));
+//  drupal_add_js('http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/TweenMax.min.js', array('type' => 'external'));
 
   // drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.30/skrollr.min.js', array('type' => 'external'));
   // drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/jquery-noty/2.3.8/packaged/jquery.noty.packaged.min.js', array('type' => 'external'));
 
   drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js', 'external');
-  drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js', 'external');
-  drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js', 'external');
+//  drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js', 'external');
+//  drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js', 'external');
   drupal_add_js(libraries_get_path('raty-fa-0.1.1') . '/' . 'lib/jquery.raty-fa.js');
 
   // dpm(current_path());
@@ -524,16 +559,18 @@ function models_preprocess_page(&$variables) {
     strpos(current_path(), 'job-requests') !== FALSE
   ) {
     drupal_add_js('https://npmcdn.com/imagesloaded@4.1/imagesloaded.pkgd.min.js', 'external');
-    drupal_add_js('https://npmcdn.com/masonry-layout@4.0.0/dist/masonry.pkgd.min.js', 'external');
-    drupal_add_js(drupal_get_path('theme', 'models') . '/' . 'js/hbm_user_jobs.js');
+//    drupal_add_js('https://npmcdn.com/masonry-layout@4.0.0/dist/masonry.pkgd.min.js', 'external');
+//    drupal_add_js(drupal_get_path('theme', 'models') . '/' . 'js/hbm_user_jobs.js');
   }
 
   if (strrpos(current_path(), 'search') !== FALSE && strrpos(current_path(), 'ts/') === FALSE && strrpos(current_path(), 'messages/') === FALSE) {
     drupal_add_js(drupal_get_path('theme', 'models') . '/' . 'js/hbm_search.js');
     // drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js', 'external');
-    $variables['container_class'] = 'container-fluid';
+    $variables['container_class'] = 'container';
     $variables['title_search_class'] = 'event-page';
-    $variables['content_column_class'] = ' class="col-sm-12 event-page"';
+//    $variables['content_column_class'] = ' class="col-sm-9 event-page"';
+    $variables['content_column_class'] = ' class="col-sm-pull-3 col-sm-9 event-page"';
+
     $variables['hb_header_class'] = 'pull-left';
 
     $slick_block = block_load('search_api_sorts', 'search-sorts');
@@ -620,6 +657,7 @@ function models_preprocess_page(&$variables) {
       $variables['content_column_class'] = ' class="col-sm-pull-3 col-sm-9"';
       // }
 
+
       drupal_add_js(libraries_get_path('slick') . '/' . 'slick/slick.min.js');
       drupal_add_css(libraries_get_path('slick') . '/' . 'slick/slick.css');
       drupal_add_css(libraries_get_path('slick') . '/' . 'slick/slick-theme.css');
@@ -639,13 +677,13 @@ function models_preprocess_page(&$variables) {
         else {
           $reqs = FALSE;
         }
-        drupal_set_title($reqs > 0 ? $nw->label() . ' - Client Requests (' . $reqs . ')' : $nw->label() . ' - Client Requests');
+//        drupal_set_title($reqs > 0 ? $nw->label() . ' - Client Requests (' . $reqs . ')' : $nw->label() . ' - Client Requests');
       }
 
       // Page titles clean up
       if ((strpos(current_path(), 'job/') !== FALSE && is_numeric(arg(1)) && strpos(current_path(), '/photos') !== FALSE)) {
         drupal_add_js(array('photo_nid' => $nw->getIdentifier()), 'setting');
-        drupal_set_title($nw->label() . ' - Photos');
+//        drupal_set_title($nw->label() . ' - Photos');
       }
 
       // Initiate custom job navigation if logged in user = author.
@@ -657,7 +695,7 @@ function models_preprocess_page(&$variables) {
         $variables['show_bg'] = TRUE;
       }
 
-      $variables['hb_header_class'] = 'header-title pull-left';
+      $variables['hb_header_class'] = 'header-title';
 
       $mypic = $nw->author->value()->picture;
       if ($mypic) {
@@ -681,38 +719,34 @@ function models_preprocess_page(&$variables) {
 
       $stars = $nw->author->field_my_overall_rating->value() ? $nw->author->field_my_overall_rating->value() : 0;
 
-      $variables['author_rating'] = '<div class="hb-rating raty raty-readonly" data-rating="' . $stars . '"></div>';
+//      $variables['author_rating'] = '<div class="hb-rating raty raty-readonly" data-rating="' . $stars . '"></div>';
+      $variables['author_rating'] = FALSE;
+      $variables['author_feedback_amount'] = FALSE;
 
-      if (1 == 1) {
-        $fbk = $nw->author->field_my_total_feedback->value() ? $nw->author->field_my_total_feedback->value() : 0;
-        $variables['author_feedback_amount'] = '<div class="hb-feedback-score">' . l($fbk . ' ' . t('feedback'), 'user/' . $nw->author->getIdentifier() . '/feedback') . ' | ' . l(t('send message'), 'messages/new/' . $nw->author->getIdentifier(), array('query' => array('destination' => 'node/' . $nw->getIdentifier()))) . '</div>';
-      }
-      else {
-        $variables['author_feedback_amount'] = '<div class="hb-feedback-score">' . t('- no feedback -') . '</div>';
-      }
+//      if (1 == 1) {
+//        $fbk = $nw->author->field_my_total_feedback->value() ? $nw->author->field_my_total_feedback->value() : 0;
+//        $variables['author_feedback_amount'] = '<div class="hb-feedback-score">' . l($fbk . ' ' . t('feedback'), 'user/' . $nw->author->getIdentifier() . '/feedback') . ' | ' . l(t('send message'), 'messages/new/' . $nw->author->getIdentifier(), array('query' => array('destination' => 'node/' . $nw->getIdentifier()))) . '</div>';
+//      }
+//      else {
+//        $variables['author_feedback_amount'] = '<div class="hb-feedback-score">' . t('- no feedback -') . '</div>';
+//      }
 
-      $job_details = '<div class="hb-time">';
-      $job_details .= '<span>' . t('Posted by') . ' ' . l($nw->author->label(), 'user/' . $nw->author->getIdentifier()) . '</span>, ';
-      $job_details .= '<span>' . format_date($nw->created->value(), 'timeago', 'Y-m-d H:i:s', 'UTC') . '</span>';
-      $job_details .= '</div>';
-      $job_details .= '<div>';
-      $job_details .= tweaks_get_hb_cost($nw);
-      $job_details .= $nw->field_hb_type->value() != 'personal' ? '<span class="hdr-hb-type hb-' . strtolower($nw->field_hb_type->value()) . '">' . ucfirst($nw->field_hb_type->value()) . '</span>' : FALSE;
-      $job_details .= $nw->field_hb_completed->value() ? '<span class="hdr-hb-type hdr-hb-complete">' . t('This job has ended') . '</span>' : FALSE;
+//      $job_details = '<div class="yoga-intro">';
+//      $job_details .= '<div class="hb-time">';
+//      $job_details .= '<span>' . t('Posted by') . ' ' . l($nw->author->label(), 'user/' . $nw->author->getIdentifier()) . '</span>, ';
+//      $job_details .= '<span>' . format_date($nw->created->value(), 'timeago', 'Y-m-d H:i:s', 'UTC') . '</span>';
+//      $job_details .= '</div>';
+//      $job_details .= '<div>';
+//      $job_details .= tweaks_get_hb_cost($nw);
+//      $job_details .= $nw->field_hb_type->value() != 'personal' ? '<span class="hdr-hb-type hb-' . strtolower($nw->field_hb_type->value()) . '">' . ucfirst($nw->field_hb_type->value()) . '</span>' : FALSE;
+//      $job_details .= $nw->field_hb_completed->value() ? '<span class="hdr-hb-type hdr-hb-complete">' . t('This job has ended') . '</span>' : FALSE;
+//
+//
+//      $job_details .= '</div>';
+//      $job_details .= '</div>';
 
-      // $location = FALSE;
-      // if ($nw->field_hb_location->value()) {
-      //   if ($nw->field_hb_location->value()['locality']) {
-      //     $job_details .= '<span class="hb-location"><i class="fa fa-map-marker"></i> ' . $nw->field_hb_location->value()['locality'] . '</span>';
-      //   }
-      //   else {
-      //     $job_details .= '<span class="hb-location"><i class="fa fa-map-marker"></i> ' . $nw->field_hb_location->value()['premise'] . '</span>';
-      //   }
-      // }
-
-      $job_details .= '</div>';
-
-      $variables['job_details'] = $job_details;
+//      $variables['job_details'] = $job_details;
+      $variables['job_details'] = FALSE;
       // dpm(theme_date_time_ago($ts));
 
       // $stars = $uw->field_my_overall_rating->value() ? $uw->field_my_overall_rating->value() : 0;
@@ -733,11 +767,6 @@ function models_preprocess_page(&$variables) {
           'body' => drupal_render($client_request_form),
         );
         $variables['client_request_confirm_form'] = theme('bootstrap_modal', $modal_options);
-
-        // $clients_text = !$nw->field_hb_paused->value() ? t('Accept clients') : t('Remove clients');
-
-        // $job_publish = l($clients_text, '#', array('attributes' => array('data-toggle' => array('modal'), 'data-target' => array('#job-publish-form-popup'), 'class' => array('btn btn-success'))));
-        // $variables['client_request_confirm_form_button'] = ($nw->author->getIdentifier() != 000) ? '<div class="hb-job-button">' . $job_publish . '</div>' : FALSE;
       }
     }
   }
@@ -755,7 +784,6 @@ function models_preprocess_page(&$variables) {
       strpos(current_path(), 'job-requests') !== FALSE ||
       (arg(0) == 'user' && !is_numeric(arg(1)) && arg(2))
     ) {
-
       // Bump anons to the login page when looking at users..
       if ($user->uid == 0) {
         drupal_goto('user/login');
@@ -772,6 +800,9 @@ function models_preprocess_page(&$variables) {
       if (variable_get('just_registered_' . $user->uid)) {
         variable_del('just_registered_' . $user->uid);
       }
+
+      $variables['cover_pic'] = $uw->field_hb_cover_pic->value() ? 'style="background:url(' . image_style_url('coverpic', $uw->field_hb_cover_pic->value()['uri']) . ')"' : FALSE;
+
 
       if (is_numeric(arg(1))) {
         if ($user->uid == arg(1)) {
@@ -795,7 +826,6 @@ function models_preprocess_page(&$variables) {
         }
       }
       else {
-
         // HACKATHON
         // $greeting = t('Welcome back'); // If cookie set?
         // $greeting = t('Hi') . ', ';
@@ -820,6 +850,7 @@ function models_preprocess_page(&$variables) {
         strpos(current_path(), 'user/') !== FALSE && strpos(current_path(), '/photos') !== FALSE ||
         strpos(current_path(), 'job-requests') !== FALSE ||
         strpos(current_path(), 'watchlist') !== FALSE ||
+        strpos(current_path(), 'job-requests') !== FALSE ||
         (arg(0) == 'user' && !is_numeric(arg(1)) && arg(2))
       ) {
         $variables['my_nav'] = theme('my_nav', array('user_nav' => $uw->getIdentifier()));
@@ -1069,8 +1100,9 @@ function models_preprocess_views_view_fields(&$vars) {
   if ($vars['view']->name == 'jobs_rhs') {
     if ($vars['view']->current_display == 'block') {
       $nw = entity_metadata_wrapper('node', arg(1));
-      $vars['fields']['field_hb_price']->content = $nw->field_hb_price->value() == 0 ? '<p><i class="fa fa-dollar"></i> FREE</p>' : '<p><i class="fa fa-dollar"></i> ' . $nw->field_hb_price->value() . '</p>';
+      $vars['fields']['field_hb_price']->content = $nw->field_hb_price_text->value() ? '<p><i class="fa fa-dollar"></i> ' . $nw->field_hb_price_text->value() . '</p>' : FALSE;
     }
+
   }
 }
 

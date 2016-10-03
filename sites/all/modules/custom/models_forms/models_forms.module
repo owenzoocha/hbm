@@ -1,7 +1,7 @@
 <?php
- /**
-  * @file models_forms.module.
-  */
+/**
+ * @file models_forms.module.
+ */
 require_once 'models_forms.search.inc';
 require_once 'models_forms.request.inc';
 require_once 'models_forms.publish.inc';
@@ -27,27 +27,27 @@ function models_forms_init() {
 }
 
 /**
-* Implements hook_menu().
-*/
+ * Implements hook_menu().
+ */
 function models_forms_menu() {
   $items['job/create'] = array(
     'title' => 'Post a Job',
     'page callback' => 'drupal_get_form',
-    'page arguments' =>  array('models_forms_create_form'),
+    'page arguments' => array('models_forms_create_form'),
     'access callback' => 'user_is_logged_in',
     'file' => 'models_forms.create.inc',
   );
   $items['job/%/edit'] = array(
     'title' => 'Edit your Job',
     'page callback' => 'drupal_get_form',
-    'page arguments' =>  array('models_forms_create_form', 2),
+    'page arguments' => array('models_forms_create_form', 2),
     'access callback' => 'user_is_logged_in',
     'file' => 'models_forms.create.inc',
   );
   $items['job/%/feedback'] = array(
     'title' => 'Feedback',
     'page callback' => 'drupal_get_form',
-    'page arguments' =>  array('models_forms_feedback_form', 2),
+    'page arguments' => array('models_forms_feedback_form', 2),
     'access callback' => 'user_is_logged_in',
     'file' => 'models_forms.feedback.inc',
   );
@@ -85,7 +85,7 @@ function models_forms_menu() {
  * Implementation of hook_theme().
  */
 function models_forms_theme($existing, $type, $theme, $path) {
-  return array (
+  return array(
     // 'task_buttons' => array(
     //   'template' => 'templates/task-buttons',
     // ),
@@ -106,7 +106,7 @@ function models_forms_theme($existing, $type, $theme, $path) {
   );
 }
 
-function models_forms_hook_theme($existing, $type, $theme, $path){
+function models_forms_hook_theme($existing, $type, $theme, $path) {
   return array(
     'overwrite_user_login' => array(
       'render element' => 'form',
@@ -142,11 +142,11 @@ function template_preprocess_search_menu(&$vars) {
 ** Implements hook_mail().
 */
 function models_forms_mail($key, &$message, $params) {
-  switch($key) {
+  switch ($key) {
     case 'models_forms_contactus_mail':
       $message['subject'] = 'CONTACT FORM - ' . $params['option'];
       $message['body'][] = $params['name'] . ' - ' . $params['email'] . ' - ' . $params['option'] . ' - ' . $params['msg'];
-    break;
+      break;
 
     // case 'pwc_form_send_addbook_msg':
     //   $headers = array(
@@ -158,5 +158,46 @@ function models_forms_mail($key, &$message, $params) {
     //   $message['subject'] = t('You have received a message');
     //   $message['body'][] = $params['body'];
     // break;
+  }
+}
+
+function models_forms_node_presave($node) {
+  global $user;
+
+  if ($node->type == 'job') {
+    // Set up the LAT LNG.
+    $countries = country_get_list();
+    $add = '';
+    $add .= !empty($node->field_hb_location[LANGUAGE_NONE][0]['thoroughfare']) ? $node->field_hb_location[LANGUAGE_NONE][0]['thoroughfare'] . ' ' : FALSE;
+    $add .= !empty($node->field_hb_location[LANGUAGE_NONE][0]['premise']) ? $node->field_hb_location[LANGUAGE_NONE][0]['premise'] . ', ' : FALSE;
+    $add .= !empty($node->field_hb_location[LANGUAGE_NONE][0]['locality']) ? $node->field_hb_location[LANGUAGE_NONE][0]['locality'] . ', ' : FALSE;
+    $add .= !empty($node->field_hb_location[LANGUAGE_NONE][0]['dependent_locality']) ? $node->field_hb_location[LANGUAGE_NONE][0]['dependent_locality'] . ', ' : FALSE;
+    $add .= !empty($node->field_hb_location[LANGUAGE_NONE][0]['administrative_locality']) ? $node->field_hb_location[LANGUAGE_NONE][0]['administrative_locality'] . ', ' : FALSE;
+    $add .= !empty($node->field_hb_location[LANGUAGE_NONE][0]['postal_code']) ? $node->field_hb_location[LANGUAGE_NONE][0]['postal_code'] . ', ' : FALSE;
+    $add .= !empty($node->field_hb_location[LANGUAGE_NONE][0]['country']) ? $countries[$node->field_hb_location[LANGUAGE_NONE][0]['country']] : FALSE;
+    $add = str_replace(' , ', ', ', $add);
+    $add = str_replace(',,', ',', $add);
+
+//     If we're about to save a new yoga node > run the geocode.
+    if (!$node->nid) {
+      if ($add) {
+        $geo_array = tweaks_grab_geocode($add, $node);
+        if ($geo_array) {
+          $node->field_hb_geofield[LANGUAGE_NONE][0] = $geo_array;
+        }
+      }
+    }
+    // Else check to see if the cached add is different to the new one - if yes, geocode that geezer.
+    else {
+      $original_add = models_cache_get_job_latlon_cache($node->nid);
+      if ($original_add != md5($add)) {
+        if ($add) {
+          $geo_array = tweaks_grab_geocode($add, $node);
+          if ($geo_array) {
+            $node->field_hb_geofield[LANGUAGE_NONE][0] = $geo_array;
+          }
+        }
+      }
+    }
   }
 }

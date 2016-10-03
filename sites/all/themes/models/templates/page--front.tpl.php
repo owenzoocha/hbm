@@ -60,6 +60,10 @@
           $slick_block = block_load('webform', 'client-block-166');
           $block = _block_get_renderable_array(_block_render_blocks(array($slick_block)));
           print drupal_render($block);
+
+          $slick_block = block_load('models_searcher', 'main_searcher');
+          $block = _block_get_renderable_array(_block_render_blocks(array($slick_block)));
+          print drupal_render($block);
         ?>
       </div>
     </div>

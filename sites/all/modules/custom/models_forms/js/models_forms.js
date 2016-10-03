@@ -30,10 +30,10 @@
         maxYear: moment().add(1, 'Year').format('YYYY')
       });
 
-      $('#hb-costing').priceFormat({
-          prefix: '$',
-          thousandsSeparator: ''
-      });
+      // $('#hb-costing').priceFormat({
+      //     prefix: '$',
+      //     thousandsSeparator: ''
+      // });
 
       $('#personal-add-date a').on('click', function(){
         $('#date-wrapper-ajax').show();

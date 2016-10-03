@@ -1,5 +1,5 @@
 #hb-header {
-  @media (min-width: $screen-lg-desktop){
+  @media (min-width: $screen-lg-desktop) {
     .container {
       width: 970px;
     }
@@ -9,13 +9,12 @@
   z-index: 2;
   overflow: hidden;
   background-color: $white;
-  padding: 10px 15px;
+  padding: 15px;
   border-bottom: 1px solid $light-grey-border;
-  color: $light-grey-border;
-  text-shadow: 1px 1px 1px $hb-dark;
+  //color: $light-grey;
 
   a {
-    color: $light-grey-border;
+    //color: $light-grey-border;
   }
 
   &.no-my-nav {
@@ -41,43 +40,20 @@
 
     h1 {
       padding-bottom: 5px;
-    }
-
-    .hb-time {
-      font-weight: 300;
-      font-size: 13px;
-    }
-    .hb-cost {
-      margin: 3px 3px 0 0;
-      // background: $hb-pink;
-    }
-    .hdr-hb-type {
-      color: $white;
-      padding: 2px 5px 2px;
-      margin: 3px 3px 0 0;
-      display: inline-block;
-      font-size: 13px;
-      font-weight: 300;
-      letter-spacing: 1px;
-      &.hb-beauty {
-        background: $hb-blue;
-      }
-      &.hb-hair {
-        background: $hb-pink;
-      }
-      &.hdr-hb-complete {
-        background-color: $hb-green;
-      }
+      font-weight: 400;
+      color: $hb-dark;
+      text-shadow: none;
     }
   }
   .header-author-pic {
-    margin: 15px 0;
+    margin: 10px 10px 10px 0;
     .my-image {
-      width: 80px;
+      width: 150px;
       margin: 0 auto;
       img {
-        border: 2px solid $light-grey-border;
-        background: #f4f4f4;
+        border: 3px solid $hb-dark;
+        //border-radius: 15px;
+        //background: #f4f4f4;
       }
     }
     .hb-rating {
@@ -95,28 +71,31 @@
   }
 }
 
-.node-type-job,
-.page-job-feedback {
-  #hb-header.no-my-nav {
-    margin-bottom: 15px;
-    color: $light-grey-border;
-    text-shadow: 1px 1px 1px $hb-dark;
-  }
-}
+//
+//.node-type-job,
+//.page-job-feedback {
+//  #hb-header.no-my-nav {
+//    margin-bottom: 15px;
+//    color: $light-grey-border;
+//    text-shadow: 1px 1px 1px $hb-dark;
+//  }
+//}
 
 // .page-user {
-  #page-header-bg {
-    width: 100%;
-    background: url("../images/HBM_Background_2.png") 0 0 no-repeat;
-    height: 300px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    background-size: cover;
-  }
-// }
+#page-header-bg {
+  width: 100%;
+  background-size: cover;
+  background: url("../images/HBM_Background_2.png") 0 0 no-repeat;
+  background-color: $dark;
+  height: 170px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  background-size: cover;
+}
 
+// }
 
 // Screen Desktop and UP UP UP!
 @media (max-width: $screen-desktop) {

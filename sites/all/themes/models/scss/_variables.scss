@@ -28,11 +28,23 @@ $eq-red: #FC5254;
 $eq-green: #42CA8E;
 
 $hb-blue: #6ECADC;
+$hb-light-blue: rgba(128,207,223,0.10);
 $hb-pink: #E01563;
 $hb-green: #3EB991;
 $hb-light-grey: #F5F7F8;
 $hb-dark: #172A3A;
 $hb-yellow: #F1E27A;
+
+$dark: #272D2D;
+$dark-grey: #777777;
+$light-blue: #f3f9fe;
+//$blue: #0087e2;
+$blue: #61b6ea;
+$pink: #F7567C;
+$purple: #6F73D2;
+$green: #b9e88b;
+$red: #e96161;
+
 
 $gray-base:              #000 !default;
 $gray-darker:            lighten($gray-base, 13.5%) !default; // #222
@@ -43,9 +55,11 @@ $gray-lighter:           lighten($gray-base, 93.5%) !default; // #eee
 
 $brand-primary:         darken($hb-blue, 6.5%) !default; // #337ab7
 $brand-success:         $hb-green !default;
-$brand-info:            #5bc0de !default;
+$brand-info:            $hb-blue !default;
 $brand-warning:         #f0ad4e !default;
 $brand-danger:          $hb-pink !default;
+
+$brand-purple:          $purple !default;
 
 
 //== Scaffolding
@@ -82,7 +96,7 @@ $font-family-serif:       $open-sans, "Times New Roman", Times, serif !default;
 $font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace !default;
 $font-family-base:        $font-family-sans-serif !default;
 
-$font-size-base:          14px !default;
+$font-size-base:          16px !default;
 $font-size-large:         ceil(($font-size-base * 1.25)) !default; // ~18px
 $font-size-small:         ceil(($font-size-base * 0.85)) !default; // ~12px
 
@@ -205,6 +219,10 @@ $btn-warning-border:             darken($btn-warning-bg, 5%) !default;
 $btn-danger-color:               #fff !default;
 $btn-danger-bg:                  $brand-danger !default;
 $btn-danger-border:              darken($btn-danger-bg, 5%) !default;
+
+$btn-purple-color:               #fff !default;
+$btn-purple-bg:                  $brand-purple !default;
+$btn-purple-border:              darken($brand-purple, 5%) !default;
 
 $btn-link-disabled-color:        $gray-light !default;
 
@@ -403,7 +421,7 @@ $navbar-padding-vertical:          (($navbar-height - $line-height-computed) / 2
 $navbar-collapse-max-height:       340px !default;
 
 $navbar-default-color:             #777 !default;
-$navbar-default-bg:                $hb-blue !default;
+$navbar-default-bg:                $white !default;
 $navbar-default-border:            darken($navbar-default-bg, 6.5%) !default;
 
 // Navbar links
@@ -905,4 +923,3 @@ $dl-horizontal-offset:        $component-offset-horizontal !default;
 $dl-horizontal-breakpoint:    $grid-float-breakpoint !default;
 //** Horizontal line color.
 $hr-border:                   $gray-lighter !default;
-

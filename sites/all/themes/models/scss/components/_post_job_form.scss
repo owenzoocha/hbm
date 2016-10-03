@@ -14,59 +14,59 @@
 
 .hbm-choose-type {
   margin-bottom: 30px;
- .choice-box {
-  text-align: center;
-  cursor: pointer;
-  transition: all ease 0.2s;
-  // width: 25%;
+  .choice-box {
+    text-align: center;
+    cursor: pointer;
+    transition: all ease 0.2s;
+    // width: 25%;
 
-  .choice-type {
-    background-color: $white;
-    height: 150px;
-    position: relative;
-    span {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      font-weight: 300;
-      letter-spacing: 1px;
-      padding: 10px;
-      color: #fff;
+    .choice-type {
+      background-color: $white;
+      height: 150px;
+      position: relative;
+      span {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        font-weight: 300;
+        letter-spacing: 1px;
+        padding: 10px;
+        color: #fff;
+      }
+      &.hair {
+        background: url('../images/hair-button.png') 0 -14px no-repeat;
+        background-size: cover;
+        // background-color: $hb-pink;
+      }
+      &.beauty {
+        background: url('../images/beauty-button.png') 0 -16px no-repeat;
+        background-size: cover;
+        // background-color: $hb-blue;
+      }
+      &.personal {
+        background: url('../images/last-minute.png') 0 -14px no-repeat;
+        background-size: cover;
+        // background-color: $hb-dark;
+      }
+      &.active {
+        transform: scale(1.1);
+        box-shadow: 2px 2px 0px 0px black;
+      }
+      &.inactive {
+        transform: scale(1);
+        opacity: 0.4;
+        box-shadow: none;
+      }
     }
-    &.hair {
-      background: url('../images/hair-button.png') 0 -14px no-repeat;
-      background-size: cover;
-      // background-color: $hb-pink;
-    }
-    &.beauty {
-      background: url('../images/beauty-button.png') 0 -16px no-repeat;
-      background-size: cover;
-      // background-color: $hb-blue;
-    }
-    &.personal {
-      background: url('../images/last-minute.png') 0 -14px no-repeat;
-      background-size: cover;
-      // background-color: $hb-dark;
-    }
-    &.active {
-      transform: scale(1.1);
-      box-shadow: 2px 2px 0px 0px black;
-    }
-    &.inactive {
-      transform: scale(1);
-      opacity: 0.4;
-      box-shadow: none;
+
+    &:hover {
+      // transform: scale(1.1);
+      .choice-type:not(.active) {
+        box-shadow: 2px 2px 0px 0px black;
+        // border: 1px solid $hb-pink;
+      }
     }
   }
-
-  &:hover {
-    // transform: scale(1.1);
-    .choice-type:not(.active) {
-      box-shadow: 2px 2px 0px 0px black;
-      // border: 1px solid $hb-pink;
-    }
-  }
- }
 
   .hb-type {
     background: darken($hb-blue, 20%);
@@ -75,13 +75,13 @@
     &.hb-type-hair {
       background: darken($hb-pink, 20%);
       &:after {
-        border-color: transparent darken($hb-pink, 40%) transparent transparent;
+        border-color: darken($hb-pink, 40%) transparent transparent transparent;
       }
     }
     &.hb-type-personal {
       background: darken($hb-dark, 20%);
       &:after {
-        border-color: transparent darken($hb-dark, 40%) transparent transparent;
+        border-color: darken($hb-dark, 40%) transparent transparent transparent;
       }
     }
   }
@@ -153,7 +153,7 @@
 
 }
 
-@media (min-width: $screen-lg-desktop){
+@media (min-width: $screen-lg-desktop) {
   // .hbm-choose-type {
   //   width: 700px;
   //   margin: 0 auto 30px auto;

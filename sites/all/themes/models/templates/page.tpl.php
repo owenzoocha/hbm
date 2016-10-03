@@ -1,19 +1,22 @@
-<?php print $social; ?>
+<?php // print $social; ?>
 <header id="navbar" role="banner" class="<?php print $navbar_classes; ?>">
   <div class="container-fluid">
     <div class="navbar-header">
       <?php if ($logo): ?>
-        <a class="logo navbar-btn pull-left" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">
-          <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
+        <a class="logo navbar-btn pull-left" href="<?php print $front_page; ?>"
+           title="<?php print t('Home'); ?>">
+          <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>"/>
         </a>
       <?php endif; ?>
 
       <?php if (!empty($site_name)): ?>
-        <a class="name navbar-brand" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>"><?php print $site_name; ?></a>
+        <a class="name navbar-brand" href="<?php print $front_page; ?>"
+           title="<?php print t('Home'); ?>"><?php print $site_name; ?></a>
       <?php endif; ?>
 
       <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($home_nav) || !empty($page['navigation'])): ?>
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                data-target=".navbar-collapse">
           <span class="sr-only"><?php print t('Toggle navigation'); ?></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
@@ -49,43 +52,72 @@
   </div>
 </header>
 
-<div id="hb-header" class="container-fluid <?php if (empty($my_nav)): print 'no-my-nav '; endif; ?><?php print $title_search_class; ?>">
+<div id="hb-header"
+     class="container-fluid <?php if (empty($my_nav)): print 'no-my-nav '; endif; ?> <?php print $title_search_class; ?>">
 
-  <?php if (!empty($my_nav) || isset($show_bg)): ?>
-  <div id="page-header-bg"></div>
+  <?php if ($this_is_user): ?>
+    <div
+      id="page-header-bg" <?php if (!empty($cover_pic)): print $cover_pic; endif; ?>>
+      <div class="text-bg"></div>
+    </div>
   <?php endif; ?>
 
   <div class="container">
-    <div class="<?php if (!empty($hb_header_class)): print $hb_header_class; endif;?>">
+    <?php
+    if (!empty($author_pic) && $this_is_user) {
+      print '<div class="pull-left header-author-pic">' . $author_pic . $author_rating . $author_feedback_amount . '</div>';
+    }
+    //    if (!empty($filter_blocks)) {
+    //      print '<div class="">' . $filter_blocks . '</div>';
+    //    }
+    ?>
+    <div
+      class="<?php if (!empty($hb_header_class)): print $hb_header_class; endif; ?>">
       <h1 class="page-header"><?php print $title; ?></h1>
       <?php
-        if (!empty($job_details)) {
-          print $job_details;
-        }
+      if (!empty($job_details)) {
+        print $job_details;
+      }
       ?>
     </div>
     <?php print render($title_suffix); ?>
-    <?php // if (!empty($breadcrumb)): print $breadcrumb; endif;?>
-    <?php
-      if (!empty($author_pic)) {
-        print '<div class="pull-right header-author-pic">'. $author_pic . $author_rating . $author_feedback_amount . '</div>';
-      }
-      if (!empty($filter_blocks)) {
-        print '<div class="pull-right">' . $filter_blocks . '</div>';
-      }
-    ?>
     <a id="main-content"></a>
   </div>
 </div>
 
+<!--  <div class="container">-->
+<!--    <div-->
+<!--      class="--><?php //if (!empty($hb_header_class)): print $hb_header_class; endif; ?><!--">-->
+<!--      <h1 class="page-header">--><?php //print $title; ?><!--</h1>-->
+<!--      --><?php
+//      if (!empty($job_details)) {
+//        print $job_details;
+//      }
+//      ?>
+<!--    </div>-->
+<!--    --><?php //print render($title_suffix); ?>
+<!--    --><?php //// if (!empty($breadcrumb)): print $breadcrumb; endif;?>
+<!--    --><?php
+//    if (!empty($author_pic)) {
+//      print '<div class="pull-left header-author-pic">' . $author_pic . $author_rating . $author_feedback_amount . '</div>';
+//    }
+//    if (!empty($filter_blocks)) {
+//      print '<div class="pull-right">' . $filter_blocks . '</div>';
+//    }
+//    ?>
+<!--    <a id="main-content"></a>-->
+<!--  </div>-->
+<!--</div>-->
+
+
 <?php if (!empty($my_nav)): ?>
-<div class="my-nav">
-  <div class="container">
-    <nav role="navigation">
-      <?php print $my_nav; ?>
-    </nav>
+  <div class="my-nav">
+    <div class="container">
+      <nav role="navigation">
+        <?php print $my_nav; ?>
+      </nav>
+    </div>
   </div>
-</div>
 <?php endif; ?>
 
 <div class="main-container <?php print $container_class; ?>">
@@ -114,7 +146,8 @@
 
     <section<?php print $content_column_class; ?>>
       <?php if (!empty($page['highlighted'])): ?>
-        <div class="highlighted jumbotron"><?php print render($page['highlighted']); ?></div>
+        <div
+          class="highlighted jumbotron"><?php print render($page['highlighted']); ?></div>
       <?php endif; ?>
       <?php print $messages; ?>
       <?php if (!empty($tabs)): ?>
@@ -131,9 +164,9 @@
       <?php endif; ?>
       <?php print render($page['content']); ?>
       <?php if (isset($client_request_confirm_form)) : print $client_request_confirm_form; endif; ?>
-      <?php if (isset($job_cancel_form)): print $job_cancel_form; endif;?>
-      <?php if (isset($job_pause_form)): print $job_pause_form; endif;?>
-      <?php if (isset($job_complete_form)): print $job_complete_form; endif;?>
+      <?php if (isset($job_cancel_form)): print $job_cancel_form; endif; ?>
+      <?php if (isset($job_pause_form)): print $job_pause_form; endif; ?>
+      <?php if (isset($job_complete_form)): print $job_complete_form; endif; ?>
     </section>
   </div>
 </div>
@@ -144,17 +177,20 @@
       <footer class="footer container-fluid">
         <?php print render($page['footer']); ?>
       </footer>
-    <footer class="footer-cr container-fluid">
-      <span class="cr"><?php print '&copy; ' . t(':date hairandbeautymodels.com all rights reserved.', array(':date' => date('Y', strtotime('now')))); ?></span>
-    </footer>
-  </div>
+      <footer class="footer-cr container-fluid">
+        <span
+          class="cr"><?php print '&copy; ' . t(':date hairandbeautymodels.com all rights reserved.', array(':date' => date('Y', strtotime('now')))); ?></span>
+      </footer>
+    </div>
   <?php endif; ?>
 <?php endif; ?>
 
 <?php if (strpos(current_path(), 'search') !== FALSE): ?>
-<div id="block-block-7">
-  <p><button>filters <i class="fa fa-chevron-right"></i></button></p>
-</div>
-<span class="search-overlay"></span>
+  <div id="block-block-7">
+    <p>
+      <button>filters <i class="fa fa-chevron-right"></i></button>
+    </p>
+  </div>
+  <span class="search-overlay"></span>
 <?php endif; ?>
 

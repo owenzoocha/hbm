@@ -3,7 +3,6 @@
   var hbmfreg = {
 
     init: function(context) {
-      console.log('hee');
       hbmfreg.setType();
     },
 

@@ -1,0 +1,93 @@
+<?php
+/**
+ * @file
+ * Install function for the models_searcher module.
+ */
+
+/**
+ * Implements hook_schema().
+ * SET NAMES utf8;
+ * SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
+ *
+ * DROP TABLE IF EXISTS postcodes_geo;
+ * CREATE TABLE postcodes_geo (
+ * id int(11) NOT NULL auto_increment,
+ * postcode varchar(5) collate utf8_unicode_ci default NULL,
+ * suburb varchar(100) collate utf8_unicode_ci default NULL,
+ * state varchar(4) collate utf8_unicode_ci default NULL,
+ * latitude decimal(6,3) default NULL,
+ * longitude decimal(6,3) default NULL,
+ * PRIMARY KEY  (id)
+ * ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+ *
+ */
+function models_searcher_schema() {
+  $schema['cache_postcodes_geo'] = drupal_get_schema_unprocessed('system', 'cache');
+  $schema['cache_postcodes_geo']['description'] = t('HBM postcode geo caching');
+  $schema['postcodes_geo'] = array(
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+        'description' => 'List of geo identifiers.',
+      ),
+      'postcode' => array(
+        'type' => 'varchar',
+        'length' => '5',
+        'not null' => FALSE,
+        'description' => 'List of postcodes.',
+      ),
+      'suburb' => array(
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => FALSE,
+        'description' => 'List of suburbs.',
+      ),
+      'state' => array(
+        'type' => 'varchar',
+        'length' => '4',
+        'not null' => FALSE,
+        'description' => 'List of states.',
+      ),
+      'latitude' => array(
+        'type' => 'numeric',
+        'size' => 'normal',
+        'not null' => TRUE,
+        'default' => 0,
+        'precision' => 6,
+        'scale' => 3,
+        'description' => 'Latitude.',
+      ),
+      'longitude' => array(
+        'type' => 'numeric',
+        'size' => 'normal',
+        'not null' => TRUE,
+        'default' => 0,
+        'precision' => 6,
+        'scale' => 3,
+        'description' => 'Longitude.',
+      ),
+    ),
+    'primary key' => array('id'),
+//    'unique keys' => array(
+//      'name' => array('name'),
+//    ),
+//    'indexes' => array(
+//      'plugin' => array('plugin'),
+//    ),
+  );
+  return $schema;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function models_searcher_uninstall() {
+  if (db_table_exists('postscodes_geo')) {
+    db_drop_table('postscodes_geo');
+  }
+  if (db_table_exists('cache_postcodes_geo')) {
+    db_drop_table('cache_postcodes_geo');
+  }
+}
